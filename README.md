@@ -1,4 +1,4 @@
-# Personal homepage (Ruitao Feng)
+# Interactive Personal Site (Ruitao Feng)
 
 Single-file academic homepage with an on-page guide, Barron-style publication list and one-click CV.
 
@@ -30,3 +30,8 @@ Single-file academic homepage with an on-page guide, Barron-style publication li
 - Step 1 `tools/check_site.py`: page parses, all sections and guide anchors exist, every linked PDF is present in `papers/`, paper keys are unique.
 - Step 2 deploys to GitHub Pages (Settings → Pages → Source: **GitHub Actions**).
 - Custom domain: put the domain in a file named `CNAME` at the repo root (one line, e.g. `www.example.com`), add the DNS record at your registrar, then set the same domain in Settings → Pages.
+
+## License
+- Code (HTML, CSS, JavaScript, `tools/`, workflow): MIT License, see `LICENSE`.
+- Third-party: MiniSearch v7.2.0, (c) Luca Ongaro, MIT License, inlined in `index.html` with its notice.
+- Not covered by the MIT License: the papers in `papers/` (copyright remains with the authors and publishers under their own terms), the portrait in `assets/` and the written content of the page. Please do not reuse them without permission.
