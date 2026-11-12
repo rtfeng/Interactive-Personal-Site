@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Security: scripts only inline + jsDelivr; network only to the model hosts. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Ruitao Feng · Cybersecurity, Southern Cross University</title>
+<meta name="description" content="Ruitao Feng, Lecturer in Cybersecurity at Southern Cross University. Post-detection security analytics, AI agent security, data privacy and vulnerability discovery.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%230f5e63%27/%3E%3Ctext x=%2732%27 y=%2743%27 font-family=%27Georgia,serif%27 font-size=%2730%27 font-weight=%27700%27 fill=%27white%27 text-anchor=%27middle%27%3ERF%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#17212b;--ink-2:#3a4754;--line:#e3e7eb;--bg:#fbfbf9;--card:#fff;--accent:#0f5e63;--accent-2:#e8f2f1}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.62 Inter,system-ui,sans-serif}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent}
+  a:hover{border-bottom-color:var(--accent)}
+  .wrap{max-width:900px;margin:0 auto;padding:48px 24px 80px}
+  h1,h2,h3{font-family:"Source Serif 4",Georgia,serif;color:var(--ink);line-height:1.25}
+  h1{font-size:2.3rem;margin:0 0 4px;font-weight:700}
+  h2{font-size:1.45rem;margin:56px 0 14px;padding-top:8px;border-top:1px solid var(--line)}
+  h3{font-size:1.12rem;margin:26px 0 8px}
+  p{margin:0 0 12px}
+  ul{padding-left:20px;margin:6px 0 12px}
+  li{margin:4px 0}
+  section,.door,h3,.guide{scroll-margin-top:64px}
+  .door:target{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-2)}
+  .hero{display:grid;grid-template-columns:172px 1fr;gap:28px;align-items:center}
+  .avatar{width:172px;height:172px}
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+  .role{font-size:1.02rem;color:var(--ink-2);margin:0 0 12px}
+  .links{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.95rem}
+  .email{font-family:ui-monospace,Menlo,monospace;font-size:.9rem;color:var(--ink)}
+  nav.top{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:4px 18px;margin:28px -24px 0;padding:10px 24px;font-size:.92rem;background:rgba(251,251,249,.92);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  nav.top a.on{color:var(--ink);font-weight:600}
+  @media (min-width:1240px){
+    nav.top{position:fixed;top:50%;right:max(16px,calc((100vw - 900px)/2 - 190px));transform:translateY(-50%);flex-direction:column;gap:2px;margin:0;padding:10px 0;width:150px;background:none;backdrop-filter:none;border:0;border-left:2px solid var(--line)}
+    nav.top a{padding:5px 14px;border:0;margin-left:-2px;border-left:2px solid transparent;color:var(--ink-2)}
+    nav.top a:hover{color:var(--accent)}
+    nav.top a.on{color:var(--accent);border-left-color:var(--accent)}
+  }
+
+  /* guide */
+  .guide{margin:32px 0 8px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 22px 18px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+  .guide h2{border:0;margin:0 0 4px;padding:0;font-size:1.25rem}
+  .guide .sub{color:var(--ink-2);font-size:.93rem;margin-bottom:12px}
+  .row-label{font-size:.78rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);margin:4px 0 6px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+  .chip{font:500 .9rem Inter,sans-serif;border:1px solid var(--line);background:#fff;color:var(--ink);padding:7px 13px;border-radius:999px;cursor:pointer}
+  .chip:hover,.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-2)}
+  .qs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .q{font:400 .88rem Inter,sans-serif;border:1px dashed #c6cfd6;background:transparent;color:var(--ink);padding:6px 11px;border-radius:8px;cursor:pointer;text-align:left}
+  .q:hover{border-style:solid;border-color:var(--accent);background:var(--accent-2)}
+  form.ask{display:flex;gap:8px}
+  form.ask input{flex:1;min-width:0;font:inherit;padding:11px 14px;border:1px solid #cfd6dc;border-radius:10px;background:#fff;color:var(--ink)}
+  form.ask input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+  form.ask button{font:600 .95rem Inter,sans-serif;background:var(--accent);color:#fff;border:0;border-radius:10px;padding:0 18px;cursor:pointer}
+  .result{margin-top:14px;padding:14px 16px;border-radius:10px;background:var(--accent-2)}
+  .result:empty{display:none}
+  .result .ans{margin:0 0 10px}
+  .result .ans.more{margin:14px 0 4px;font-size:.85rem;color:var(--ink-2)}
+  .result ul{margin:0 0 10px}
+  .dest{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;margin:6px 0;background:#fff;color:var(--ink)}
+  .dest:hover{border-color:var(--accent)}
+  .dest .ext{font-size:.8rem;color:var(--ink-2)}
+  .fine{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-top:12px;font-size:.8rem;color:var(--ink-2)}
+  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#b9c2ca;margin-right:6px;vertical-align:1px}
+  .dot.on{background:#2f9e6a}
+
+  /* now */
+  .updated{font-size:.85rem;color:var(--ink-2);margin:-6px 0 12px}
+  .dir{padding:12px 0;border-bottom:1px solid var(--line)}
+  .dir b{display:block;margin-bottom:2px}
+  .dir .n{display:inline-block;width:22px;color:var(--accent);font-weight:700}
+
+  /* publications (Barron style) */
+  .pubnav{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.9rem;margin-bottom:6px}
+  .legend{font-size:.85rem;color:var(--ink-2);margin-bottom:8px}
+  .pub{scroll-margin-top:70px;display:grid;grid-template-columns:168px 1fr;gap:20px;padding:16px 0;border-bottom:1px solid var(--line)}
+  .pub.hl{background:linear-gradient(90deg,#fff8e6,transparent 70%);border-radius:8px;padding-left:8px;padding-right:8px;margin:0 -8px}
+  .fig{width:168px;height:112px;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:#fff}
+  .fig img,.fig svg{display:block;width:100%;height:100%;object-fit:cover}
+  .pub .t{font-weight:600;line-height:1.38}
+  .pub .a{font-size:.9rem;color:var(--ink-2);margin-top:2px}
+  .pub .a b{color:var(--ink)}
+  .pub .v{font-size:.9rem;margin-top:2px}
+  .pub .v i{font-style:italic}
+  .badge{display:inline-block;font-size:.72rem;font-weight:600;padding:1px 7px;border-radius:5px;margin-left:6px;vertical-align:1px;background:var(--accent-2);color:var(--accent);white-space:nowrap}
+  .badge.award{background:#fff1cc;color:#7a5200}
+  .pub .d{font-size:.92rem;margin:6px 0 4px}
+  .pub .acts{font-size:.88rem;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .pub .acts button{font:500 .85rem Inter,sans-serif;background:none;border:0;padding:0;color:var(--accent);cursor:pointer}
+  .pub .acts button:hover{text-decoration:underline}
+  .pub .acts .ok{color:#2f7d4f;font-size:.8rem}
+  pre.bib{display:none;margin:8px 0 0;padding:10px 12px;background:#f3f5f6;border:1px solid var(--line);border-radius:8px;font:12px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-word}
+  pre.bib.open{display:block}
+
+  /* teaching */
+  .year{margin:18px 0 6px;font:600 1.05rem "Source Serif 4",serif}
+  .term{display:grid;grid-template-columns:130px 1fr;gap:4px 14px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:.94rem}
+  .term .tn{color:var(--ink-2);font-weight:600}
+  .unit{display:block}
+  .unit code{font:500 .82rem ui-monospace,Menlo,monospace;background:#f1f4f5;padding:1px 6px;border-radius:4px;margin-right:8px}
+  .upcoming{font-size:.75rem;font-weight:600;color:#7a5200;background:#fff1cc;padding:1px 7px;border-radius:5px;margin-left:6px}
+
+  /* work, service, contact */
+  .doors{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .door{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .door h3{margin:0 0 6px}
+  .door p,.door li{font-size:.94rem}
+  .door .do{font-weight:600;font-size:.9rem;margin-top:8px}
+  .svc h3{font-size:1rem;margin:18px 0 4px}
+  .svc ul{font-size:.94rem}
+  table.contact{border-collapse:collapse;width:100%;font-size:.94rem}
+  table.contact td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.contact td:first-child{width:34%;font-weight:600}
+
+  /* easter egg */
+  #after-hours{margin-top:56px;background:#14202b;color:#e8eef2;border-radius:16px;padding:26px 24px}
+  #after-hours h2{color:#fff;border:0;margin:0 0 4px;padding:0;font-family:"Press Start 2P",monospace;font-size:1rem;line-height:1.6}
+  #after-hours .sub{color:#b9c8d3;font-size:.9rem;margin-bottom:16px}
+  .egg-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .egg{background:#1c2c3a;border:1px solid #2c4152;border-radius:12px;padding:16px}
+  .egg h3{color:#fff;margin:0 0 6px;font-family:Inter,sans-serif;font-size:1rem}
+  .egg p{color:#d4dee5;font-size:.92rem;margin:0}
+  .egg .meme{font-family:"Press Start 2P",monospace;font-size:.72rem;line-height:1.9;color:#f5b642;margin-bottom:8px}
+  .classes{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .classes button{font:500 .8rem Inter,sans-serif;background:#0e1820;color:#e8eef2;border:1px solid #2c4152;border-radius:6px;padding:5px 9px;cursor:pointer}
+  .classes button:hover{border-color:#f5b642}
+  .classes button.ok{background:#ff7c0a;border-color:#ff7c0a;color:#14202b;font-weight:600}
+  .classes button.no{opacity:.45}
+  .egg .verdict{margin-top:10px;min-height:1.4em;color:#f5d38a}
+  #after-hours .back{display:inline-block;margin-top:16px;color:#8fd3cf;font-size:.9rem}
+  .cvbtn{font:600 .85rem Inter,sans-serif;background:var(--accent);color:#fff;border:0;border-radius:8px;padding:4px 12px;cursor:pointer}
+  #cv{position:fixed;inset:0;background:rgba(20,32,43,.55);display:none;z-index:50;overflow:auto;padding:24px 12px}
+  #cv.open{display:block}
+  .cv-bar{max-width:800px;margin:0 auto 10px;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .cv-bar button{font:600 .85rem Inter,sans-serif;border:0;border-radius:8px;padding:7px 13px;cursor:pointer;background:#fff;color:var(--ink)}
+  .cv-bar button.primary{background:var(--accent);color:#fff}
+  .cv-bar .msg{color:#fff;font-size:.85rem;align-self:center;margin-right:auto}
+  .cv-page{max-width:800px;margin:0 auto;background:#fff;color:#111;padding:44px 52px;border-radius:6px;font:13.5px/1.5 Inter,sans-serif}
+  .cv-page h1{font-size:1.7rem;margin:0}
+  .cv-page .cv-sub{margin:2px 0 14px;color:#333}
+  .cv-page h2{font:700 .82rem Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);border:0;border-bottom:1.5px solid var(--accent);margin:18px 0 8px;padding:0 0 3px}
+  .cv-page ul{margin:4px 0;padding-left:18px}
+  .cv-page li{margin:2px 0}
+  .cv-page .cv-row{display:grid;grid-template-columns:96px 1fr;gap:10px;margin:2px 0}
+  .cv-page .cv-y{font-weight:600;color:#333}
+  .cv-page .cv-pub{margin:3px 0}
+  .cv-page .cv-pub i{color:#222}
+  .cv-page .cv-note{font-size:.8rem;color:#444;margin-top:14px}
+  @media print{
+    body>*:not(#cv){display:none!important}
+    #cv{position:static;display:block!important;background:none;padding:0}
+    .cv-bar{display:none}
+    .cv-page{padding:0;max-width:none;border-radius:0}
+    @page{size:A4;margin:16mm}
+  }
+  footer{margin-top:64px;color:var(--ink-2);font-size:.85rem}
+  @media (max-width:1239px){
+    nav.top{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:0 18px}
+    nav.top::-webkit-scrollbar{display:none}
+  }
+  @media (max-width:680px){
+    .hero{grid-template-columns:1fr}
+    .avatar{width:120px;height:120px}
+    .doors,.egg-grid{grid-template-columns:1fr}
+    .pub{grid-template-columns:1fr}
+    .fig{width:100%;height:150px}
+    .term{grid-template-columns:1fr}
+    h1{font-size:1.9rem}
+  }
+</style>
+</head>
+<body>
+<div class="wrap" id="top">
+
+  <header class="hero">
+    <div class="avatar"><img src="data:image/webp;base64,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" alt="Portrait of Ruitao Feng"></div>
+    <div>
+      <h1>Ruitao Feng</h1>
+      <p class="role">Lecturer in Cybersecurity · Faculty of Science and Engineering<br>Southern Cross University, Gold Coast, Australia</p>
+      <div class="links">
+        <span class="email">ruitao.feng@scu.edu.au</span>
+        <a href="https://orcid.org/0000-0001-9080-6865" rel="noopener noreferrer">ORCID</a>
+        <a href="https://researchportal.scu.edu.au/esploro/profile/ruitao_feng" rel="noopener noreferrer">SCU Research Portal</a>
+        <a href="https://scholar.google.com/citations?user=ev-Zbf4AAAAJ" rel="noopener noreferrer">Google Scholar</a>
+        <button type="button" class="cvbtn" id="cvBtn">Generate CV</button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="top" id="sidenav" aria-label="Sections">
+    <a href="#guide">Ask</a><a href="#now">Research</a><a href="#publications">Publications</a><a href="#teaching">Teaching</a><a href="#work">Work with me</a><a href="#service">Service</a><a href="#contact">Contact</a>
+  </nav>
+
+  <!-- ===================== Guide ===================== -->
+  <div class="guide" id="guide">
+    <h2>Ask the guide</h2>
+    <div class="sub">Tell me who you are, then pick a question. Or type your own.</div>
+    <div class="row-label">I am…</div>
+    <div class="chips" id="chips"></div>
+    <div class="row-label" id="qsLabel">Popular questions</div>
+    <div class="qs" id="qs"></div>
+    <form class="ask" id="askForm" autocomplete="off">
+      <input id="ask" type="text" maxlength="160" placeholder="What are you working on now?" aria-label="Ask a question">
+      <button type="submit">Ask</button>
+    </form>
+    <div class="result" id="result" aria-live="polite"></div>
+    <div class="fine">
+      <span>Answers are pre-written. The guide only links to this site and a few trusted sites. It does not generate text or follow instructions.</span>
+      <span id="mode"><span class="dot on"></span>Runs in your browser</span>
+    </div>
+  </div>
+
+  <!-- ===================== About ===================== -->
+  <section id="about">
+    <h2>About</h2>
+    <p>I am a Lecturer in Cybersecurity at Southern Cross University. I received my PhD from Nanyang Technological University (NTU) in 2021.</p>
+    <p>I build security tools that people can trust and actually use. My work spans security analytics, AI agent security, data privacy and vulnerability discovery. It appears at top security and software engineering conferences, including ACM CCS, NDSS, OOPSLA, FSE, ASE and ISSTA, and in top journals, including IEEE TIFS, IEEE TDSC, IEEE TSE, IEEE TMC and ACM TOSEM.</p>
+  </section>
+
+  <!-- ===================== Research directions ===================== -->
+  <section id="now">
+    <h2>Research directions</h2>
+    <p class="updated">Last updated: November 2026</p>
+    <div class="dir" id="dir-analytics"><b><span class="n">1</span>Post-detection security analytics automation</b>Detection is only the start. I automate the analysis that follows an alert, so analysts can understand and respond to threats faster.</div>
+    <div class="dir" id="dir-agents"><b><span class="n">2</span>Security of AI agents</b>What should an AI agent be allowed to do, and how do we stop one compromised agent from spreading harm?</div>
+    <div class="dir" id="dir-privacy"><b><span class="n">3</span>Data privacy and secure data sharing</b>How can sensitive data, such as medical records, be shared without losing control of it?</div>
+    <div class="dir" id="dir-cross"><b><span class="n">4</span>Cross-disciplinary security and AI</b>Security and trustworthy AI for other fields, such as energy and veterinary science.</div>
+  </section>
+
+  <!-- ===================== Publications ===================== -->
+  <section id="publications">
+    <h2>Publications (2020–)</h2>
+    <div class="legend">Peer-reviewed papers in CCF- or CORE-ranked venues, grouped by topic and sorted by year. CORE ranks are those in force when each paper was published. Author lists are in each BibTeX entry. Full record: <a href="https://orcid.org/0000-0001-9080-6865" rel="noopener noreferrer">ORCID</a> · <a href="https://researchportal.scu.edu.au/esploro/profile/ruitao_feng" rel="noopener noreferrer">SCU Research Portal</a>.</div>
+    <div class="pubnav" id="pubnav"></div>
+    <div id="pubs"></div>
+  </section>
+
+  <!-- ===================== Teaching ===================== -->
+  <section id="teaching">
+    <h2>Teaching</h2>
+    <p>Units I teach or have taught at Southern Cross University. For unit questions (deadlines, extensions, marks), please use the unit site on Blackboard first.</p>
+    <div id="teach"></div>
+  </section>
+
+  <!-- ===================== Work with me ===================== -->
+  <section id="work">
+    <h2>Work with me</h2>
+    <div class="doors">
+      <div class="door" id="work-academic">
+        <h3>Researchers</h3>
+        <p>I welcome joint papers, grant applications and visits. Good fits: security analytics, agent security, data privacy, program analysis and fuzzing. Cross-disciplinary ideas are very welcome.</p>
+        <p class="do">Email me a short idea and one of your papers.</p>
+      </div>
+      <div class="door" id="work-industry">
+        <h3>Industry</h3>
+        <p>If your team runs a security operations workflow, deploys AI agents or shares sensitive data, I can help with security assessment, joint research and student projects. I am open to ARC Linkage style partnerships.</p>
+        <p class="do">Email me your problem in a few lines.</p>
+      </div>
+      <div class="door" id="work-students">
+        <h3>Future research students</h3>
+        <p>I supervise PhD, MRes and Honours students. Example directions:</p>
+        <ul>
+          <li>Automating security analysis after detection</li>
+          <li>Permissions and trust for LLM agents</li>
+          <li>Securing the LLM software supply chain</li>
+          <li>Security and AI for energy or veterinary science</li>
+        </ul>
+        <p class="do">Email me your CV, transcript and a one-page idea.</p>
+      </div>
+      <div class="door" id="work-coursework">
+        <h3>SCU students</h3>
+        <p>See <a href="#teaching">Teaching</a> for my units by term. Honours or minor thesis students are welcome to reach out.</p>
+        <p class="do">Unit admin goes to Blackboard first.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Service ===================== -->
+  <section id="service" class="svc">
+    <h2>Service</h2>
+    <h3 id="svc-org">Conference organisation</h3>
+    <ul>
+      <li>PC Chair, APSEC 2027 (Asia-Pacific Software Engineering Conference)</li>
+      <li>Co-Chair, Internetware 2026 (International Conference on Internetware); also Session Chair</li>
+      <li>Co-Chair, IWQoS 2025 (IEEE/ACM International Symposium on Quality of Service)</li>
+      <li>PC Chair, Cyber Security CRC Symposium 2023 (CSCRC Symposium)</li>
+      <li>Co-Chair, PRDC 2023 (Pacific Rim International Symposium on Dependable Computing)</li>
+      <li>Co-Chair, NSS 2022 (International Conference on Network and System Security)</li>
+      <li>Co-organiser, AI Technology School 2022, with AISG, A*STAR, NTU, NUS and SGCSC</li>
+      <li>Co-organiser, AISG CyberSecurity Competition 2022, with AISG, A*STAR, NTU and NUS</li>
+    </ul>
+    <h3 id="svc-ws">Workshops</h3>
+    <ul>
+      <li>Chair, <a href="https://ml4cyber.github.io/26/" rel="noopener noreferrer">ML4Cyber (MLC) Workshop</a> at IEEE ICDM, 2022–present</li>
+      <li>PC Chair, HMI-SA Workshop (Human-Machine Intelligence for Security Analytics) at IEEE S&amp;P 2025</li>
+    </ul>
+    <h3 id="svc-pc">Program committees</h3>
+    <ul>
+      <li>NDSS Symposium 2027</li>
+      <li>ACISP 2026, 2027 (Australasian Conference on Information Security and Privacy)</li>
+      <li>APSEC 2020, 2026 (Asia-Pacific Software Engineering Conference)</li>
+      <li>ICECCS 2025, 2026 (International Conference on Engineering of Complex Computer Systems)</li>
+      <li>SVM 2025, 2026 (Software Vulnerability Management Workshop, at ICSE)</li>
+      <li>PST 2024, 2025, 2026 (International Conference on Privacy, Security and Trust)</li>
+      <li>LCTES 2024 (ACM SIGPLAN/SIGBED Conference on Languages, Compilers, and Tools for Embedded Systems)</li>
+      <li>ICFEM 2023 (International Conference on Formal Engineering Methods)</li>
+      <li>Inscrypt 2022 (International Conference on Information Security and Cryptology)</li>
+      <li>SEAIS 2022 (Workshop on Linking Software Engineering, Artificial Intelligence and Security)</li>
+    </ul>
+    <h3 id="svc-ed">Editorial</h3>
+    <ul>
+      <li>Guest Editor, IEEE Transactions on Dependable and Secure Computing (TDSC), special issues in 2022 and 2023</li>
+      <li>Guest Editor, <i>Applied Sciences</i> (MDPI), special issue on network intrusion detection and attack identification</li>
+    </ul>
+    <h3 id="svc-rev">Journal reviewing</h3>
+    <ul>
+      <li>IEEE TIFS, IEEE TDSC, IEEE TSE, IEEE TSC, IEEE TKDE, IEEE TMC, IEEE TCC, IEEE TETCI</li>
+      <li>ACM TOSEM, ACM Computing Surveys, Springer <i>Cybersecurity</i></li>
+      <li>Grant reviewer, Dutch Research Council (NWO)</li>
+    </ul>
+    <h3 id="svc-uni">University service</h3>
+    <ul>
+      <li>Deputy Academic Integrity Officer, Faculty of Science and Engineering, Southern Cross University, 2024–present</li>
+    </ul>
+  </section>
+
+  <!-- ===================== Contact ===================== -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email is best: <span class="email">ruitao.feng@scu.edu.au</span></p>
+    <table class="contact">
+      <tr><td>Subject line</td><td>Start with who you are: "PhD enquiry", "Collaboration", "Industry", "Unit question".</td></tr>
+      <tr><td>Research students</td><td>Attach CV, transcript and a one-page idea.</td></tr>
+      <tr><td>Industry</td><td>Describe the problem and timeline in a few lines.</td></tr>
+      <tr><td>Unit questions</td><td>Use the unit site on Blackboard first.</td></tr>
+      <tr><td>Office</td><td>B5.22, Gold Coast campus, Southern Cross University, Queensland, Australia.</td></tr>
+    </table>
+  </section>
+
+  <!-- ===================== Easter egg (hidden until found) ===================== -->
+  <section id="after-hours" hidden>
+    <h2>&gt; AFTER HOURS_</h2>
+    <div class="sub">You found the side quest. Outside family commitments and academic overtime, this is where you will find me.</div>
+    <div class="egg-grid">
+      <div class="egg"><h3>🚴 Cycling</h3><p>Gold Coast roads and hills. The best place to untangle a proof.</p></div>
+      <div class="egg"><h3>🏀 Basketball</h3><p>Pickup games when I can find a court. Good defence is just access control with legs.</p></div>
+      <div class="egg"><h3>🍜 Cooking</h3><p>Chinese and Japanese home-style dishes. Like fuzzing: change the input a little, taste, repeat.</p></div>
+      <div class="egg">
+        <h3>⚔️ World of Warcraft</h3>
+        <p class="meme">“银鳞胸甲，5G一件！”</p>
+        <p>Old-school Azeroth player. Guess my class:</p>
+        <div class="classes" id="classes"></div>
+        <p class="verdict" id="verdict" aria-live="polite"></p>
+      </div>
+    </div>
+    <a class="back" href="#guide">← back to the serious stuff</a>
+  </section>
+
+  <footer>© Ruitao Feng. The guide runs fully in your browser. Nothing you type is sent or stored. <span title="Ask the guide what I like.">There is one more page somewhere.</span></footer>
+</div>
+
+<div id="cv" role="dialog" aria-modal="true" aria-label="Curriculum vitae">
+  <div class="cv-bar"><span class="msg" id="cvMsg"></span>
+    <button type="button" class="primary" id="cvPrint">Print / Save as PDF</button>
+    <button type="button" id="cvMd">Download Markdown</button>
+    <button type="button" id="cvCopy">Copy text</button>
+    <button type="button" id="cvClose">Close</button>
+  </div>
+  <div class="cv-page" id="cvPage"></div>
+</div>
+
+<script>/*! MiniSearch v7.2.0 | (c) 2022 Luca Ongaro | MIT License | https://github.com/lucaong/minisearch */
+!function(t,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define(e):(t="undefined"!=typeof globalThis?globalThis:t||self).MiniSearch=e()}(this,function(){"use strict";const t="KEYS",e="VALUES",s="";class i{constructor(t,e){const s=t._tree,i=Array.from(s.keys());this.set=t,this._type=e,this._path=i.length>0?[{node:s,keys:i}]:[]}next(){const t=this.dive();return this.backtrack(),t}dive(){if(0===this._path.length)return{done:!0,value:void 0};const{node:t,keys:e}=n(this._path);if(n(e)===s)return{done:!1,value:this.result()};const i=t.get(n(e));return this._path.push({node:i,keys:Array.from(i.keys())}),this.dive()}backtrack(){if(0===this._path.length)return;const t=n(this._path).keys;t.pop(),t.length>0||(this._path.pop(),this.backtrack())}key(){return this.set._prefix+this._path.map(({keys:t})=>n(t)).filter(t=>t!==s).join("")}value(){return n(this._path).node.get(s)}result(){switch(this._type){case e:return this.value();case t:return this.key();default:return[this.key(),this.value()]}}[Symbol.iterator](){return this}}const n=t=>t[t.length-1],o=(t,e,i,n,r,c,h,u)=>{const d=c*h;t:for(const a of t.keys())if(a===s){const e=r[d-1];e<=i&&n.set(u,[t.get(a),e])}else{let s=c;for(let t=0;t<a.length;++t,++s){const n=a[t],o=h*s,c=o-h;let u=r[o];const d=Math.max(0,s-i-1),l=Math.min(h-1,s+i);for(let t=d;t<l;++t){const s=n!==e[t],i=r[c+t]+ +s,h=r[c+t+1]+1,d=r[o+t]+1,a=r[o+t+1]=Math.min(i,h,d);a<u&&(u=a)}if(u>i)continue t}o(t.get(a),e,i,n,r,s,h,u+a)}};class r{constructor(t=new Map,e=""){this._size=void 0,this._tree=t,this._prefix=e}atPrefix(t){if(!t.startsWith(this._prefix))throw new Error("Mismatched prefix");const[e,i]=c(this._tree,t.slice(this._prefix.length));if(void 0===e){const[e,n]=f(i);for(const i of e.keys())if(i!==s&&i.startsWith(n)){const s=new Map;return s.set(i.slice(n.length),e.get(i)),new r(s,t)}}return new r(e,t)}clear(){this._size=void 0,this._tree.clear()}delete(t){return this._size=void 0,d(this._tree,t)}entries(){return new i(this,"ENTRIES")}forEach(t){for(const[e,s]of this)t(e,s,this)}fuzzyGet(t,e){return((t,e,s)=>{const i=new Map;if(void 0===e)return i;const n=e.length+1,r=n+s,c=new Uint8Array(r*n).fill(s+1);for(let t=0;t<n;++t)c[t]=t;for(let t=1;t<r;++t)c[t*n]=t;return o(t,e,s,i,c,1,n,""),i})(this._tree,t,e)}get(t){const e=h(this._tree,t);return void 0!==e?e.get(s):void 0}has(t){const e=h(this._tree,t);return void 0!==e&&e.has(s)}keys(){return new i(this,t)}set(t,e){if("string"!=typeof t)throw new Error("key must be a string");this._size=void 0;return u(this._tree,t).set(s,e),this}get size(){if(this._size)return this._size;this._size=0;const t=this.entries();for(;!t.next().done;)this._size+=1;return this._size}update(t,e){if("string"!=typeof t)throw new Error("key must be a string");this._size=void 0;const i=u(this._tree,t);return i.set(s,e(i.get(s))),this}fetch(t,e){if("string"!=typeof t)throw new Error("key must be a string");this._size=void 0;const i=u(this._tree,t);let n=i.get(s);return void 0===n&&i.set(s,n=e()),n}values(){return new i(this,e)}[Symbol.iterator](){return this.entries()}static from(t){const e=new r;for(const[s,i]of t)e.set(s,i);return e}static fromObject(t){return r.from(Object.entries(t))}}const c=(t,e,i=[])=>{if(0===e.length||null==t)return[t,i];for(const n of t.keys())if(n!==s&&e.startsWith(n))return i.push([t,n]),c(t.get(n),e.slice(n.length),i);return i.push([t,e]),c(void 0,"",i)},h=(t,e)=>{if(0===e.length||null==t)return t;for(const i of t.keys())if(i!==s&&e.startsWith(i))return h(t.get(i),e.slice(i.length))},u=(t,e)=>{const i=e.length;t:for(let n=0;t&&n<i;){for(const o of t.keys())if(o!==s&&e[n]===o[0]){const s=Math.min(i-n,o.length);let r=1;for(;r<s&&e[n+r]===o[r];)++r;const c=t.get(o);if(r===o.length)t=c;else{const s=new Map;s.set(o.slice(r),c),t.set(e.slice(n,n+r),s),t.delete(o),t=s}n+=r;continue t}const o=new Map;return t.set(e.slice(n),o),o}return t},d=(t,e)=>{const[i,n]=c(t,e);if(void 0!==i)if(i.delete(s),0===i.size)a(n);else if(1===i.size){const[t,e]=i.entries().next().value;l(n,t,e)}},a=t=>{if(0===t.length)return;const[e,i]=f(t);if(e.delete(i),0===e.size)a(t.slice(0,-1));else if(1===e.size){const[i,n]=e.entries().next().value;i!==s&&l(t.slice(0,-1),i,n)}},l=(t,e,s)=>{if(0===t.length)return;const[i,n]=f(t);i.set(n+e,s),i.delete(n)},f=t=>t[t.length-1],m="or",_="and",g="and_not";class p{constructor(t){if(null==(null==t?void 0:t.fields))throw new Error('MiniSearch: option "fields" must be provided');const e=null==t.autoVacuum||!0===t.autoVacuum?M:t.autoVacuum;this._options={...z,...t,autoVacuum:e,searchOptions:{...b,...t.searchOptions||{}},autoSuggestOptions:{...I,...t.autoSuggestOptions||{}}},this._index=new r,this._documentCount=0,this._documentIds=new Map,this._idToShortId=new Map,this._fieldIds={},this._fieldLength=new Map,this._avgFieldLength=[],this._nextId=0,this._storedFields=new Map,this._dirtCount=0,this._currentVacuum=null,this._enqueuedVacuum=null,this._enqueuedVacuumConditions=F,this.addFields(this._options.fields)}add(t){const{extractField:e,stringifyField:s,tokenize:i,processTerm:n,fields:o,idField:r}=this._options,c=e(t,r);if(null==c)throw new Error(`MiniSearch: document does not have ID field "${r}"`);if(this._idToShortId.has(c))throw new Error(`MiniSearch: duplicate ID ${c}`);const h=this.addDocumentId(c);this.saveStoredFields(h,t);for(const r of o){const o=e(t,r);if(null==o)continue;const c=i(s(o,r),r),u=this._fieldIds[r],d=new Set(c).size;this.addFieldLength(h,u,this._documentCount-1,d);for(const t of c){const e=n(t,r);if(Array.isArray(e))for(const t of e)this.addTerm(u,h,t);else e&&this.addTerm(u,h,e)}}}addAll(t){for(const e of t)this.add(e)}addAllAsync(t,e={}){const{chunkSize:s=10}=e,i={chunk:[],promise:Promise.resolve()},{chunk:n,promise:o}=t.reduce(({chunk:t,promise:e},i,n)=>(t.push(i),(n+1)%s===0?{chunk:[],promise:e.then(()=>new Promise(t=>setTimeout(t,0))).then(()=>this.addAll(t))}:{chunk:t,promise:e}),i);return o.then(()=>this.addAll(n))}remove(t){const{tokenize:e,processTerm:s,extractField:i,stringifyField:n,fields:o,idField:r}=this._options,c=i(t,r);if(null==c)throw new Error(`MiniSearch: document does not have ID field "${r}"`);const h=this._idToShortId.get(c);if(null==h)throw new Error(`MiniSearch: cannot remove document with ID ${c}: it is not in the index`);for(const r of o){const o=i(t,r);if(null==o)continue;const c=e(n(o,r),r),u=this._fieldIds[r],d=new Set(c).size;this.removeFieldLength(h,u,this._documentCount,d);for(const t of c){const e=s(t,r);if(Array.isArray(e))for(const t of e)this.removeTerm(u,h,t);else e&&this.removeTerm(u,h,e)}}this._storedFields.delete(h),this._documentIds.delete(h),this._idToShortId.delete(c),this._fieldLength.delete(h),this._documentCount-=1}removeAll(t){if(t)for(const e of t)this.remove(e);else{if(arguments.length>0)throw new Error("Expected documents to be present. Omit the argument to remove all documents.");this._index=new r,this._documentCount=0,this._documentIds=new Map,this._idToShortId=new Map,this._fieldLength=new Map,this._avgFieldLength=[],this._storedFields=new Map,this._nextId=0}}discard(t){const e=this._idToShortId.get(t);if(null==e)throw new Error(`MiniSearch: cannot discard document with ID ${t}: it is not in the index`);this._idToShortId.delete(t),this._documentIds.delete(e),this._storedFields.delete(e),(this._fieldLength.get(e)||[]).forEach((t,s)=>{this.removeFieldLength(e,s,this._documentCount,t)}),this._fieldLength.delete(e),this._documentCount-=1,this._dirtCount+=1,this.maybeAutoVacuum()}maybeAutoVacuum(){if(!1===this._options.autoVacuum)return;const{minDirtFactor:t,minDirtCount:e,batchSize:s,batchWait:i}=this._options.autoVacuum;this.conditionalVacuum({batchSize:s,batchWait:i},{minDirtCount:e,minDirtFactor:t})}discardAll(t){const e=this._options.autoVacuum;try{this._options.autoVacuum=!1;for(const e of t)this.discard(e)}finally{this._options.autoVacuum=e}this.maybeAutoVacuum()}replace(t){const{idField:e,extractField:s}=this._options,i=s(t,e);this.discard(i),this.add(t)}vacuum(t={}){return this.conditionalVacuum(t)}conditionalVacuum(t,e){return this._currentVacuum?(this._enqueuedVacuumConditions=this._enqueuedVacuumConditions&&e,null!=this._enqueuedVacuum||(this._enqueuedVacuum=this._currentVacuum.then(()=>{const e=this._enqueuedVacuumConditions;return this._enqueuedVacuumConditions=F,this.performVacuuming(t,e)})),this._enqueuedVacuum):!1===this.vacuumConditionsMet(e)?Promise.resolve():(this._currentVacuum=this.performVacuuming(t),this._currentVacuum)}async performVacuuming(t,e){const s=this._dirtCount;if(this.vacuumConditionsMet(e)){const e=t.batchSize||S.batchSize,i=t.batchWait||S.batchWait;let n=1;for(const[t,s]of this._index){for(const[t,e]of s)for(const[i]of e)this._documentIds.has(i)||(e.size<=1?s.delete(t):e.delete(i));0===this._index.get(t).size&&this._index.delete(t),n%e===0&&await new Promise(t=>setTimeout(t,i)),n+=1}this._dirtCount-=s}await null,this._currentVacuum=this._enqueuedVacuum,this._enqueuedVacuum=null}vacuumConditionsMet(t){if(null==t)return!0;let{minDirtCount:e,minDirtFactor:s}=t;return e=e||M.minDirtCount,s=s||M.minDirtFactor,this.dirtCount>=e&&this.dirtFactor>=s}get isVacuuming(){return null!=this._currentVacuum}get dirtCount(){return this._dirtCount}get dirtFactor(){return this._dirtCount/(1+this._documentCount+this._dirtCount)}has(t){return this._idToShortId.has(t)}getStoredFields(t){const e=this._idToShortId.get(t);if(null!=e)return this._storedFields.get(e)}search(t,e={}){const{searchOptions:s}=this._options,i={...s,...e},n=this.executeQuery(t,e),o=[];for(const[t,{score:e,terms:s,match:r}]of n){const n=s.length||1,c={id:this._documentIds.get(t),score:e*n,terms:Object.keys(r),queryTerms:s,match:r};Object.assign(c,this._storedFields.get(t)),(null==i.filter||i.filter(c))&&o.push(c)}return t===p.wildcard&&null==i.boostDocument||o.sort(V),o}autoSuggest(t,e={}){e={...this._options.autoSuggestOptions,...e};const s=new Map;for(const{score:i,terms:n}of this.search(t,e)){const t=n.join(" "),e=s.get(t);null!=e?(e.score+=i,e.count+=1):s.set(t,{score:i,terms:n,count:1})}const i=[];for(const[t,{score:e,terms:n,count:o}]of s)i.push({suggestion:t,terms:n,score:e/o});return i.sort(V),i}get documentCount(){return this._documentCount}get termCount(){return this._index.size}static loadJSON(t,e){if(null==e)throw new Error("MiniSearch: loadJSON should be given the same options used when serializing the index");return this.loadJS(JSON.parse(t),e)}static async loadJSONAsync(t,e){if(null==e)throw new Error("MiniSearch: loadJSON should be given the same options used when serializing the index");return this.loadJSAsync(JSON.parse(t),e)}static getDefault(t){if(z.hasOwnProperty(t))return w(z,t);throw new Error(`MiniSearch: unknown option "${t}"`)}static loadJS(t,e){const{index:s,documentIds:i,fieldLength:n,storedFields:o,serializationVersion:r}=t,c=this.instantiateMiniSearch(t,e);c._documentIds=T(i),c._fieldLength=T(n),c._storedFields=T(o);for(const[t,e]of c._documentIds)c._idToShortId.set(e,t);for(const[t,e]of s){const s=new Map;for(const t of Object.keys(e)){let i=e[t];1===r&&(i=i.ds),s.set(parseInt(t,10),T(i))}c._index.set(t,s)}return c}static async loadJSAsync(t,e){const{index:s,documentIds:i,fieldLength:n,storedFields:o,serializationVersion:r}=t,c=this.instantiateMiniSearch(t,e);c._documentIds=await L(i),c._fieldLength=await L(n),c._storedFields=await L(o);for(const[t,e]of c._documentIds)c._idToShortId.set(e,t);let h=0;for(const[t,e]of s){const s=new Map;for(const t of Object.keys(e)){let i=e[t];1===r&&(i=i.ds),s.set(parseInt(t,10),await L(i))}++h%1e3==0&&await E(0),c._index.set(t,s)}return c}static instantiateMiniSearch(t,e){const{documentCount:s,nextId:i,fieldIds:n,averageFieldLength:o,dirtCount:c,serializationVersion:h}=t;if(1!==h&&2!==h)throw new Error("MiniSearch: cannot deserialize an index created with an incompatible version");const u=new p(e);return u._documentCount=s,u._nextId=i,u._idToShortId=new Map,u._fieldIds=n,u._avgFieldLength=o,u._dirtCount=c||0,u._index=new r,u}executeQuery(t,e={}){if(t===p.wildcard)return this.executeWildcardQuery(e);if("string"!=typeof t){const s={...e,...t,queries:void 0},i=t.queries.map(t=>this.executeQuery(t,s));return this.combineResults(i,s.combineWith)}const{tokenize:s,processTerm:i,searchOptions:n}=this._options,o={tokenize:s,processTerm:i,...n,...e},{tokenize:r,processTerm:c}=o,h=r(t).flatMap(t=>c(t)).filter(t=>!!t).map(x(o)).map(t=>this.executeQuerySpec(t,o));return this.combineResults(h,o.combineWith)}executeQuerySpec(t,e){const s={...this._options.searchOptions,...e},i=(s.fields||this._options.fields).reduce((t,e)=>({...t,[e]:w(s.boost,e)||1}),{}),{boostDocument:n,weights:o,maxFuzzy:r,bm25:c}=s,{fuzzy:h,prefix:u}={...b.weights,...o},d=this._index.get(t.term),a=this.termResults(t.term,t.term,1,t.termBoost,d,i,n,c);let l,f;if(t.prefix&&(l=this._index.atPrefix(t.term)),t.fuzzy){const e=!0===t.fuzzy?.2:t.fuzzy,s=e<1?Math.min(r,Math.round(t.term.length*e)):e;s&&(f=this._index.fuzzyGet(t.term,s))}if(l)for(const[e,s]of l){const o=e.length-t.term.length;if(!o)continue;null==f||f.delete(e);const r=u*e.length/(e.length+.3*o);this.termResults(t.term,e,r,t.termBoost,s,i,n,c,a)}if(f)for(const e of f.keys()){const[s,o]=f.get(e);if(!o)continue;const r=h*e.length/(e.length+o);this.termResults(t.term,e,r,t.termBoost,s,i,n,c,a)}return a}executeWildcardQuery(t){const e=new Map,s={...this._options.searchOptions,...t};for(const[t,i]of this._documentIds){const n=s.boostDocument?s.boostDocument(i,"",this._storedFields.get(t)):1;e.set(t,{score:n,terms:[],match:{}})}return e}combineResults(t,e=m){if(0===t.length)return new Map;const s=e.toLowerCase(),i=y[s];if(!i)throw new Error(`Invalid combination operator: ${e}`);return t.reduce(i)||new Map}toJSON(){const t=[];for(const[e,s]of this._index){const i={};for(const[t,e]of s)i[t]=Object.fromEntries(e);t.push([e,i])}return{documentCount:this._documentCount,nextId:this._nextId,documentIds:Object.fromEntries(this._documentIds),fieldIds:this._fieldIds,fieldLength:Object.fromEntries(this._fieldLength),averageFieldLength:this._avgFieldLength,storedFields:Object.fromEntries(this._storedFields),dirtCount:this._dirtCount,index:t,serializationVersion:2}}termResults(t,e,s,i,n,o,r,c,h=new Map){if(null==n)return h;for(const u of Object.keys(o)){const d=o[u],a=this._fieldIds[u],l=n.get(a);if(null==l)continue;let f=l.size;const m=this._avgFieldLength[a];for(const n of l.keys()){if(!this._documentIds.has(n)){this.removeTerm(a,n,e),f-=1;continue}const o=r?r(this._documentIds.get(n),e,this._storedFields.get(n)):1;if(!o)continue;const _=l.get(n),g=this._fieldLength.get(n)[a],p=s*i*d*o*v(_,f,this._documentCount,g,m,c),y=h.get(n);if(y){y.score+=p,k(y.terms,t);const s=w(y.match,e);s?s.push(u):y.match[e]=[u]}else h.set(n,{score:p,terms:[t],match:{[e]:[u]}})}}return h}addTerm(t,e,s){const i=this._index.fetch(s,O);let n=i.get(t);if(null==n)n=new Map,n.set(e,1),i.set(t,n);else{const t=n.get(e);n.set(e,(t||0)+1)}}removeTerm(t,e,s){if(!this._index.has(s))return void this.warnDocumentChanged(e,t,s);const i=this._index.fetch(s,O),n=i.get(t);null==n||null==n.get(e)?this.warnDocumentChanged(e,t,s):n.get(e)<=1?n.size<=1?i.delete(t):n.delete(e):n.set(e,n.get(e)-1),0===this._index.get(s).size&&this._index.delete(s)}warnDocumentChanged(t,e,s){for(const i of Object.keys(this._fieldIds))if(this._fieldIds[i]===e)return void this._options.logger("warn",`MiniSearch: document with ID ${this._documentIds.get(t)} has changed before removal: term "${s}" was not present in field "${i}". Removing a document after it has changed can corrupt the index!`,"version_conflict")}addDocumentId(t){const e=this._nextId;return this._idToShortId.set(t,e),this._documentIds.set(e,t),this._documentCount+=1,this._nextId+=1,e}addFields(t){for(let e=0;e<t.length;e++)this._fieldIds[t[e]]=e}addFieldLength(t,e,s,i){let n=this._fieldLength.get(t);null==n&&this._fieldLength.set(t,n=[]),n[e]=i;const o=(this._avgFieldLength[e]||0)*s+i;this._avgFieldLength[e]=o/(s+1)}removeFieldLength(t,e,s,i){if(1===s)return void(this._avgFieldLength[e]=0);const n=this._avgFieldLength[e]*s-i;this._avgFieldLength[e]=n/(s-1)}saveStoredFields(t,e){const{storeFields:s,extractField:i}=this._options;if(null==s||0===s.length)return;let n=this._storedFields.get(t);null==n&&this._storedFields.set(t,n={});for(const t of s){const s=i(e,t);void 0!==s&&(n[t]=s)}}}p.wildcard=Symbol("*");const w=(t,e)=>Object.prototype.hasOwnProperty.call(t,e)?t[e]:void 0,y={[m]:(t,e)=>{for(const s of e.keys()){const i=t.get(s);if(null==i)t.set(s,e.get(s));else{const{score:t,terms:n,match:o}=e.get(s);i.score=i.score+t,i.match=Object.assign(i.match,o),C(i.terms,n)}}return t},[_]:(t,e)=>{const s=new Map;for(const i of e.keys()){const n=t.get(i);if(null==n)continue;const{score:o,terms:r,match:c}=e.get(i);C(n.terms,r),s.set(i,{score:n.score+o,terms:n.terms,match:Object.assign(n.match,c)})}return s},[g]:(t,e)=>{for(const s of e.keys())t.delete(s);return t}},v=(t,e,s,i,n,o)=>{const{k:r,b:c,d:h}=o;return Math.log(1+(s-e+.5)/(e+.5))*(h+t*(r+1)/(t+r*(1-c+c*i/n)))},x=t=>(e,s,i)=>({term:e,fuzzy:"function"==typeof t.fuzzy?t.fuzzy(e,s,i):t.fuzzy||!1,prefix:"function"==typeof t.prefix?t.prefix(e,s,i):!0===t.prefix,termBoost:"function"==typeof t.boostTerm?t.boostTerm(e,s,i):1}),z={idField:"id",extractField:(t,e)=>t[e],stringifyField:(t,e)=>t.toString(),tokenize:t=>t.split(D),processTerm:t=>t.toLowerCase(),fields:void 0,searchOptions:void 0,storeFields:[],logger:(t,e)=>{"function"==typeof(null===console||void 0===console?void 0:console[t])&&console[t](e)},autoVacuum:!0},b={combineWith:m,prefix:!1,fuzzy:!1,maxFuzzy:6,boost:{},weights:{fuzzy:.45,prefix:.375},bm25:{k:1.2,b:.7,d:.5}},I={combineWith:"and",prefix:(t,e,s)=>e===s.length-1},S={batchSize:1e3,batchWait:10},F={minDirtFactor:.1,minDirtCount:20},M={...S,...F},k=(t,e)=>{t.includes(e)||t.push(e)},C=(t,e)=>{for(const s of e)t.includes(s)||t.push(s)},V=({score:t},{score:e})=>e-t,O=()=>new Map,T=t=>{const e=new Map;for(const s of Object.keys(t))e.set(parseInt(s,10),t[s]);return e},L=async t=>{const e=new Map;let s=0;for(const i of Object.keys(t))e.set(parseInt(i,10),t[i]),++s%1e3==0&&await E(0);return e},E=t=>new Promise(e=>setTimeout(e,t)),D=/[\n\r\p{Z}\p{P}]+/u;return p});
+</script>
+<script>
+(() => {
+  "use strict";
+  const $ = id => document.getElementById(id);
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  const ME = "Ruitao Feng";
+
+  /* =========================================================
+     PUBLICATIONS  (source: Crossref records linked to ORCID 0000-0001-9080-6865 + name search; verified Nov 2026)
+     fig: optional path to a real figure, e.g. "img/gead.png". If absent, a generated thumbnail is drawn.
+     ========================================================= */
+  const CATS = [
+    { id: "analytics", name: "Post-detection security analytics", hue: 188, glyph: "scope" },
+    { id: "access",    name: "Access control and authorization", hue: 28,  glyph: "key" },
+    { id: "privacy",   name: "Data privacy and secure data sharing", hue: 262, glyph: "chain" },
+    { id: "vuln",      name: "Vulnerability discovery and software assurance", hue: 350, glyph: "bug" },
+    { id: "malware",   name: "Malware analysis", hue: 138, glyph: "shield" }
+  ];
+  const RANK = {
+    "CCS": "CCF A · CORE A*", "NDSS": "CCF A · CORE A*", "OOPSLA": "CCF A · CORE A", "FSE": "CCF A · CORE A*", "ASE": "CCF A · CORE A*",
+    "ISSTA": "CCF A · CORE A", "TIFS": "CCF A", "TDSC": "CCF A", "TOSEM": "CCF A", "TSE": "CCF A", "TMC": "CCF A", "TSC": "CCF A",
+    "LCTES": "CCF B · CORE B", "ComNet": "CCF B", "APSEC": "CCF C · CORE C", "TrustCom": "CCF C · CORE B",
+    "IoTJ": "JCR Q1", "CSCWD": "CCF B · CORE C", "BIBM": "CCF B", "Cyber": "CCF B", "DASC": "CCF C · CORE C", "ICECCS": "CCF C · CORE A", "ICIC": "CCF C"
+  };
+  const P = [
+    // ---- analytics
+    { c:"analytics", k:"GEAD", y:2024, v:"CCS", type:"conf", award:"Distinguished Artifact Award", hl:true,
+      t:"Rules Refine the Riddle: Global Explanation for Deep Learning-Based Anomaly Detection in Security Applications",
+      au:"Dongqi Han, Zhiliang Wang, Ruitao Feng, Minghui Jin, Wenqi Chen, Kai Wang, Su Wang, Jiahai Yang, Xingang Shi, Xia Yin, Yang Liu",
+      venue:"ACM Conference on Computer and Communications Security (CCS)", doi:"10.1145/3658644.3670375",
+      d:"Deep learning anomaly detectors are strong but opaque, so analysts are slow to trust or act on them. GEAD extracts a compact set of global rules that approximates what a detector has learned. Analysts can inspect these rules, spot model errors and reuse the rules in rule-based tools." },
+    { c:"analytics", k:"Knowledge", y:2026, v:"TMC", type:"journal",
+      t:"Knowledge is Power: A Knowledge Graph-Based Approach for Mobile Malware Traceability Analysis",
+      au:"Yao Zhang, Guangquan Xu, Ruitao Feng, Xiaohong Li, Sen Chen, Zhenchang Xing, Yude Bai, Yongqiang Lyu, Wei Gong, Xibin Zhao",
+      venue:"IEEE Transactions on Mobile Computing", doi:"10.1109/tmc.2026.3673942",
+      d:"Finding malware is only the first step. Analysts also need to know what a sample is related to and where it came from. This work builds a knowledge graph of mobile malware and uses it to trace a new sample to known threats after detection." },
+    { c:"analytics", k:"TARL", y:2026, v:"ComNet", type:"journal",
+      t:"TARL: Multi-task adaptive representation learning for secure encrypted traffic analysis",
+      au:"Mengmeng Ge, Likun Liu, Zhaowei Zhang, Hongyu Wang, Xiangzhan Yu, Yijia Xu, Ruitao Feng, Zhichao Hu",
+      venue:"Computer Networks", doi:"10.1016/j.comnet.2026.112646",
+      d:"Most network traffic is now encrypted, so payload-based detection no longer works. TARL learns traffic representations that are shared across several analysis tasks and adapted to each one. This supports accurate traffic analysis without decryption." },
+    { c:"analytics", k:"Enmob", y:2025, v:"Cyber", type:"journal",
+      t:"Enmob: Unveil the Behavior with Multi-flow Analysis of Encrypted App Traffic",
+      au:"Mengmeng Ge, Ruitao Feng, Likun Liu, Xiangzhan Yu, Vinay Sachidananda, Xiaofei Xie, Yang Liu",
+      venue:"Cybersecurity (Springer)", doi:"10.1186/s42400-024-00301-0",
+      d:"Mobile apps encrypt their traffic, which hides what they are doing from network defenders. Enmob analyses multiple encrypted flows together to reveal app behaviours. It works without decrypting the traffic." },
+    { c:"analytics", k:"BeyondDec", y:2025, v:"TOSEM", type:"journal",
+      t:"Beyond Decision: Android Malware Description Generation through Profiling Malicious Behavior Trajectory",
+      au:"Chunlian Wu, Sen Chen, Jiaming Li, Renchao Chai, Lingling Fan, Xiaofei Xie, Ruitao Feng",
+      venue:"ACM Transactions on Software Engineering and Methodology", doi:"10.1145/3715909",
+      d:"Malware detectors usually stop at a yes-or-no verdict, which tells analysts little. This work profiles the trajectory of malicious behaviours in an Android app and generates a description of what the app does. The description helps analysts understand and respond to a threat." },
+    { c:"analytics", k:"CAShift", y:2025, v:"FSE", type:"journal",
+      t:"CAShift: Benchmarking Log-Based Cloud Attack Detection under Normality Shift",
+      au:"Jiongchi Yu, Xiaofei Xie, Qiang Hu, Bowen Zhang, Ziming Zhao, Yun Lin, Lei Ma, Ruitao Feng, Frank Liauw",
+      venue:"Proceedings of the ACM on Software Engineering (FSE)", doi:"10.1145/3729346",
+      d:"Log-based anomaly detection is a main way to spot attacks in cloud systems. Existing datasets cover only limited cloud behaviours and lack a whole-system view. CAShift is a benchmark with diverse cloud behaviours and several kinds of normality shift, and it shows how detectors cope when normal behaviour changes." },
+    { c:"analytics", k:"WebNorm", y:2024, v:"ASE", type:"conf",
+      t:"Detecting and Explaining Anomalies Caused by Web Tamper Attacks via Building Consistency-based Normality",
+      au:"Yifan Liao, Ming Xu, Yun Lin, Xiwen Teoh, Xiaofei Xie, Ruitao Feng, Frank Liaw, Hongyu Zhang, Jin Song Dong",
+      venue:"IEEE/ACM International Conference on Automated Software Engineering (ASE)", doi:"10.1145/3691620.3695024",
+      d:"Web tamper attacks modify front-end code to skip checks, and the server often cannot tell. WebNorm learns consistency-based normality from how a web application normally behaves. It flags runtime anomalies and explains which consistency was broken." },
+    { c:"analytics", k:"FOCUS", y:2023, v:"DASC", type:"conf",
+      t:"FOCUS: Fatigue-Reducing IOCs Through Prioritization and Scoring",
+      au:"Vinay Sachidananda, Bryson Teo, Ruitao Feng, Kwok-Yan Lam, Liu Yang",
+      venue:"IEEE International Conference on Dependable, Autonomic and Secure Computing (DASC)", doi:"10.1109/dasc/picom/cbdcom/cy59711.2023.10361355",
+      d:"Threat intelligence feeds produce far more indicators of compromise (IOCs) than analysts can check. FOCUS scores and prioritises IOCs so the most important ones come first. This reduces alert fatigue in daily security operations." },
+    // ---- access
+    { c:"access", k:"Shadow", y:2026, v:"CCS", type:"conf", hl:true, pending:true,
+      t:"Shadow Tokens: Broken Permission Revocation in Intelligent Connected Vehicle Cloud Platforms",
+      au:"Ruitao Feng, et al.", venue:"ACM Conference on Computer and Communications Security (CCS)", doi:"",
+      d:"Access to a connected vehicle often needs to end, for example after a rental or a sale. We find that vehicle cloud platforms can fail to revoke permissions, so old tokens keep working. We build BPRHunter to detect these broken revocations systematically. To appear." },
+    { c:"access", k:"BOLA", y:2026, v:"TOSEM", type:"journal",
+      t:"Rethinking Broken Object Level Authorization Attacks Under Zero Trust Principle",
+      au:"Anbin Wu, Zhiyong Feng, Ruitao Feng, Zhenchang Xing, Yang Liu",
+      venue:"ACM Transactions on Software Engineering and Methodology", doi:"10.1145/3833417",
+      d:"Broken object level authorization (BOLA) lets users reach objects they do not own, and it is a top risk for web APIs. This work revisits BOLA attacks through zero-trust principles. It studies how attackers exploit missing per-object checks and what that means for API defence." },
+    { c:"access", k:"QAE-BAC", y:2026, v:"IoTJ", type:"journal",
+      t:"QAE-BAC: Achieving Quantifiable Anonymity and Efficiency in Blockchain-Based Access Control With Attribute",
+      au:"Jie Zhang, Xiaohong Li, Mengke Zhang, Ruitao Feng, Shanshan Xu, Zhe Hou, Guangdong Bai",
+      venue:"IEEE Internet of Things Journal", doi:"10.1109/jiot.2026.3695861",
+      d:"Attribute-based access control on blockchain can reveal who a user is through their attributes. QAE-BAC makes anonymity quantifiable, so its level can be measured. It keeps access decisions efficient enough for IoT settings." },
+    { c:"access", k:"SwiftGuard", y:2025, v:"CSCWD", type:"conf",
+      t:"SwiftGuard: Enhanced Privacy and Efficiency in Blockchain-Based Fine-Grained Access Control for Cross-Domain Healthcare Collaboration",
+      au:"Mengke Zhang, Xiaohong Li, Jie Zhang, Zhe Hou, Guangdong Bai, Ruitao Feng",
+      venue:"International Conference on Computer Supported Cooperative Work in Design (CSCWD)", doi:"10.1109/cscwd64889.2025.11033363",
+      d:"Healthcare teams often need to share data across hospitals and other domains. SwiftGuard provides fine-grained, blockchain-based access control for this setting. It improves both privacy and efficiency." },
+    { c:"access", k:"MU-PRS", y:2024, v:"TIFS", type:"journal",
+      t:"Reinventing Multi-User Authentication Security From Cross-Chain Perspective",
+      au:"Yongyang Lv, Ruitao Feng, Maode Ma, Manqing Zhu, Hanwei Wu, Xiaohong Li",
+      venue:"IEEE Transactions on Information Forensics and Security", doi:"10.1109/tifs.2024.3463533",
+      d:"Cross-chain systems need users' identities to be trusted across different blockchains. This paper proposes a multi-user proxy re-signature (MU-PRS) algorithm that converts signatures from multiple users across chains. A secure multi-user authentication scheme is built on top of it." },
+    // ---- privacy
+    { c:"privacy", k:"MediChain", y:2026, v:"TDSC", type:"journal",
+      t:"MediChainAudit: Encrypted Medical Data Auditing on Blockchain With Fuzzy Deduplication and Secure Sharing",
+      au:"Jie Zhang, Xiaohong Li, Ruitao Feng, Shanshan Xu, Yongyang Lv, Zhe Hou, Guangdong Bai",
+      venue:"IEEE Transactions on Dependable and Secure Computing", doi:"10.1109/tdsc.2026.3724153",
+      d:"More and more medical data is stored encrypted, which makes it hard to audit and to remove duplicates. MediChainAudit audits encrypted medical data on blockchain and removes near-duplicate records with fuzzy deduplication. It also supports secure sharing of the audited data." },
+    { c:"privacy", k:"Cohort", y:2026, v:"TDSC", type:"journal",
+      t:"From Isolation to Integration: A Reputation-Backed Auditable Model for Cohort Data Sharing",
+      au:"Jie Zhang, Xiaohong Li, Ruitao Feng, Shanshan Xu, Zhe Hou, Hanwei Wu, Guangdong Bai",
+      venue:"IEEE Transactions on Dependable and Secure Computing", doi:"10.1109/tdsc.2025.3609801",
+      d:"Medical research needs cohort data from many institutions, but each keeps its data in isolation. This work proposes a reputation-backed, auditable model for sharing cohort data. Participants build trust through reputation, and every use of the data can be audited." },
+    { c:"privacy", k:"VeriFuzzy", y:2026, v:"TSC", type:"journal",
+      t:"VeriFuzzy: A Dynamic Verifiable Fuzzy Search Service Framework for Encrypted Cloud Data",
+      au:"Jie Zhang, Xiaohong Li, Man Zheng, Ruitao Feng, Shanshan Xu, Zhe Hou, Guangdong Bai",
+      venue:"IEEE Transactions on Services Computing", doi:"10.1109/tsc.2025.3641367",
+      d:"Search over encrypted cloud data usually needs exact keywords, and users cannot check the results. VeriFuzzy supports fuzzy keyword search over encrypted data with results the user can verify. It also handles dynamic updates to the data." },
+    { c:"privacy", k:"MedExChain", y:2025, v:"IoTJ", type:"journal",
+      t:"MedExChain: Enabling Secure and Efficient PHR Sharing Across Heterogeneous Blockchains",
+      au:"Yongyang Lv, Xiaohong Li, Kui Chen, Zhe Hou, Guangdong Bai, Ruitao Feng",
+      venue:"IEEE Internet of Things Journal", doi:"10.1109/jiot.2025.3579266",
+      d:"Personal health records (PHR) are often kept on different, incompatible blockchains. MedExChain is a cross-chain data sharing scheme that shares PHR securely and efficiently across heterogeneous blockchain systems." },
+    { c:"privacy", k:"PHRChain", y:2024, v:"BIBM", type:"conf",
+      t:"Cross-chain Sharing of Personal Health Records: Heterogeneous and Interoperable Blockchains",
+      au:"Yongyang Lv, Xiaohong Li, Yingwenbo Wang, Kui Chen, Zhe Hou, Ruitao Feng",
+      venue:"IEEE International Conference on Bioinformatics and Biomedicine (BIBM)", doi:"10.1109/bibm62325.2024.10822679",
+      d:"Hospitals and health platforms keep personal health records on different blockchains. This work enables secure sharing of these records across heterogeneous and interoperable blockchains." },
+    // ---- vuln
+    { c:"vuln", k:"ConVReach", y:2026, v:"OOPSLA", type:"journal", hl:true,
+      t:"Determining the Unreachable: Constraint-Guided Reachability Analysis for Dependency Vulnerabilities",
+      au:"Wenbu Feng, Xiaohong Li, Ruitao Feng, Yao Zhang, Yuekang Li, Zhiping Zhou, Yunqian Wang, Yuqing Li",
+      venue:"Proceedings of the ACM on Programming Languages (OOPSLA)", doi:"10.1145/3798255",
+      d:"Dependency scanners flag every vulnerable library, even when the vulnerable code can never run. ConVReach combines reachability analysis with constraint solving to decide whether a vulnerability is truly reachable from the application. This removes many false alarms so developers can focus on real risks." },
+    { c:"vuln", k:"FidelityGPT", y:2026, v:"NDSS", type:"conf", hl:true,
+      t:"FidelityGPT: Correcting Decompilation Distortions with Retrieval Augmented Generation",
+      au:"Zhiping Zhou, Xiaohong Li, Ruitao Feng, Yao Zhang, Yuekang Li, Wenbu Feng, Yunqian Wang, Yuqing Li",
+      venue:"Network and Distributed System Security Symposium (NDSS)", doi:"10.14722/ndss.2026.230989",
+      d:"Decompiled code often differs from the original source in ways that mislead analysts and tools. FidelityGPT detects these distortions and corrects them with retrieval-augmented LLMs. The result is decompiled code that is closer to the original and easier to analyse." },
+    { c:"malware", k:"FCGHunter", y:2026, v:"TSE", type:"journal",
+      t:"FCGHunter: Towards Evaluating Robustness of Graph-Based Android Malware Detection",
+      au:"Shiwen Song, Xiaofei Xie, Ruitao Feng, Qi Guo, Sen Chen",
+      venue:"IEEE Transactions on Software Engineering", doi:"10.1109/tse.2025.3626788",
+      d:"Graph-based detectors built on function call graphs (FCGs) are popular for Android malware. FCGHunter generates adversarial changes to these graphs to test how robust the detectors are. It exposes weaknesses that attackers could exploit." },
+    { c:"vuln", k:"LIMR", y:2026, v:"TSC", type:"journal",
+      t:"LIMR: Intent-Aware Mashup API Recommendation via LLM-Augmented Multi-Scale Fusion",
+      au:"Yao Zhang, Yude Bai, Minhong Dong, Keqing Cen, Ji Zhang, Qiang Hu, Wei Ma, Yongqiang Lyu, Ruitao Feng, Xiaohong Li, Junjie Wang, Lingxiao Jiang, Yang Liu",
+      venue:"IEEE Transactions on Services Computing", doi:"10.1109/tsc.2026.3674665",
+      d:"Developers build mashups by combining web APIs, but finding the right APIs is hard. LIMR uses LLMs to understand what the developer intends. It fuses information at multiple scales to recommend suitable APIs." },
+    { c:"vuln", k:"CPDP", y:2026, v:"ICIC", type:"conf",
+      t:"Unsupervised Code Representation Learning via Contrastive Learning for Cross-Project Defect Prediction",
+      au:"Hanlin Zhao, Zhiyong Feng, Ruitao Feng",
+      venue:"International Conference on Intelligent Computing (ICIC), LNCS", doi:"10.1007/978-981-92-3441-7_1",
+      d:"New projects often lack the labelled history needed to train a defect predictor. This work learns code representations with unsupervised contrastive learning. The representations transfer across projects and support cross-project defect prediction." },
+    { c:"vuln", k:"VulTegra", y:2025, v:"APSEC", type:"conf",
+      t:"It Only Gets Worse: Revisiting DL-Based Vulnerability Detectors from a Practical Perspective",
+      au:"Yunqian Wang, Xiaohong Li, Ruitao Feng, Yao Zhang, Yuekang Li, Zhiping Zhou",
+      venue:"Asia-Pacific Software Engineering Conference (APSEC)", doi:"10.1109/apsec66846.2025.00109",
+      d:"Deep learning vulnerability detectors report strong results in papers. We re-evaluate them under practical settings and find that their performance degrades sharply. We discuss what this means for using them in practice." },
+    { c:"vuln", k:"SMTPRT", y:2025, v:"APSEC", type:"conf",
+      t:"SMTPRT: Performance Regression Testing and Localization for SMT Solvers Across Multiple Logics",
+      au:"Ziyang Wang, Xiaohong Li, Lili Quan, Zhiping Zhou, Yao Zhang, Ruitao Feng",
+      venue:"Asia-Pacific Software Engineering Conference (APSEC)", doi:"10.1109/apsec66846.2025.00068",
+      d:"SMT solvers sit under many program analysis tools, so a slowdown in a new solver version hurts everything built on it. SMTPRT tests solvers for performance regressions across multiple logics. It also localises the change that caused each regression." },
+    { c:"vuln", k:"BeyondFid", y:2024, v:"TOSEM", type:"journal",
+      t:"Beyond Fidelity: Explaining Vulnerability Localization of Learning-Based Detectors",
+      au:"Baijun Cheng, Shengming Zhao, Kailong Wang, Meizhen Wang, Guangdong Bai, Ruitao Feng, Yao Guo, Lei Ma, Haoyu Wang",
+      venue:"ACM Transactions on Software Engineering and Methodology", doi:"10.1145/3641543",
+      d:"Explanations of learning-based vulnerability detectors are usually judged by how faithful they are to the model. This work asks a different question: do the explanations point to the code that is actually vulnerable? It evaluates how well explanation methods localise vulnerabilities." },
+    { c:"vuln", k:"VulAug", y:2024, v:"LCTES", type:"conf",
+      t:"Enhancing Code Vulnerability Detection via Vulnerability-Preserving Data Augmentation",
+      au:"Shangqing Liu, Wei Ma, Jian Wang, Xiaofei Xie, Ruitao Feng, Yang Liu",
+      venue:"ACM SIGPLAN/SIGBED International Conference on Languages, Compilers, and Tools for Embedded Systems (LCTES)", doi:"10.1145/3652032.3657564",
+      d:"Learning-based vulnerability detectors need large and diverse training data. This work augments code while keeping the vulnerability intact, so new samples stay correctly labelled. Detectors trained on the augmented data detect vulnerabilities better." },
+    { c:"vuln", k:"FT2Ra", y:2024, v:"ISSTA", type:"conf",
+      t:"FT2Ra: A Fine-Tuning-Inspired Approach to Retrieval-Augmented Code Completion",
+      au:"Qi Guo, Xiaohong Li, Xiaofei Xie, Shangqing Liu, Ze Tang, Ruitao Feng, Junjie Wang, Jidong Ge, Lei Bu",
+      venue:"ACM SIGSOFT International Symposium on Software Testing and Analysis (ISSTA)", doi:"10.1145/3650212.3652130",
+      d:"Retrieval-augmented code completion adds similar code to a model's input. FT2Ra designs this retrieval step based on how fine-tuning changes a model. It brings gains close to fine-tuning without retraining." },
+    { c:"vuln", k:"PatchID", y:2024, v:"TDSC", type:"journal",
+      t:"Enhancing Security Patch Identification by Capturing Structures in Commits",
+      au:"Bozhi Wu, Shangqing Liu, Ruitao Feng, Xiaofei Xie, Jingkai Siow, Shang-Wei Lin",
+      venue:"IEEE Transactions on Dependable and Secure Computing", doi:"10.1109/tdsc.2022.3192631",
+      d:"Many security fixes are released silently, without an advisory, so users do not know they should update. This work learns the structure of commits to tell security patches apart from ordinary changes." },
+    { c:"vuln", k:"DLFuzz", y:2024, v:"TDSC", type:"journal",
+      t:"Deep Learning for Coverage-Guided Fuzzing: How Far are We?",
+      au:"Siqi Li, Xiaofei Xie, Yun Lin, Yuekang Li, Ruitao Feng, Xiaohong Li, Weimin Ge, Jin Song Dong",
+      venue:"IEEE Transactions on Dependable and Secure Computing", doi:"10.1109/tdsc.2022.3200525",
+      d:"Many recent papers add deep learning to coverage-guided fuzzing. We systematically study whether these approaches really improve fuzzing. The study shows where they help and where they fall short." },
+    { c:"vuln", k:"SAST", y:2023, v:"FSE", type:"conf",
+      t:"Comparison and Evaluation on Static Application Security Testing (SAST) Tools for Java",
+      au:"Kaixuan Li, Sen Chen, Lingling Fan, Ruitao Feng, Han Liu, Chengwei Liu, Yang Liu, Yixiang Chen",
+      venue:"ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering (ESEC/FSE)", doi:"10.1145/3611643.3616262",
+      d:"Static application security testing (SAST) tools are widely used to find vulnerabilities in Java code. We build a benchmark of real vulnerabilities and evaluate popular Java SAST tools on it. The study shows what each tool misses and why." },
+    { c:"vuln", k:"JavaQA", y:2023, v:"ISSTA", type:"conf",
+      t:"A Comprehensive Study on Quality Assurance Tools for Java",
+      au:"Han Liu, Sen Chen, Ruitao Feng, Chengwei Liu, Kaixuan Li, Zhengzi Xu, Liming Nie, Yang Liu, Yixiang Chen",
+      venue:"ACM SIGSOFT International Symposium on Software Testing and Analysis (ISSTA)", doi:"10.1145/3597926.3598056",
+      d:"Java developers rely on many quality assurance tools, such as static analysers and bug finders. We study these tools at scale. The study shows what they find, what they miss and how their results overlap." },
+    { c:"vuln", k:"TransRepair", y:2022, v:"ASE", type:"conf",
+      t:"TransRepair: Context-aware Program Repair for Compilation Errors",
+      au:"Xueyang Li, Shangqing Liu, Ruitao Feng, Guozhu Meng, Xiaofei Xie, Kai Chen, Yang Liu",
+      venue:"IEEE/ACM International Conference on Automated Software Engineering (ASE)", doi:"10.1145/3551349.3560422",
+      d:"Compilation errors slow developers down, and fixing them often needs context beyond the failing line. TransRepair learns from the surrounding code context to repair compilation errors automatically." },
+    // ---- malware
+    { c:"malware", k:"Behavior", y:2024, v:"TrustCom", type:"conf",
+      t:"Behavior Speaks Louder: Rethinking Malware Analysis Beyond Family Classification",
+      au:"Fei Zhang, Xiaohong Li, Sen Chen, Ruitao Feng",
+      venue:"IEEE International Conference on Trust, Security and Privacy in Computing and Communications (TrustCom)", doi:"10.1109/trustcom63139.2024.00048",
+      d:"Most malware analysis stops at naming the malware family. This work argues that analysts need to know the specific malicious behaviours instead. It shows how behaviour-level analysis gives more useful results." },
+    { c:"malware", k:"IoTMal", y:2024, v:"LCTES", type:"conf",
+      t:"Unmasking the Lurking: Malicious Behavior Detection for IoT Malware with Multi-label Classification",
+      au:"Ruitao Feng, Sen Li, Sen Chen, Mengmeng Ge, Xuewei Li, Xiaohong Li",
+      venue:"ACM SIGPLAN/SIGBED International Conference on Languages, Compilers, and Tools for Embedded Systems (LCTES)", doi:"10.1145/3652032.3657577",
+      d:"IoT malware often carries several malicious behaviours at once. We detect these behaviours with multi-label classification. Analysts learn what a sample can do, not just that it is malicious." },
+    { c:"malware", k:"ActiveML", y:2024, v:"TDSC", type:"journal",
+      t:"Multi-label Classification for Android Malware Based on Active Learning",
+      au:"Qijing Qiao, Ruitao Feng, Sen Chen, Fei Zhang, Xiaohong Li",
+      venue:"IEEE Transactions on Dependable and Secure Computing", doi:"10.1109/tdsc.2022.3213689",
+      d:"Android malware often shows many behaviours, but labelling them by hand is costly. We use active learning to pick the most useful samples to label. This trains a multi-label classifier with far less manual effort." },
+    { c:"malware", k:"IconChecker", y:2021, v:"APSEC", type:"conf", rk:"CCF C · CORE B",
+      t:"IconChecker: Anomaly Detection of Icon-Behaviors for Android Apps",
+      au:"Yuxuan Li, Ruitao Feng, Sen Chen, Qianyu Guo, Lingling Fan, Xiaohong Li",
+      venue:"Asia-Pacific Software Engineering Conference (APSEC)", doi:"10.1109/apsec53868.2021.00028",
+      d:"Users judge what a button does by its icon. IconChecker detects Android apps whose icons do not match the behaviour they trigger, a common sign of deceptive or malicious apps." },
+    { c:"malware", k:"PerfMal", y:2021, v:"TIFS", type:"journal",
+      t:"A Performance-Sensitive Malware Detection System Using Deep Learning on Mobile Devices",
+      au:"Ruitao Feng, Sen Chen, Xiaofei Xie, Guozhu Meng, Shang-Wei Lin, Yang Liu",
+      venue:"IEEE Transactions on Information Forensics and Security", doi:"10.1109/tifs.2020.3025436",
+      d:"Running deep learning malware detection on phones is hard because resources are limited. This work designs an on-device detection system that keeps both accuracy and performance." },
+    { c:"malware", k:"SeqMobile", y:2020, v:"ICECCS", type:"conf",
+      t:"SeqMobile: An Efficient Sequence-Based Malware Detection System Using RNN on Mobile Devices",
+      au:"Ruitao Feng, Jing Qiang Lim, Sen Chen, Shang-Wei Lin, Yang Liu",
+      venue:"International Conference on Engineering of Complex Computer Systems (ICECCS)", doi:"10.1109/iceccs51672.2020.00015",
+      d:"SeqMobile detects Android malware from behaviour sequences with recurrent neural networks. It is built to run efficiently on the phone itself." }
+  ];
+
+  /* ---- generated thumbnail (used when no real figure is supplied) ---- */
+  const NS = "http://www.w3.org/2000/svg";
+  const sv = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+  function thumb(p) {
+    const cat = CATS.find(c => c.id === p.c), h = cat.hue;
+    const s = sv("svg", { viewBox: "0 0 168 112", role: "img", "aria-label": p.k });
+    const g = sv("linearGradient", { id: "g" + p.k, x1: 0, y1: 0, x2: 1, y2: 1 }, sv("defs", {}, s));
+    sv("stop", { offset: "0", "stop-color": `hsl(${h},45%,94%)` }, g);
+    sv("stop", { offset: "1", "stop-color": `hsl(${h},40%,84%)` }, g);
+    sv("rect", { width: 168, height: 112, fill: `url(#g${p.k})` }, s);
+    // deterministic node pattern from the key
+    let seed = 0; for (const ch of p.k) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
+    const rnd = () => (seed = (seed * 1103515245 + 12345) >>> 0) / 4294967296;
+    const pts = Array.from({ length: 7 }, () => [10 + rnd() * 148, 8 + rnd() * 64]);
+    pts.forEach((a, i) => { const b = pts[(i + 1) % pts.length]; sv("line", { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: `hsl(${h},35%,62%)`, "stroke-width": 1 }, s); });
+    pts.forEach(a => sv("circle", { cx: a[0], cy: a[1], r: 3, fill: `hsl(${h},45%,48%)` }, s));
+    // glyph
+    const G = sv("g", { transform: "translate(128,64)", fill: "none", stroke: `hsl(${h},55%,30%)`, "stroke-width": 2.4, "stroke-linecap": "round", "stroke-linejoin": "round" }, s);
+    if (cat.glyph === "scope") { sv("circle", { cx: 10, cy: 10, r: 11 }, G); sv("line", { x1: 18, y1: 18, x2: 27, y2: 27 }, G); sv("path", { d: "M2 11 L7 6 L11 13 L16 8" }, G); }
+    if (cat.glyph === "key") { sv("circle", { cx: 6, cy: 14, r: 8 }, G); sv("path", { d: "M12 9 L28 -7 M22 -1 L26 3 M26 -5 L30 -1" }, G); }
+    if (cat.glyph === "chain") { sv("rect", { x: -4, y: 4, width: 18, height: 12, rx: 6 }, G); sv("rect", { x: 10, y: 14, width: 18, height: 12, rx: 6 }, G); }
+    if (cat.glyph === "bug") { sv("ellipse", { cx: 12, cy: 14, rx: 8, ry: 11 }, G); sv("path", { d: "M12 3 V25 M4 10 L-2 6 M4 18 L-2 22 M20 10 L26 6 M20 18 L26 22" }, G); }
+    if (cat.glyph === "shield") { sv("path", { d: "M12 0 L26 5 V14 C26 23 19 28 12 31 C5 28 -2 23 -2 14 V5 Z" }, G); sv("path", { d: "M6 15 L11 20 L19 10" }, G); }
+    const tx = sv("text", { x: 12, y: 100, "font-family": "Inter, sans-serif", "font-size": 15, "font-weight": 700, fill: `hsl(${h},50%,22%)` }, s);
+    tx.textContent = p.k;
+    return s;
+  }
+
+  /* ---- BibTeX ---- */
+  function bibOf(p) {
+    const first = p.au.split(",")[0].trim().split(" ").pop().replace(/[^A-Za-z]/g, "");
+    const w = p.t.split(/\s+/).find(x => /^[A-Za-z]{4,}/.test(x) && !/^(with|from|that|this|into|towards|toward)$/i.test(x)) || "paper";
+    const key = (first + p.y + w.replace(/[^A-Za-z]/g, "")).toLowerCase();
+    const authors = p.au.split(",").map(s => s.trim()).join(" and ");
+    const conf = p.type === "conf";
+    const lines = [
+      `@${conf ? "inproceedings" : "article"}{${key},`,
+      `  title     = {${p.t}},`,
+      `  author    = {${authors}},`,
+      `  ${conf ? "booktitle" : "journal  "} = {${p.venue}},`,
+      `  year      = {${p.y}},`
+    ];
+    if (p.doi) lines.push(`  doi       = {${p.doi}},`);
+    lines.push("}");
+    return lines.join("\n");
+  }
+  /* PDF links: every paper links to a self-hosted copy in papers/ when that file exists */
+  const LOCAL_PDF = new Set(["ActiveML", "BOLA", "Behavior", "BeyondDec", "BeyondFid", "CAShift", "CPDP", "Cohort", "ConVReach", "DLFuzz", "Enmob", "FCGHunter", "FOCUS", "FT2Ra", "FidelityGPT", "GEAD", "IconChecker", "IoTMal", "JavaQA", "Knowledge", "LIMR", "MU-PRS", "MedExChain", "MediChain", "PHRChain", "PatchID", "PerfMal", "QAE-BAC", "SAST", "SMTPRT", "SeqMobile", "SwiftGuard", "TARL", "TransRepair", "VeriFuzzy", "VulAug", "VulTegra", "WebNorm"]);
+  function linkOf(p) {
+    if (p.pending || !LOCAL_PDF.has(p.k)) return null;
+    return { href: "papers/" + p.k + ".pdf", label: "PDF" };
+  }
+
+  function renderPubs() {
+    const nav = $("pubnav"), box = $("pubs");
+    CATS.forEach(cat => {
+      const list = P.filter(p => p.c === cat.id).sort((a, b) => b.y - a.y);
+      if (!list.length) return;
+      const a = el("a", null, `${cat.name} (${list.length})`); a.href = "#pubs-" + cat.id; nav.appendChild(a);
+      const h = el("h3", null, cat.name); h.id = "pubs-" + cat.id; box.appendChild(h);
+      list.forEach(p => {
+        const row = el("div", "pub" + (p.hl ? " hl" : "")); row.id = "paper-" + p.k.toLowerCase();
+        const fig = el("div", "fig");
+        if (p.fig) { const img = el("img"); img.src = p.fig; img.alt = p.k; img.loading = "lazy"; fig.appendChild(img); }
+        else fig.appendChild(thumb(p));
+        row.appendChild(fig);
+        const body = el("div");
+        body.appendChild(el("div", "t", p.t));
+        const v = el("div", "v");
+        v.appendChild(el("i", null, p.venue));
+        v.appendChild(document.createTextNode(`, ${p.y}${p.pending ? " (to appear)" : ""}`));
+        if (p.rk || RANK[p.v]) v.appendChild(el("span", "badge", p.rk || RANK[p.v]));
+        if (p.award) v.appendChild(el("span", "badge award", "🏆 " + p.award));
+        body.appendChild(v);
+        body.appendChild(el("p", "d", p.d));
+        const acts = el("div", "acts");
+        const L = linkOf(p);
+        if (L) { const l = el("a", null, L.label); l.href = L.href; l.rel = "noopener noreferrer"; l.target = "_blank"; acts.appendChild(l); }
+        if (p.doi) { const dl = el("a", null, "DOI"); dl.href = "https://doi.org/" + p.doi; dl.rel = "noopener noreferrer"; dl.target = "_blank"; acts.appendChild(dl); }
+        let pre = null;
+        if (!p.pending) {
+          pre = el("pre", "bib", bibOf(p));
+          const tog = el("button", null, "BibTeX"); tog.type = "button";
+          tog.addEventListener("click", () => pre.classList.toggle("open"));
+          const cp = el("button", null, "Copy BibTeX"); cp.type = "button";
+          const ok = el("span", "ok", "");
+          cp.addEventListener("click", async () => {
+            try { await navigator.clipboard.writeText(pre.textContent); ok.textContent = "Copied"; }
+            catch { pre.classList.add("open"); const r = document.createRange(); r.selectNodeContents(pre); const s = getSelection(); s.removeAllRanges(); s.addRange(r); ok.textContent = "Selected, press Ctrl/Cmd+C"; }
+            setTimeout(() => ok.textContent = "", 2500);
+          });
+          acts.append(tog, cp, ok);
+        } else acts.appendChild(el("span", "ok", "PDF and BibTeX after publication"));
+        body.appendChild(acts);
+        if (pre) body.appendChild(pre);
+        row.appendChild(body);
+        box.appendChild(row);
+      });
+    });
+  }
+  renderPubs();
+
+  /* =========================================================
+     TEACHING (by year and term)
+     ========================================================= */
+  const TEACH = [
+    { year: 2026, terms: [
+      { t: "Term 4", u: [["COMP2004-2026-T4", "Systems Security and Operation"]] },
+      { t: "Term 3", u: [["ISYS6002-2026-T3", "Advanced Cybersecurity"]] },
+      { t: "Term 2", u: [["ISYS1003-2026-T2", "Cybersecurity Management"], ["COMP6011-2026-T2", "Security of Applications and Systems"]] },
+      { t: "Term 1", u: [["COMP5003-2026-T1", "Cybersecurity Governance and Risk Management"], ["COMP1004-2026-T1", "Cybersecurity Governance, Risk, and Compliance"]] } ] }
+  ];
+  (function renderTeach() {
+    const box = $("teach");
+    TEACH.forEach(Y => {
+      box.appendChild(el("div", "year", String(Y.year)));
+      Y.terms.forEach(T => {
+        const row = el("div", "term");
+        row.appendChild(el("span", "tn", T.t));
+        const list = el("div");
+        T.u.forEach(([code, name, note]) => {
+          const u = el("span", "unit");
+          u.appendChild(el("code", null, code));
+          u.appendChild(document.createTextNode(name));
+          if (note) u.appendChild(el("span", "upcoming", note));
+          list.appendChild(u);
+        });
+        row.appendChild(list);
+        box.appendChild(row);
+      });
+    });
+  })();
+
+  /* =========================================================
+     GUIDE: whitelisted destinations + pre-written answers
+     ========================================================= */
+  const ALLOWED_HOSTS = new Set(["scholar.google.com", "orcid.org", "researchportal.scu.edu.au", "ml4cyber.github.io"]);
+  const DEST = {
+    about:      { label: "About me", href: "#about" },
+    now:        { label: "My research directions", href: "#now" },
+    analytics:  { label: "Post-detection security analytics", href: "#dir-analytics" },
+    agents:     { label: "Security of AI agents", href: "#dir-agents" },
+    privacy:    { label: "Data privacy research", href: "#dir-privacy" },
+    cross:      { label: "Cross-disciplinary research", href: "#dir-cross" },
+    pubs:       { label: "All publications", href: "#publications" },
+    pubsPriv:   { label: "Papers on data privacy", href: "#pubs-privacy" },
+    pubsAn:     { label: "Papers on security analytics", href: "#pubs-analytics" },
+    orcid:      { label: "Full record on ORCID", href: "https://orcid.org/0000-0001-9080-6865" },
+    scholar:    { label: "Google Scholar profile", href: "https://scholar.google.com/citations?user=ev-Zbf4AAAAJ" },
+    teaching:   { label: "Units I teach, by term", href: "#teaching" },
+    academic:   { label: "Collaborating with me", href: "#work-academic" },
+    industry:   { label: "Working with industry", href: "#work-industry" },
+    students:   { label: "Becoming my research student", href: "#work-students" },
+    coursework: { label: "Info for SCU students", href: "#work-coursework" },
+    service:    { label: "Service and events", href: "#service" },
+    mlc:        { label: "ML4Cyber workshop", href: "https://ml4cyber.github.io/26/" },
+    contact:    { label: "How to contact me", href: "#contact" },
+    cv:         { label: "Generate my CV (button at the top)", href: "#top" },
+    egg:        { label: "Unlock: After hours", href: "#after-hours" }
+  };
+  const INTENTS = {
+    now: { ans: "I work in four directions:",
+      bullets: ["Post-detection security analytics automation", "Security of AI agents", "Data privacy and secure data sharing", "Cross-disciplinary security and AI (energy, veterinary science)"],
+      dest: ["now", "pubs"],
+      kw: ["now", "current", "latest", "recent", "working on", "direction", "focus", "lately", "these days", "research area", "your research", "research about", "research interest", "work on", "study", "最新", "最近", "现在", "目前", "方向", "在做", "进展"],
+      ex: ["what are you working on now", "your latest research direction", "what is your current focus", "recent projects", "你最近在研究什么", "你的研究方向是什么"] },
+    analytics: { ans: "My main line: automating what security analysts do after an alert. Explaining detectors, turning insights into rules, and triage with humans in the loop.",
+      dest: ["analytics", "pubsAn"],
+      kw: ["soc", "analyst", "alerts", "alert triage", "triage", "detection", "anomaly", "explain", "xai", "rule", "post-detection", "analytics", "告警", "检测", "可解释", "规则", "安全运营"],
+      ex: ["security operations center automation", "explainable anomaly detection", "alert triage research", "rule generation from detectors"] },
+    agents: { ans: "I study what AI agents should be allowed to do: least privilege, permission revocation and trust between agents.",
+      dest: ["agents", "now"],
+      kw: ["agent", "llm", "permission", "least privilege", "trust", "multi-agent", "prompt injection", "智能体", "大模型", "权限", "信任"],
+      ex: ["LLM agent security", "permissions for AI agents", "multi-agent trust", "prompt injection defence"] },
+    privacy: { ans: "I work on sharing sensitive data, such as medical records, safely: privacy-preserving access control, encrypted search and auditable sharing.",
+      dest: ["privacy", "pubsPriv"],
+      kw: ["privacy", "private", "data sharing", "medical", "health record", "blockchain", "encrypt", "gdpr", "隐私", "数据共享", "区块链", "医疗", "加密"],
+      ex: ["data privacy research", "secure medical data sharing", "blockchain access control", "encrypted search"] },
+    cross: { ans: "I bring security and trustworthy AI to other fields, so far energy (battery health data) and veterinary science (safe AI advice). New partners are welcome.",
+      dest: ["cross", "academic"],
+      kw: ["cross-disciplinary", "interdisciplinary", "energy", "battery", "vet", "veterinary", "animal", "agriculture", "marine", "health", "交叉", "能源", "电池", "兽医", "农业", "海洋"],
+      ex: ["interdisciplinary collaboration", "battery security research", "AI for veterinary practice", "security in agriculture"] },
+    papers: { ans: "All my ranked papers are listed by topic, each with a PDF link and one-click BibTeX.",
+      dest: ["pubs", "scholar", "orcid"],
+      kw: ["paper", "publication", "citation", "pdf", "article", "bibtex", "cite", "论文", "文章", "发表", "引用", "今年"],
+      ex: ["list of your papers", "what did you publish this year", "your CCS paper", "how do I cite your work", "你发表了哪些论文", "论文下载"] },
+    teaching: { ans: "In 2026 I teach cybersecurity units across all four terms, including COMP2004, ISYS6002, ISYS1003 and COMP6011. The Teaching section lists them by term.",
+      dest: ["teaching", "coursework"],
+      kw: ["course", "unit", "class", "lecture", "teach", "subject", "enrol", "enroll", "tutorial", "assignment", "exam", "term", "comp", "isys", "info6002", "prog6001", "课", "上课", "选课", "教学", "作业", "考试", "学分"],
+      ex: ["which units do you teach", "can I take your class", "what courses do you lecture", "question about my assignment", "你教什么课", "我想选你的课"] },
+    cvi: { ans: "Click \"Generate CV\" at the top of the page. It builds a CV from this site: research summary, appointments, papers since 2020 with venues, service and teaching. You can print it, save it as PDF or download Markdown.",
+      dest: ["cv", "pubs"],
+      kw: ["cv", "resume", "résumé", "curriculum", "vitae", "bio sketch", "简历", "履历"],
+      ex: ["can I get your CV", "download your resume", "curriculum vitae"] },
+    contact: { ans: "Email is best: ruitao.feng@scu.edu.au. Start the subject with who you are, for example \"PhD enquiry\" or \"Industry\".",
+      dest: ["contact"],
+      kw: ["email", "contact", "reach", "office", "address", "meet", "get in touch", "write to", "邮箱", "联系", "邮件", "地址", "见面", "办公室"],
+      ex: ["how can I contact you", "what is your email", "how to get in touch", "where is your office", "怎么联系你", "你的邮箱是什么"] },
+    phd: { ans: "I supervise PhD, MRes and Honours students. Send your CV, transcript and a one-page idea.",
+      dest: ["students", "now", "contact"],
+      kw: ["phd", "ph.d", "mres", "m.res", "masters by research", "master by research", "master", "masters", "msc", "mphil", "hdr", "research degree", "honours", "honors", "supervis", "scholarship", "doctoral", "doctorate", "research student", "rtp", "apply", "application", "recruit", "hiring student", "new student", "take student", "taking student", "position", "enrol in research", "博士", "读博", "硕士", "读研", "研究生", "导师", "奖学金", "申请", "招生", "招人", "读书", "深造", "荣誉学位"],
+      ex: ["I want to do a PhD with you", "are you taking new students", "masters by research supervisor", "apply for a master by research", "scholarship for doctoral study", "can you supervise my honours thesis", "我想读博士", "我想读硕士", "你还招研究生吗", "怎么申请做你的学生"] },
+    collab: { ans: "I welcome joint papers, grants and visits, including cross-disciplinary projects.",
+      dest: ["academic", "now", "contact"],
+      kw: ["collaborat", "joint paper", "together", "co-author", "coauthor", "joint", "grant", "visit", "postdoc", "professor", "researcher", "合作", "联合", "访问", "基金", "博后", "学者"],
+      ex: ["I am a professor interested in collaborating", "can we write a joint paper", "apply for a grant together", "visiting researcher", "我想和你合作", "一起申请基金"] },
+    industry: { ans: "I work with teams that run security operations, deploy AI agents or share sensitive data: assessment, joint research and student projects.",
+      dest: ["industry", "now", "contact"],
+      kw: ["company", "industry", "startup", "engineer", "consult", "product", "deploy", "enterprise", "pentest", "linkage", "business", "企业", "公司", "工业", "产业", "工程师", "咨询", "产品", "落地", "评估", "项目合作"],
+      ex: ["our company needs a security review", "I am an engineer at a startup", "industry partnership", "consulting on LLM security", "我们公司想合作", "企业项目合作"] },
+    events: { ans: "I am PC Chair of APSEC 2027, have co-chaired Internetware, IWQoS, PRDC and NSS, chair the ML4Cyber and HMI-SA workshops, and have served as Guest Editor of IEEE TDSC.",
+      dest: ["service", "mlc", "contact"],
+      kw: ["workshop", "conference", "program committee", "review", "talk", "keynote", "speaker", "ml4cyber", "mlc", "hmi-sa", "apsec", "chair", "service", "editor", "会议", "研讨会", "审稿", "报告", "讲座", "主席"],
+      ex: ["invite you to give a talk", "conferences you organise", "program committee service", "editorial roles"] },
+    about: { ans: "I am a cybersecurity lecturer at Southern Cross University, with a PhD from NTU. I build security tools people can trust and use.",
+      dest: ["about", "now"],
+      kw: ["who", "about yourself", "background", "your phd", "where did you", "did you study", "introduce", "bio", "hello", "hi", "curious", "你是谁", "介绍", "背景", "你好", "好奇"],
+      ex: ["who are you", "tell me about yourself", "what is your background", "I am just curious", "你是谁", "介绍一下你自己"] },
+    egg: { ans: "A side quest! Off the clock: cycling, basketball, cooking and World of Warcraft. Unlocked below.",
+      dest: ["egg"], unlock: true,
+      kw: ["hobby", "hobbies", "like to do", "fun", "free time", "spare time", "weekend", "game", "gaming", "wow", "warcraft", "cook", "food", "favourite", "favorite", "outside work", "after hours", "cycling", "bike", "basketball", "nba", "爱好", "喜欢", "兴趣", "游戏", "魔兽", "做饭", "下厨", "美食", "业余", "周末", "骑车", "骑行", "单车", "篮球", "运动", "职业"],
+      ex: ["what do you like", "what are your hobbies", "what do you do for fun", "what do you do outside work", "你有什么爱好", "你平时玩什么"] }
+  };
+  /* Extra phrasings, merged into INTENTS (keywords kw, example questions ex) */
+  const EXTRA = {
+    now: { kw: ["research", "research interests", "your work", "your research", "research direction", "research focus", "research topic", "research agenda", "what do you do", "what do you research", "interests", "projects", "working on", "研究", "研究兴趣", "研究内容", "研究课题", "做什么研究", "主要做", "关注"],
+      ex: ["what do you research", "what are your research interests", "what topics do you work on", "tell me about your research", "what is your research area", "what projects are you doing", "current research projects", "what problems do you study", "main research directions", "你做什么研究", "你的研究兴趣是什么", "你主要研究哪些方向", "你现在在做什么项目", "你关注什么问题"] },
+    analytics: { kw: ["fatigue", "alert fatigue", "security operation", "security operations", "siem", "incident", "threat hunting", "threat intelligence", "ioc", "intrusion", "detector", "false positive", "explainable", "interpretab", "dl detector", "rule generation", "snort", "yara", "human-machine", "automation", "decra", "入侵检测", "异常检测", "威胁情报", "误报", "自动化", "人机协同", "安全分析"],
+      ex: ["how do you automate security analysis", "explainable AI for intrusion detection", "do you work on anomaly detection", "reducing false positives in security alerts", "turning detector outputs into rules", "human machine collaboration in security operations", "incident response automation", "threat intelligence analysis", "你做异常检测吗", "安全运营中心自动化", "可解释的入侵检测", "告警分析自动化"] },
+    agents: { kw: ["ai agent", "agents", "agentic", "mcp", "tool use", "skills", "access control", "rbac", "abac", "authorization", "authorisation", "revocation", "sandbox", "jailbreak", "ai safety", "ai security", "llm security", "智能体安全", "访问控制", "授权", "最小权限", "撤销", "越狱", "提示注入"],
+      ex: ["do you work on AI agent security", "how to secure LLM agents", "access control for AI agents", "least privilege for agent tools", "permission revocation in agents", "multi agent system security", "prompt injection attacks on agents", "MCP tool security", "你做大模型智能体安全吗", "智能体的权限控制", "多智能体信任", "提示注入防御"] },
+    privacy: { kw: ["data privacy", "privacy-preserving", "confidential", "sensitive data", "ehr", "phr", "patient", "hospital", "healthcare", "cross-chain", "searchable encryption", "audit", "data trading", "data sharing", "隐私保护", "数据安全", "医疗数据", "跨链", "可搜索加密", "审计", "数据交易"],
+      ex: ["privacy preserving data sharing", "blockchain for healthcare data", "secure sharing of health records", "encrypted search over cloud data", "auditable data sharing", "do you work on privacy", "data security research", "你做隐私保护吗", "医疗数据如何安全共享", "区块链数据共享", "数据隐私研究"] },
+    cross: { kw: ["clinic", "vets", "multidisciplinary", "cross disciplinary", "other fields", "other disciplines", "ev", "electric vehicle", "recycling", "energy storage", "veterinarian", "clinical", "farm", "aquaculture", "environment", "flood", "跨学科", "交叉学科", "电动车", "回收", "动物", "临床", "养殖", "环境"],
+      ex: ["do you collaborate with other disciplines", "security for energy systems", "AI for veterinary medicine", "battery health data security", "cybersecurity in agriculture", "I am a vet interested in AI", "I work in health and want to collaborate", "跨学科合作", "能源安全研究", "兽医人工智能", "农业数据安全"] },
+    papers: { kw: ["papers", "publications", "publish", "published", "journal", "conference paper", "google scholar", "dblp", "orcid", "download", "read your", "h-index", "citations", "proceedings", "成果", "期刊", "会议论文", "下载", "代表作", "文章列表"],
+      ex: ["where can I find your papers", "list your publications", "download your paper pdf", "what are your most important papers", "recent publications", "your google scholar", "bibtex for your paper", "what did you publish at NDSS", "你的论文在哪里下载", "你有哪些代表作", "最近发表了什么论文", "怎么引用你的文章"] },
+    teaching: { kw: ["courses", "units", "classes", "lecturer", "teaching", "student question", "grade", "marks", "extension", "deadline", "blackboard", "unit assessor", "coordinator", "cybersecurity course", "security course", "lectures", "成绩", "延期", "截止", "课程", "讲师", "教什么"],
+      ex: ["what courses do you teach", "which unit do you coordinate", "I am your student", "question about my grade", "can I get an extension", "what units are you teaching this term", "is there a cybersecurity unit", "do you teach systems security", "你这学期教什么", "我是你的学生", "课程作业问题", "我想申请延期"] },
+    contact: { kw: ["mail", "e-mail", "reach out", "get hold", "talk to you", "meeting", "appointment", "phone", "where are you", "campus", "location", "office hours", "联系方式", "联系你", "邮件地址", "电话", "在哪", "约时间", "面谈"],
+      ex: ["how do I reach you", "can I email you", "your email address", "how can I get in touch", "can we meet", "book a meeting with you", "where is your office", "what campus are you on", "我怎么联系你", "能给你发邮件吗", "可以约个时间吗", "你在哪个校区"] },
+    phd: { kw: ["undergrad", "undergraduate", "research with you", "do research", "ra", "job", "招学生", "收学生", "收不收", "research master", "mres", "master of research", "masters degree", "graduate research", "phd position", "phd student", "phd opening", "phd program", "phd scholarship", "openings", "vacancy", "vacancies", "intern", "internship", "ra position", "research assistant", "thesis", "minor thesis", "supervisor", "join your group", "join your lab", "study with you", "work with you as a student", "研究助理", "实习", "加入", "课题组", "博士生", "硕士生", "导师", "论文指导", "毕业论文", "名额"],
+      ex: ["how do I apply to be your PhD student", "do you have PhD openings", "are you accepting master by research students", "can I join your research group", "I want to study with you", "research assistant positions", "is there a scholarship for PhD", "can you be my supervisor", "I want to do an honours project", "minor thesis supervision", "internship in your lab", "how to apply for MRes at SCU", "我想申请你的博士", "我想做你的硕士研究生", "你们组还有名额吗", "能做我的导师吗", "我想加入你的课题组", "有研究助理的职位吗", "我想做荣誉学位论文"] },
+    collab: { kw: ["co-supervis", "co-supervision", "cosupervis", "collaboration", "cooperate", "cooperation", "partner", "partnership", "co-supervise", "co-supervision", "joint project", "research project", "visiting", "sabbatical", "academic", "faculty", "colleague", "university", "合作研究", "联合培养", "共同指导", "访问学者", "学术合作"],
+      ex: ["I would like to collaborate on research", "can we work together on a project", "joint grant application", "co-supervise a student", "visiting scholar opportunity", "academic collaboration on agent security", "I am a researcher at another university", "我想和你开展学术合作", "可以联合指导学生吗", "访问学者机会"] },
+    industry: { kw: ["advice", "a startup", "our startup", "our team", "our product", "security assessment", "penetration test", "pen test", "audit our", "consultancy", "contract research", "funding your research", "sponsor", "commercial", "government", "agency", "sme", "small business", "企业合作", "政府", "横向", "项目", "安全测试", "渗透测试", "安全咨询"],
+      ex: ["we want to partner with your lab", "can you help assess our system security", "our company uses AI agents", "industry funded research project", "consulting on security operations", "government agency collaboration", "small business needs cybersecurity help", "我们企业想做安全测试", "有横向项目合作", "政府项目合作"] },
+    events: { kw: ["committee", "chair", "organise", "organize", "invited talk", "seminar", "guest lecture", "webinar", "panel", "reviewer", "editorial", "guest editor", "special issue", "apsec", "iwqos", "prdc", "ndss", "acisp", "邀请报告", "讲座", "评审", "编辑", "特刊", "程序委员会"],
+      ex: ["can you give a talk at our university", "invite you as a keynote speaker", "join our program committee", "are you a reviewer", "guest editor of a special issue", "which conferences do you organise", "panel discussion invitation", "邀请你来做报告", "可以来我们学校讲座吗", "邀请你做程序委员会成员", "你担任哪些会议主席"] },
+    about: { kw: ["introduction", "who is", "biography", "profile", "education", "phd from", "ntu", "where did you study", "experience", "history", "简介", "经历", "毕业", "学历"],
+      ex: ["who is Ruitao Feng", "introduce yourself", "your biography", "where did you do your PhD", "what is your background", "tell me something about you", "你是谁啊", "简单介绍一下", "你在哪里读的博士", "你的经历"] },
+    cvi: { kw: ["cv", "c.v", "resume", "bio", "biosketch", "short bio", "简历", "个人简历", "履历"],
+      ex: ["can I have your CV", "download your resume", "send me your curriculum vitae", "short bio for a talk", "我能看看你的简历吗", "下载简历"] },
+    egg: { kw: ["hobby", "hobbies", "free time", "spare time", "weekend", "fun", "like doing", "interests outside", "sport", "sports", "ride", "riding", "bicycle", "cooking", "chef", "recipe", "warcraft", "druid", "game", "gamer", "生活", "运动", "游戏", "做菜", "骑行", "篮球", "魔兽世界", "德鲁伊", "私下"],
+      ex: ["what do you do in your free time", "do you play games", "do you like sports", "what do you enjoy outside research", "do you cook", "are you a gamer", "tell me something fun about you", "你平时有什么爱好", "你喜欢运动吗", "你玩游戏吗", "你会做饭吗", "生活中你喜欢什么"] }
+  };
+  for (const id in EXTRA) if (INTENTS[id]) { INTENTS[id].kw.push(...EXTRA[id].kw); INTENTS[id].ex.push(...EXTRA[id].ex); }
+
+  /* ---------- Coverage built from page data: papers, venues, years, units, service, gaps ---------- */
+  const VENUE_ALIASES = {
+    CCS: ["ccs", "acm ccs", "computer and communications security"], NDSS: ["ndss"], OOPSLA: ["oopsla", "pacmpl"],
+    FSE: ["fse", "esec/fse", "foundations of software engineering"], ASE: ["ase", "automated software engineering"],
+    ISSTA: ["issta"], TIFS: ["tifs", "information forensics"], TDSC: ["tdsc", "dependable and secure computing"],
+    TOSEM: ["tosem"], TSE: ["tse", "transactions on software engineering"], TMC: ["tmc", "mobile computing"],
+    TSC: ["tsc", "services computing"], IoTJ: ["iotj", "iot journal", "internet of things journal"], LCTES: ["lctes"],
+    APSEC: ["apsec"], TrustCom: ["trustcom"], CSCWD: ["cscwd"], BIBM: ["bibm"], DASC: ["dasc"], ICECCS: ["iceccs"],
+    ICIC: ["icic"], ComNet: ["computer networks"], Cyber: ["cybersecurity journal", "springer cybersecurity"]
+  };
+  const SHORT = p => p.t.split(":")[0].trim();
+  const pdest = k => "paper:" + k;
+  P.forEach(p => {
+    DEST[pdest(p.k)] = { label: SHORT(p) + " (" + p.v + " " + p.y + ")", href: "#paper-" + p.k.toLowerCase() };
+    const name = SHORT(p).toLowerCase(), key = p.k.toLowerCase();
+    const kw = [key, key];
+    if (name.length <= 24 && name !== key) kw.push(name, name);
+    INTENTS["p-" + p.k] = { ans: `"${p.t}" (${p.venue}, ${p.y}${p.pending ? ", to appear" : ""}). ${p.d}`,
+      dest: [pdest(p.k), "pubs"], kw, ex: [p.t] };
+  });
+  Object.entries(VENUE_ALIASES).forEach(([v, al]) => {
+    const list = P.filter(p => p.v === v); if (!list.length) return;
+    INTENTS["v-" + v] = { ans: `${list.length} of my papers appeared at ${v}: ` + list.map(p => `${SHORT(p)} (${p.y})`).join("; ") + ".",
+      dest: list.slice(0, 5).map(p => pdest(p.k)).concat(["pubs"]), kw: al.flatMap(a => [a, a]),
+      ex: [`what did you publish at ${al[0]}`, `your ${al[0]} papers`, `papers at ${al[0]}`] };
+  });
+  [...new Set(P.map(p => p.y))].forEach(y => {
+    const list = P.filter(p => p.y === y);
+    INTENTS["y-" + y] = { ans: `In ${y} I have ${list.length} papers in the list: ` + list.map(p => `${SHORT(p)} (${p.v})`).join("; ") + ".",
+      dest: list.slice(0, 4).map(p => pdest(p.k)).concat(["pubs"]), kw: [String(y), String(y)],
+      ex: [`papers in ${y}`, `what did you publish in ${y}`, `${y} publications`, `${y}年论文`] };
+  });
+  INTENTS["y-" + new Date().getFullYear()].kw.push("this year", "this year", "今年", "今年");
+  TEACH.forEach(Y => Y.terms.forEach(T => T.u.forEach(([code, name]) => {
+    const c = code.split("-")[0];
+    INTENTS["u-" + c] = { ans: `${c} ${name}: I teach it in ${Y.year} ${T.t}. For deadlines, extensions and marks, please use the unit site on Blackboard first.`,
+      dest: ["teaching", "contact"], kw: [c.toLowerCase(), c.toLowerCase(), name.toLowerCase()], ex: [] };
+  })));
+  Object.assign(DEST, {
+    svcOrg: { label: "Conference organisation", href: "#svc-org" }, svcWs: { label: "Workshops I chair", href: "#svc-ws" },
+    svcPc: { label: "Program committees", href: "#svc-pc" }, svcEd: { label: "Editorial roles", href: "#svc-ed" },
+    svcRev: { label: "Journal reviewing", href: "#svc-rev" }, svcUni: { label: "University service", href: "#svc-uni" },
+    pubsAcc: { label: "Papers on access control", href: "#pubs-access" }, pubsVuln: { label: "Papers on vulnerability discovery", href: "#pubs-vuln" },
+    pubsMal: { label: "Papers on malware analysis", href: "#pubs-malware" }, portal: { label: "SCU Research Portal", href: "https://researchportal.scu.edu.au/esploro/profile/ruitao_feng" }
+  });
+  INTENTS.agents.dest.push("pubsAcc");
+  delete INTENTS.events;
+  INTENTS.egg.kw = INTENTS.egg.kw.filter(k => k !== "favourite" && k !== "favorite");
+  Object.assign(INTENTS, {
+    vuln: { ans: "I work on finding and confirming software vulnerabilities: reachability analysis, decompilation, fuzzing, static analysis tools and learning-based detectors.",
+      dest: ["pubsVuln", "analytics"], kw: ["vulnerab", "fuzz", "afl", "static analysis", "sast", "program analysis", "taint", "decompil", "binary", "cve", "bug", "漏洞", "模糊测试", "静态分析", "程序分析", "反编译"],
+      ex: ["do you work on vulnerability detection", "fuzzing research", "static analysis tools", "binary analysis and decompilation"] },
+    malware: { ans: "I have long worked on malware analysis: on-device Android malware detection, IoT malware behaviours, robustness of detectors and malware traceability.",
+      dest: ["pubsMal"], kw: ["malware", "android", "virus", "trojan", "ransomware", "mobile security", "iot malware", "恶意软件", "病毒", "安卓"],
+      ex: ["do you study malware", "android malware detection", "IoT malware research"] },
+    chairs: { ans: "I am PC Chair of APSEC 2027 and have co-chaired Internetware 2026, IWQoS 2025, PRDC 2023 and NSS 2022. I was PC Chair of the CSCRC Symposium 2023, and I chair the ML4Cyber workshop at ICDM and the HMI-SA workshop at IEEE S&P.",
+      dest: ["svcOrg", "svcWs", "mlc"], kw: ["chair", "organis", "organiz", "general chair", "pc chair", "host", "apsec 2027", "apsec 2027", "workshop", "apsec 2027", "iwqos", "internetware", "prdc", "nss", "cscrc", "ml4cyber", "mlc", "hmi-sa", "主席", "组织", "研讨会", "承办"],
+      ex: ["which conferences do you chair", "are you organising APSEC 2027", "your workshops", "do you run a workshop"] },
+    pc: { ans: "I serve on program committees including NDSS 2027, ACISP, APSEC, ICECCS, SVM at ICSE, PST, LCTES, ICFEM, Inscrypt and SEAIS.",
+      dest: ["svcPc"], kw: ["program committee", "pc member", "tpc", "reviewer for", "acisp", "pst", "svm", "inscrypt", "seais", "icfem", "程序委员会", "审稿人"],
+      ex: ["are you on the NDSS program committee", "which program committees are you on", "can you join our PC"] },
+    editorial: { ans: "I have been Guest Editor for IEEE TDSC special issues (2022, 2023) and for an MDPI Applied Sciences special issue.",
+      dest: ["svcEd"], kw: ["editor", "editorial", "guest editor", "special issue", "associate editor", "客座编辑", "编辑", "特刊"],
+      ex: ["are you a journal editor", "guest editor experience", "special issue proposal"] },
+    reviewing: { ans: "I review for IEEE TIFS, TDSC, TSE, TSC, TKDE, TMC, TCC, TETCI, ACM TOSEM, ACM Computing Surveys and Springer Cybersecurity, and for the Dutch Research Council (NWO).",
+      dest: ["svcRev"], kw: ["review for", "reviewing", "journal review", "peer review", "grant review", "nwo", "审稿", "评审"],
+      ex: ["which journals do you review for", "can you review a paper for our journal", "grant reviewer"] },
+    integrity: { ans: "I am Deputy Academic Integrity Officer for the Faculty of Science and Engineering at SCU.",
+      dest: ["svcUni"], kw: ["academic integrity", "integrity officer", "misconduct", "plagiarism", "aio", "学术诚信", "学术不端", "抄袭"],
+      ex: ["are you an academic integrity officer", "academic misconduct question"] },
+    career: { ans: "I received my PhD from NTU Singapore in 2021 and my Bachelor's from Tianjin University. Before joining SCU in 2024, I worked at NTU, UNSW Sydney and Singapore Management University. The generated CV lists the details.",
+      dest: ["about", "cv"], kw: ["education", "degree", "graduated", "phd from", "studied", "alma mater", "ntu", "tianjin", "unsw", "smu", "previous job", "worked before", "career", "experience", "appointment", "教育背景", "毕业", "学历", "经历", "工作经历", "以前"],
+      ex: ["where did you study", "where did you work before", "what is your career history", "your education background"] },
+    award: { ans: "Our CCS 2024 paper GEAD received the Distinguished Artifact Award.",
+      dest: [pdest("GEAD")], kw: ["award", "prize", "distinguished", "honour", "honor", "获奖", "奖项"],
+      ex: ["have you won any awards", "best paper award"] },
+    profiles: { ans: "You can find my full publication record on Google Scholar, ORCID and the SCU Research Portal.",
+      dest: ["scholar", "orcid", "portal"], kw: ["google scholar", "scholar", "orcid", "research portal", "dblp", "citations", "h-index", "profile link"],
+      ex: ["your google scholar", "orcid id", "citation count"] },
+    notHere: { ans: "That information is not on this page. Please email me directly at ruitao.feng@scu.edu.au and I will get back to you.",
+      dest: ["contact"], kw: ["phone", "telephone", "mobile number", "call you", "wechat", "whatsapp", "linkedin", "github", "twitter", "salary", "pay", "fee", "fees", "tuition", "price", "cost", "office hours", "consultation hours", "home address", "timetable", "exam date", "电话", "手机", "微信", "领英", "工资", "薪水", "学费", "费用", "办公时间", "课表", "考试时间"],
+      ex: ["what is your phone number", "do you have wechat", "what are your office hours", "how much are the tuition fees", "your github"] }
+  });
+  const fold = t => String(t).normalize("NFKD").replace(/\p{M}/gu, "").toLowerCase();
+  for (const id in INTENTS) INTENTS[id].kw = INTENTS[id].kw.map(fold);
+  const AUDIENCES = [
+    { chip: "Researcher", qs: [["What are you working on now?", "now"], ["What have you published?", "papers"], ["How can we collaborate?", "collab"], ["How do I contact you?", "contact"]] },
+    { chip: "Industry", qs: [["What problems can you help with?", "industry"], ["Do you work on SOC automation?", "analytics"], ["Can your students join our project?", "industry"], ["How do I contact you?", "contact"]] },
+    { chip: "Future PhD / MRes", qs: [["Are you taking new students?", "phd"], ["What topics could I work on?", "now"], ["What have you published?", "papers"], ["What should I send you?", "contact"]] },
+    { chip: "SCU student", qs: [["What do you teach this term?", "teaching"], ["I have a question about my unit", "teaching"], ["Can I do Honours with you?", "phd"], ["How do I contact you?", "contact"]] },
+    { chip: "Just curious", qs: [["Who are you?", "about"], ["What is post-detection analytics?", "analytics"], ["Do you work with other fields?", "cross"], ["What do you like?", "egg"]] }
+  ];
+  const DEFAULT_QS = [["What are you working on now?", "now"], ["What have you published?", "papers"], ["What do you teach?", "teaching"], ["How do I contact you?", "contact"]];
+
+  const MAX_LEN = 160;
+  const clean = s => fold(String(s || "").normalize("NFKC")
+    .replace(/<[^>]*>?/g, " ")
+    .replace(/[\u0000-\u001f\u007f-\u009f​-‏‪-‮⁠-⁤﻿]/g, " ")
+    .slice(0, MAX_LEN)).replace(/\s+/g, " ").trim();
+  function safeHref(href) {
+    if (href.startsWith("#")) return /^#[a-z0-9-]+$/.test(href) ? href : null;
+    try { const u = new URL(href); return (u.protocol === "https:" && ALLOWED_HOSTS.has(u.hostname)) ? u.href : null; } catch { return null; }
+  }
+  const IDS = Object.keys(INTENTS);
+  function keywordScores(q) {
+    const padded = " " + q.replace(/[^\p{L}\p{N}+*#-]+/gu, " ") + " ";
+    return IDS.map(id => {
+      let s = 0;
+      for (const k of INTENTS[id].kw) {
+        const ascii = /^[\x00-\x7f]+$/.test(k);
+        if (ascii ? padded.includes(k.length <= 3 ? " " + k + " " : k) || (k.length > 3 && q.includes(k)) : q.includes(k)) s += 1;
+      }
+      return s;
+    });
+  }
+  /* Fuzzy layer: character n-gram similarity to example questions (English and Chinese).
+     Fully local, instant, no model download. */
+  const grams = t => {
+    const z = t.replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+    const out = new Set();
+    const DENSE = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}\p{Script=Thai}]/u;
+    z.split(" ").forEach(w => { if (!w) return; const d = DENSE.test(w); const n = d ? 2 : 3; const x = d ? w : " " + w + " "; for (let i = 0; i + n <= x.length; i++) out.add(x.slice(i, i + n)); });
+    return out;
+  };
+  const dice = (A, B) => { if (!A.size || !B.size) return 0; let c = 0; A.forEach(g => { if (B.has(g)) c++; }); return 2 * c / (A.size + B.size); };
+  const EXG = IDS.map(id => INTENTS[id].ex.map(e => grams(clean(e))));
+  function classify(q) {
+    const kw = keywordScores(q), G = grams(q);
+    const scores = IDS.map((_, i) => Math.min(kw[i] / 2, 1) + 0.6 * Math.max(...EXG[i].map(e => dice(G, e))));
+    const GENERIC = new Set(["now", "about", "papers", "events", "teaching"]);
+    const ranked = scores.map((s, i) => [s, i]).sort((a, b) => (b[0] - a[0]) || (GENERIC.has(IDS[a[1]]) - GENERIC.has(IDS[b[1]])));
+    const best = ranked[0][1];
+    return ranked[0][0] >= 0.42 ? { id: IDS[best], score: ranked[0][0], kwHit: kw[best] > 0 } : { id: null, score: ranked[0][0], kwHit: false };
+  }
+  const GENERIC_IDS = new Set(["papers", "teaching"]);
+
+  /* ---------- Full-text search over everything on this page (MiniSearch, BM25 + prefix + fuzzy) ---------- */
+  const STOP = new Set("a an the and or of in on at to for with by from is are was were be do does did can could would should will what which who whom how when where why your you yours my me i we our it its this that these those any some about tell show find give list all paper papers publication publications article articles work works please".split(" "));
+  const DOCS = []; let docN = 0;
+  const addDoc = (kind, title, text, href) => { if (safeHref(href)) DOCS.push({ id: ++docN, kind, title, text, href }); };
+  const catName = id => (CATS.find(c => c.id === id) || {}).name || "";
+  P.forEach(p => addDoc("Paper", p.t, [p.d, p.venue, p.v, String(p.y), catName(p.c), p.rk || RANK[p.v] || "", p.award || "", p.k].join(" "), "#paper-" + p.k.toLowerCase()));
+  document.querySelectorAll("#now .dir").forEach(d => { const b = d.querySelector("b"); addDoc("Research", b.textContent.replace(/^\d+/, "").trim(), d.textContent.replace(b.textContent, ""), "#" + d.id); });
+  TEACH.forEach(Y => Y.terms.forEach(T => T.u.forEach(([code, name]) => addDoc("Teaching", code.split("-")[0] + " " + name, `${Y.year} ${T.t} unit course subject class`, "#teaching"))));
+  document.querySelectorAll("#service li").forEach(li => { let h = li.closest("ul").previousElementSibling; addDoc("Service", li.textContent.trim(), h ? h.textContent : "service", h && h.id ? "#" + h.id : "#service"); });
+  document.querySelectorAll("#work .door").forEach(d => addDoc("Work with me", d.querySelector("h3").textContent, d.textContent, "#" + d.id));
+  document.querySelectorAll("#about p").forEach(pp => addDoc("About", "About me", pp.textContent, "#about"));
+  document.querySelectorAll("#contact tr").forEach(tr => { const td = tr.querySelectorAll("td"); addDoc("Contact", "Contact: " + td[0].textContent, td[1].textContent + " email contact", "#contact"); });
+  addDoc("Tool", "Generate CV", "curriculum vitae resume cv download print", "#top");
+  const MS = new MiniSearch({ fields: ["title", "text"], storeFields: ["kind", "title", "href"],
+    processTerm: t => { t = fold(t); return (t.length < 2 || STOP.has(t)) ? null : t; } });
+  MS.addAll(DOCS);
+  const PAPERISH = /\b(papers?|publications?|articles?|publish(ed)?|pdf)\b|论文|文章|发表/;
+  const QWORD = /\b(what|how|who|where|when|why|which|can|could|do|does|did|are|is|tell|show|give|may|would|will)\b|吗|什么|怎么|如何|哪|谁|吗？/;
+  const termsOf = q => q.split(/[^\p{L}\p{N}]+/u).map(t => { t = fold(t); return (t.length < 2 || STOP.has(t)) ? null : t; }).filter(Boolean);
+  const keywordLike = q => !QWORD.test(q) && q.split(/\s+/).length <= 4;
+  function search(q) {
+    const nTerms = termsOf(q).length || 1;
+    let hits = [];
+    try { hits = MS.search(q, { prefix: true, fuzzy: 0.2, boost: { title: 2 }, combineWith: "OR" }); } catch { hits = []; }
+    if (PAPERISH.test(q)) { const ps = hits.filter(h => h.kind === "Paper"); if (ps.length) hits = ps; }
+    const need = nTerms <= 2 ? 0.5 : 0.67;
+    hits = hits.filter(h => (h.queryTerms || []).length / nTerms >= need);
+    const top = hits.length ? hits[0].score : 0;
+    return hits.filter(h => h.score >= top * 0.25).slice(0, 8);
+  }
+  function hitLink(h) {
+    const href = safeHref(h.href); if (!href) return null;
+    const a = el("a", "dest"); a.href = href;
+    a.append(el("span", null, h.title.length > 110 ? h.title.slice(0, 107) + "…" : h.title), el("span", "ext", h.kind));
+    return a;
+  }
+  const result = $("result"), qsBox = $("qs"), chips = $("chips");
+  function link(key) {
+    const d = DEST[key]; if (!d) return null;
+    const href = safeHref(d.href); if (!href) return null;
+    const a = el("a", "dest"); a.href = href; a.appendChild(el("span", null, d.label));
+    if (!href.startsWith("#")) { a.rel = "noopener noreferrer"; a.appendChild(el("span", "ext", new URL(href).hostname + " ↗")); }
+    return a;
+  }
+  const unlockEgg = () => { const s = $("after-hours"); if (s) s.hidden = false; };
+  function answer(id, hits, kwHit = true, kwLike = false) {
+    hits = hits || [];
+    result.textContent = "";
+    const useIntent = id && INTENTS[id] && (kwHit || !hits.length) && (!GENERIC_IDS.has(id) || !kwLike || !hits.length);
+    const specific = useIntent;
+    if (!specific && hits.length) {
+      result.appendChild(el("p", "ans", hits.length === 1 ? "Here is what I found on this page:" : `Here are ${hits.length} matches on this page:`));
+      hits.forEach(h => { const a = hitLink(h); if (a) result.appendChild(a); });
+      return;
+    }
+    if (!id || !INTENTS[id]) {
+      result.appendChild(el("p", "ans", "I could not find that on this page. Please email me directly at ruitao.feng@scu.edu.au, or start here:"));
+      ["contact", "now", "pubs", "teaching"].forEach(k => { const a = link(k); if (a) result.appendChild(a); });
+      return;
+    }
+    const it = INTENTS[id];
+    if (it.unlock) unlockEgg();
+    result.appendChild(el("p", "ans", it.ans));
+    if (it.bullets) { const ul = el("ul"); it.bullets.forEach(b => ul.appendChild(el("li", null, b))); result.appendChild(ul); }
+    const seen = new Set();
+    it.dest.forEach(k => { const a = link(k); if (a && !seen.has(a.getAttribute("href"))) { seen.add(a.getAttribute("href")); result.appendChild(a); } });
+    const extra = hits.filter(h => !seen.has(h.href)).slice(0, 3);
+    if (extra.length && id !== "notHere" && !it.unlock) {
+      result.appendChild(el("p", "ans more", "Also on this page:"));
+      extra.forEach(h => { const a = hitLink(h); if (a) result.appendChild(a); });
+    }
+  }
+  function renderQs(list) {
+    qsBox.textContent = "";
+    list.forEach(([text, id]) => {
+      const b = el("button", "q", text); b.type = "button";
+      b.addEventListener("click", () => { $("ask").value = text; answer(id); });
+      qsBox.appendChild(b);
+    });
+  }
+  AUDIENCES.forEach(a => {
+    const c = el("button", "chip", a.chip); c.type = "button"; c.setAttribute("aria-pressed", "false");
+    c.addEventListener("click", () => {
+      chips.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", "false"));
+      c.setAttribute("aria-pressed", "true");
+      $("qsLabel").textContent = "Questions people like you ask";
+      renderQs(a.qs); result.textContent = "";
+    });
+    chips.appendChild(c);
+  });
+  renderQs(DEFAULT_QS);
+  const PH = ["What are you working on now?", "Do you work on data privacy?", "How do I apply for a PhD?", "What do you teach this term?", "How do I cite your CCS paper?"];
+  let phI = 0; const input = $("ask");
+  setInterval(() => { if (document.activeElement !== input && !input.value) input.placeholder = PH[++phI % PH.length]; }, 3500);
+  $("askForm").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    if (!input.value.trim()) return;
+    const q = clean(input.value); if (!q) { answer(null); return; }
+    try { const r = classify(q); answer(r.id, search(q), r.kwHit, keywordLike(q)); } catch { answer(null); }
+  });
+
+  /* =========================================================
+     ONE-CLICK CV (built from the data on this page; last 10 years only)
+     ========================================================= */
+  const CV = {
+    name: "Ruitao Feng, PhD",
+    title: "Lecturer in Cybersecurity, Faculty of Science and Engineering, Southern Cross University",
+    contact: "ruitao.feng@scu.edu.au · Gold Coast, QLD, Australia · ORCID 0000-0001-9080-6865",
+    summary: "I work on security that people can trust and actually use. My main line automates post-detection security analytics with human-machine synergy: explaining deep learning detectors, turning their insights into rules that legacy tools can run, and triaging alerts and vulnerability reports. I also study the security of AI agents, privacy-preserving data sharing and vulnerability discovery, and I bring these methods to other fields such as energy and veterinary science. My work appears at top security and software engineering venues, including ACM CCS, NDSS, OOPSLA, FSE, ASE and ISSTA, and in top journals, including IEEE TIFS, IEEE TDSC, IEEE TSE, IEEE TMC and ACM TOSEM.",
+    education: [["2016–2021", "PhD in Computer Science (Software Engineering and Security), Nanyang Technological University, Singapore"], ["2010–2014", "Bachelor of Computer Science, Tianjin University, China"]],
+    // TODO: confirm years
+    positions: [["2024–present", "Lecturer in Cybersecurity, Southern Cross University"],
+                ["2023–2024", "Research Scientist and Research Group Lead, Singapore Management University"],
+                ["2022–2023", "Senior Research Associate, UNSW Sydney"],
+                ["2021–2022", "Research Fellow, Nanyang Technological University"]],
+    awards: ["Distinguished Artifact Award, ACM CCS 2024"]
+  };
+  const CUTOFF = 2020; // publications and teaching from 2020 onwards
+  function cvData() {
+    const svc = [...document.querySelectorAll("#service h3")].map(h => [h.textContent, [...h.nextElementSibling.querySelectorAll("li")].map(li => li.textContent.trim())]);
+    const pubs = P.filter(p => p.y >= CUTOFF).sort((a, b) => b.y - a.y || (b.hl ? 1 : 0) - (a.hl ? 1 : 0));
+    const teach = TEACH.filter(Y => Y.year >= CUTOFF).map(Y => [Y.year, [...new Set(Y.terms.flatMap(T => T.u.map(u => u[0].split("-")[0] + " " + u[1])))]]);
+    return { svc, pubs, teach };
+  }
+  const pubLine = p => `${p.t}. ${p.venue}${p.v && !p.venue.includes("(" + p.v + ")") ? " (" + p.v + ")" : ""}, ${p.y}${p.pending ? ", to appear" : ""}.` + ((p.rk || RANK[p.v]) ? ` [${p.rk || RANK[p.v]}]` : "") + (p.award ? ` ${p.award}.` : "");
+  function buildCV() {
+    const { svc, pubs, teach } = cvData(), pg = $("cvPage");
+    pg.textContent = "";
+    pg.appendChild(el("h1", null, CV.name));
+    const sub = el("div", "cv-sub"); sub.append(CV.title, el("br"), CV.contact); pg.appendChild(sub);
+    const sec = t => pg.appendChild(el("h2", null, t));
+    const rows = arr => arr.forEach(([a, b]) => { const r = el("div", "cv-row"); r.append(el("span", "cv-y", a), el("span", null, b)); pg.appendChild(r); });
+    sec("Research summary"); pg.appendChild(el("p", null, CV.summary));
+    sec("Research directions");
+    const ul = el("ul"); document.querySelectorAll("#now .dir b").forEach(b => ul.appendChild(el("li", null, b.textContent.replace(/^\d/, "").trim()))); pg.appendChild(ul);
+    sec("Education"); rows(CV.education);
+    sec("Appointments"); rows(CV.positions);
+    sec("Awards"); const aw = el("ul"); CV.awards.forEach(a => aw.appendChild(el("li", null, a))); pg.appendChild(aw);
+    sec(`Publications (${pubs.length}, ${CUTOFF} onwards, CCF/CORE-ranked venues)`);
+    let lastY = null;
+    pubs.forEach(p => {
+      if (p.y !== lastY) { lastY = p.y; pg.appendChild(el("div", "cv-y", String(p.y))); }
+      const d = el("div", "cv-pub"); d.append(p.t + ". ", el("i", null, p.venue), `, ${p.y}${p.pending ? ", to appear" : ""}.`);
+      if (p.rk || RANK[p.v]) d.append(" [" + (p.rk || RANK[p.v]) + "]"); if (p.award) d.append(" " + p.award + ".");
+      pg.appendChild(d);
+    });
+    sec("Professional service");
+    svc.forEach(([h, items]) => { const r = el("div", "cv-row"); r.append(el("span", "cv-y", h), el("span", null, items.join("; "))); pg.appendChild(r); });
+    sec("Teaching (Southern Cross University)");
+    teach.forEach(([y, units]) => { const r = el("div", "cv-row"); r.append(el("span", "cv-y", String(y)), el("span", null, units.join("; "))); pg.appendChild(r); });
+    pg.appendChild(el("div", "cv-note", "Generated from the publication and teaching data on this homepage, " + new Date().toLocaleDateString("en-AU", { year: "numeric", month: "long" }) + "."));
+  }
+  function cvMarkdown() {
+    const { svc, pubs, teach } = cvData();
+    const L = [`# ${CV.name}`, CV.title, CV.contact, "", "## Research summary", CV.summary, "", "## Research directions"];
+    document.querySelectorAll("#now .dir b").forEach(b => L.push("- " + b.textContent.replace(/^\d/, "").trim()));
+    L.push("", "## Education", ...CV.education.map(([a, b]) => `- ${a}: ${b}`), "", "## Appointments", ...CV.positions.map(([a, b]) => `- ${a}: ${b}`), "", "## Awards", ...CV.awards.map(a => "- " + a), "", `## Publications (${CUTOFF} onwards)`);
+    let lastY = null; pubs.forEach(p => { if (p.y !== lastY) { lastY = p.y; L.push("", `### ${p.y}`); } L.push("- " + pubLine(p)); });
+    L.push("", "## Professional service", ...svc.map(([h, items]) => `- **${h}:** ${items.join("; ")}`), "", "## Teaching (Southern Cross University)", ...teach.map(([y, u]) => `- ${y}: ${u.join("; ")}`));
+    return L.join("\n");
+  }
+  const cvBox = $("cv"), cvMsg = $("cvMsg");
+  const flash = t => { cvMsg.textContent = t; setTimeout(() => cvMsg.textContent = "", 3000); };
+  $("cvBtn").addEventListener("click", () => { buildCV(); cvBox.classList.add("open"); });
+  $("cvClose").addEventListener("click", () => cvBox.classList.remove("open"));
+  cvBox.addEventListener("click", e => { if (e.target === cvBox) cvBox.classList.remove("open"); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") cvBox.classList.remove("open"); });
+  $("cvPrint").addEventListener("click", () => { try { window.print(); } catch { flash("Printing is blocked here. Use Copy or Markdown."); } });
+  $("cvMd").addEventListener("click", () => {
+    try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([cvMarkdown()], { type: "text/markdown" })); a.download = "Ruitao_Feng_CV.md"; document.body.appendChild(a); a.click(); a.remove(); }
+    catch { flash("Download is blocked here. Use Copy text."); }
+  });
+  $("cvCopy").addEventListener("click", async () => { try { await navigator.clipboard.writeText(cvMarkdown()); flash("Copied as Markdown."); } catch { flash("Copy blocked. Select the text and copy."); } });
+
+  /* floating nav: highlight current section */
+  (function () {
+    const links = [...document.querySelectorAll("#sidenav a")];
+    const map = new Map(links.map(a => [a.getAttribute("href").slice(1), a]));
+    const targets = [...map.keys()].map(id => document.getElementById(id)).filter(Boolean);
+    function update() {
+      let cur = targets[0];
+      for (const t of targets) if (t.getBoundingClientRect().top < window.innerHeight * 0.35) cur = t;
+      links.forEach(a => a.classList.toggle("on", a === map.get(cur.id)));
+    }
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  })();
+
+  /* WoW class guessing mini-game */
+  const CLASSES = ["Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Shaman", "Mage", "Warlock", "Druid"];
+  const HINTS = ["Not quite. Hint: I can turn into a bear.", "Nope. Think big, furry and holding aggro.", "Close your eyes and picture a tree that heals.", "Still no. Think shapeshifter."];
+  let tries = 0; const box = $("classes"), verdict = $("verdict");
+  CLASSES.forEach(c => {
+    const b = el("button", null, c); b.type = "button";
+    b.addEventListener("click", () => {
+      if (box.dataset.done) return;
+      if (c === "Druid") { b.classList.add("ok"); box.dataset.done = "1"; verdict.textContent = tries === 0 ? "First try! Druid it is. Bear form, tanking." : "Druid! Got it in " + (tries + 1) + " tries. Bear form, tanking."; }
+      else { b.classList.add("no"); b.disabled = true; verdict.textContent = HINTS[Math.min(tries, HINTS.length - 1)]; tries++; }
+    });
+    box.appendChild(b);
+  });
+  if (location.hash === "#after-hours") unlockEgg();
+  window.addEventListener("hashchange", () => { if (location.hash === "#after-hours") unlockEgg(); });
+})();
+</script>
+</body>
+</html>
