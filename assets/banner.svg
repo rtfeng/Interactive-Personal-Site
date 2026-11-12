@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-label="Interactive Personal Site: a single-file academic homepage with a built-in site guide">
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-label="Wayfinder: an academic homepage that guides its visitors">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#0c4f53"/>
@@ -12,8 +12,8 @@
   <rect width="1280" height="360" rx="18" fill="url(#grid)"/>
 
   <!-- text -->
-  <text x="72" y="112" font-family="Georgia, 'Times New Roman', serif" font-size="54" font-weight="700" fill="#ffffff">Interactive Personal Site</text>
-  <text x="74" y="156" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="23" fill="#d9f1ef">A single-file academic homepage with a built-in site guide</text>
+  <text x="72" y="112" font-family="Georgia, 'Times New Roman', serif" font-size="64" font-weight="700" fill="#ffffff">Wayfinder</text>
+  <text x="74" y="156" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="23" fill="#d9f1ef">An academic homepage that guides its visitors</text>
 
   <g font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" fill="#ffffff">
     <rect x="72" y="196" width="146" height="38" rx="19" fill="#ffffff" fill-opacity="0.14"/>
@@ -33,7 +33,7 @@
     <rect width="350" height="220" rx="14" fill="#ffffff" fill-opacity="0.95"/>
     <text x="22" y="36" font-size="15" font-weight="600" fill="#0c4f53">Ask the guide</text>
     <rect x="22" y="52" width="306" height="40" rx="9" fill="#eef6f5" stroke="#9fd6d2"/>
-    <text x="38" y="78" font-size="15" fill="#33504f">security paper</text>
+    <text x="38" y="78" font-size="15" fill="#33504f">what do you teach?</text>
     <g fill="none" stroke="#13767c" stroke-width="2.4" stroke-linecap="round" transform="translate(304 72)">
       <circle r="7"/><line x1="5" y1="5" x2="11" y2="11"/>
     </g>

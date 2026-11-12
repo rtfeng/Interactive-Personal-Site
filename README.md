@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.svg" alt="Interactive Personal Site: a single-file academic homepage with a built-in site guide" width="100%">
+  <img src="assets/banner.svg" alt="Wayfinder: an academic homepage that guides its visitors" width="100%">
 </p>
 
 <p align="center">
@@ -9,7 +9,7 @@
   <img alt="Hosting" src="https://img.shields.io/badge/hosting-GitHub%20Pages-3a9a92.svg">
 </p>
 
-This is a template for an academic homepage in one static HTML file, laid out in the classic Jon Barron style. There is no framework, no build step and no server. The page makes no network requests at runtime.
+**Wayfinder** is a template for an academic homepage in one static HTML file, laid out in the classic Jon Barron style. There is no framework, no build step and no server. The page makes no network requests at runtime.
 
 Its main feature is the **Ask the guide** box. Visitors type a question or a few keywords, and the guide points them to the right section or to an approved external link. It does this without a language model, so there is nothing to prompt-inject.
 
