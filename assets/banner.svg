@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-label="Interactive Personal Site: Ruitao Feng, Cybersecurity, Southern Cross University">
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-label="Interactive Personal Site: a single-file academic homepage with a built-in site guide">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#0c4f53"/>
@@ -11,33 +11,37 @@
   <rect width="1280" height="360" rx="18" fill="url(#bg)"/>
   <rect width="1280" height="360" rx="18" fill="url(#grid)"/>
 
-  <!-- node graph motif, right side -->
-  <g stroke="#9fd6d2" stroke-opacity="0.55" stroke-width="1.6" fill="none">
-    <path d="M900 90 L1010 140 L1120 95 L1190 170 L1080 230 L960 205 Z"/>
-    <path d="M1010 140 L1080 230 M960 205 L900 90 M1120 95 L1080 230"/>
-  </g>
-  <g fill="#d9f1ef">
-    <circle cx="900" cy="90" r="6"/><circle cx="1010" cy="140" r="7"/><circle cx="1120" cy="95" r="6"/>
-    <circle cx="1190" cy="170" r="6"/><circle cx="1080" cy="230" r="8"/><circle cx="960" cy="205" r="6"/>
-  </g>
-  <!-- search glass over the graph -->
-  <g transform="translate(1040 170)" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round">
-    <circle cx="0" cy="0" r="34"/>
-    <line x1="25" y1="25" x2="58" y2="58"/>
-  </g>
-
   <!-- text -->
-  <text x="72" y="118" font-family="Georgia, 'Times New Roman', serif" font-size="58" font-weight="700" fill="#ffffff">Ruitao Feng</text>
-  <text x="74" y="162" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" fill="#d9f1ef">Lecturer in Cybersecurity · Southern Cross University</text>
+  <text x="72" y="112" font-family="Georgia, 'Times New Roman', serif" font-size="54" font-weight="700" fill="#ffffff">Interactive Personal Site</text>
+  <text x="74" y="156" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="23" fill="#d9f1ef">A single-file academic homepage with a built-in site guide</text>
 
-  <g font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" fill="#ffffff">
-    <rect x="72" y="200" width="252" height="40" rx="20" fill="#ffffff" fill-opacity="0.14"/>
-    <text x="96" y="226">Post-detection analytics</text>
-    <rect x="336" y="200" width="174" height="40" rx="20" fill="#ffffff" fill-opacity="0.14"/>
-    <text x="360" y="226">AI agent security</text>
-    <rect x="522" y="200" width="138" height="40" rx="20" fill="#ffffff" fill-opacity="0.14"/>
-    <text x="546" y="226">Data privacy</text>
+  <g font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" fill="#ffffff">
+    <rect x="72" y="196" width="146" height="38" rx="19" fill="#ffffff" fill-opacity="0.14"/>
+    <text x="94" y="221">Ask the guide</text>
+    <rect x="230" y="196" width="196" height="38" rx="19" fill="#ffffff" fill-opacity="0.14"/>
+    <text x="252" y="221">Grouped publications</text>
+    <rect x="438" y="196" width="134" height="38" rx="19" fill="#ffffff" fill-opacity="0.14"/>
+    <text x="460" y="221">One-click CV</text>
+    <rect x="584" y="196" width="180" height="38" rx="19" fill="#ffffff" fill-opacity="0.14"/>
+    <text x="606" y="221">No server, no build</text>
   </g>
 
-  <text x="74" y="300" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="18" fill="#9fd6d2">An interactive academic homepage · ask it anything about my work</text>
+  <text x="74" y="296" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" fill="#9fd6d2">Fork it, swap in your own content, publish on GitHub Pages.</text>
+
+  <!-- mock guide box, right side -->
+  <g transform="translate(860 70)" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+    <rect width="350" height="220" rx="14" fill="#ffffff" fill-opacity="0.95"/>
+    <text x="22" y="36" font-size="15" font-weight="600" fill="#0c4f53">Ask the guide</text>
+    <rect x="22" y="52" width="306" height="40" rx="9" fill="#eef6f5" stroke="#9fd6d2"/>
+    <text x="38" y="78" font-size="15" fill="#33504f">security paper</text>
+    <g fill="none" stroke="#13767c" stroke-width="2.4" stroke-linecap="round" transform="translate(304 72)">
+      <circle r="7"/><line x1="5" y1="5" x2="11" y2="11"/>
+    </g>
+    <rect x="22" y="110" width="306" height="28" rx="6" fill="#e3f1ef"/>
+    <rect x="34" y="120" width="190" height="8" rx="4" fill="#13767c" fill-opacity="0.55"/>
+    <rect x="22" y="146" width="306" height="28" rx="6" fill="#e3f1ef"/>
+    <rect x="34" y="156" width="150" height="8" rx="4" fill="#13767c" fill-opacity="0.55"/>
+    <rect x="22" y="182" width="306" height="28" rx="6" fill="#e3f1ef"/>
+    <rect x="34" y="192" width="220" height="8" rx="4" fill="#13767c" fill-opacity="0.55"/>
+  </g>
 </svg>

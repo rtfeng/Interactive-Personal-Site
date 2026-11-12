@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" role="img" aria-label="Page layout: header, guide box, sections, publications and a floating section nav; mobile view on the right">
+  <style>
+    .l{font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;fill:#33504f}
+    .h{font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;font-weight:600;fill:#0c4f53}
+    .bar{fill:#c9dedc}
+  </style>
+  <rect width="1200" height="640" fill="#f6faf9"/>
+
+  <!-- desktop frame -->
+  <rect x="30" y="30" width="800" height="580" rx="12" fill="#ffffff" stroke="#b9d3d0"/>
+  <rect x="30" y="30" width="800" height="30" rx="12" fill="#e3f1ef"/>
+  <circle cx="52" cy="45" r="5" fill="#9fd6d2"/><circle cx="70" cy="45" r="5" fill="#9fd6d2"/><circle cx="88" cy="45" r="5" fill="#9fd6d2"/>
+
+  <!-- side nav -->
+  <rect x="50" y="90" width="110" height="250" rx="10" fill="#eef6f5" stroke="#b9d3d0"/>
+  <text x="64" y="114" class="h">Section nav</text>
+  <g class="l"><text x="64" y="142">Guide</text><text x="64" y="168">About</text><text x="64" y="194" fill="#13767c" font-weight="600">Publications</text><text x="64" y="220">Teaching</text><text x="64" y="246">Service</text><text x="64" y="272">Contact</text><text x="64" y="298">CV</text></g>
+  <rect x="56" y="182" width="3" height="18" fill="#13767c"/>
+
+  <!-- header -->
+  <text x="190" y="96" class="h">Name, title, affiliation, links</text>
+  <rect x="190" y="112" width="400" height="9" rx="4" class="bar"/>
+  <rect x="190" y="128" width="360" height="9" rx="4" class="bar"/>
+  <rect x="190" y="144" width="380" height="9" rx="4" class="bar"/>
+  <rect x="680" y="80" width="120" height="120" rx="10" fill="#13767c" fill-opacity="0.25"/>
+  <text x="704" y="146" class="l">Portrait</text>
+
+  <!-- guide -->
+  <rect x="190" y="216" width="610" height="110" rx="10" fill="#eef6f5" stroke="#9fd6d2"/>
+  <text x="206" y="240" class="h">Ask the guide</text>
+  <rect x="206" y="252" width="578" height="30" rx="7" fill="#ffffff" stroke="#9fd6d2"/>
+  <text x="218" y="272" class="l">Type a question or a few keywords…</text>
+  <g><rect x="206" y="292" width="110" height="22" rx="11" fill="#d6ebe8"/><rect x="324" y="292" width="96" height="22" rx="11" fill="#d6ebe8"/><rect x="428" y="292" width="124" height="22" rx="11" fill="#d6ebe8"/></g>
+  <text x="566" y="308" class="l">example chips</text>
+
+  <!-- publications -->
+  <text x="190" y="358" class="h">Publications, grouped by topic</text>
+  <g>
+    <rect x="190" y="372" width="130" height="80" rx="6" fill="#13767c" fill-opacity="0.18"/>
+    <text x="222" y="417" class="l">Figure</text>
+    <rect x="336" y="378" width="360" height="11" rx="4" fill="#9fc5c1"/>
+    <rect x="336" y="398" width="200" height="9" rx="4" class="bar"/>
+    <rect x="336" y="414" width="440" height="8" rx="4" class="bar"/>
+    <rect x="336" y="428" width="410" height="8" rx="4" class="bar"/>
+    <rect x="336" y="442" width="48" height="14" rx="4" fill="#d6ebe8"/><rect x="390" y="442" width="60" height="14" rx="4" fill="#d6ebe8"/>
+    <text x="630" y="454" class="l">PDF · BibTeX</text>
+  </g>
+  <g>
+    <rect x="190" y="472" width="130" height="80" rx="6" fill="#13767c" fill-opacity="0.18"/>
+    <text x="222" y="517" class="l">Figure</text>
+    <rect x="336" y="478" width="320" height="11" rx="4" fill="#9fc5c1"/>
+    <rect x="336" y="498" width="220" height="9" rx="4" class="bar"/>
+    <rect x="336" y="514" width="430" height="8" rx="4" class="bar"/>
+    <rect x="336" y="528" width="390" height="8" rx="4" class="bar"/>
+    <rect x="336" y="542" width="48" height="14" rx="4" fill="#d6ebe8"/><rect x="390" y="542" width="60" height="14" rx="4" fill="#d6ebe8"/>
+  </g>
+  <text x="190" y="590" class="l">Teaching · Service · Contact · hidden easter egg · CV generator</text>
+
+  <!-- mobile frame -->
+  <rect x="900" y="40" width="250" height="560" rx="30" fill="#ffffff" stroke="#b9d3d0" stroke-width="2"/>
+  <rect x="990" y="54" width="70" height="8" rx="4" fill="#d6ebe8"/>
+  <rect x="918" y="76" width="214" height="26" rx="6" fill="#eef6f5" stroke="#b9d3d0"/>
+  <text x="926" y="94" class="l" font-size="12">Guide  About  Publications  Teach…</text>
+  <rect x="985" y="116" width="80" height="80" rx="40" fill="#13767c" fill-opacity="0.25"/>
+  <rect x="940" y="208" width="170" height="12" rx="4" fill="#9fc5c1"/>
+  <rect x="930" y="228" width="190" height="8" rx="4" class="bar"/>
+  <rect x="930" y="242" width="170" height="8" rx="4" class="bar"/>
+  <rect x="918" y="264" width="214" height="80" rx="10" fill="#eef6f5" stroke="#9fd6d2"/>
+  <rect x="930" y="286" width="190" height="26" rx="6" fill="#ffffff" stroke="#9fd6d2"/>
+  <rect x="930" y="320" width="70" height="14" rx="7" fill="#d6ebe8"/><rect x="1006" y="320" width="70" height="14" rx="7" fill="#d6ebe8"/>
+  <rect x="918" y="360" width="214" height="100" rx="6" fill="#13767c" fill-opacity="0.18"/>
+  <rect x="918" y="470" width="190" height="10" rx="4" fill="#9fc5c1"/>
+  <rect x="918" y="488" width="214" height="8" rx="4" class="bar"/>
+  <rect x="918" y="502" width="200" height="8" rx="4" class="bar"/>
+  <text x="935" y="580" class="l" font-size="12">Nav becomes a scrolling strip</text>
+</svg>
