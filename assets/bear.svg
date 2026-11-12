@@ -1,82 +1,108 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Cartoon bear in glasses and a blazer, holding a shield with a lock">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Bear form: a bear drawn as a circuit board, with copper traces growing into vines and leaves">
   <defs>
-    <linearGradient id="bgB" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#3f8580"/>
-      <stop offset="1" stop-color="#1f5c5c"/>
+    <linearGradient id="bgC" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2f7570"/>
+      <stop offset="1" stop-color="#16484a"/>
     </linearGradient>
-    <linearGradient id="fur" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#9a6638"/>
-      <stop offset="1" stop-color="#7a4a22"/>
+    <linearGradient id="pcb" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#14524a"/>
+      <stop offset="1" stop-color="#0b3532"/>
     </linearGradient>
-    <clipPath id="clipB"><rect x="0" y="28" width="200" height="172" rx="14"/></clipPath>
+    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="2.6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="clipC"><rect x="0" y="28" width="200" height="172" rx="14"/></clipPath>
+    <symbol id="leaf" viewBox="-6 -10 12 20"><path d="M0 9 C-7 3 -6 -6 0 -9 C6 -6 7 3 0 9 Z" fill="#7cc35a"/><path d="M0 8 V-7" stroke="#3f7d2c" stroke-width="1.1"/></symbol>
   </defs>
 
-  <!-- teal block (like the photo's) -->
-  <rect x="0" y="28" width="200" height="172" rx="14" fill="url(#bgB)"/>
+  <!-- background block -->
+  <rect x="0" y="28" width="200" height="172" rx="14" fill="url(#bgC)"/>
+  <!-- faint background traces -->
+  <g fill="none" stroke="#ffffff" stroke-opacity=".07" stroke-width="2">
+    <path d="M8 60 H30 L40 70 V120 M192 70 H172 L164 78 V130 M10 150 H26 M174 150 H192"/>
+  </g>
 
-  <g clip-path="url(#clipB)">
-    <!-- blazer -->
-    <path d="M18 200 C22 160 48 142 100 140 C152 142 178 160 182 200 Z" fill="#232c3b"/>
-    <!-- shirt -->
-    <path d="M78 141 L100 176 L122 141 C114 139 86 139 78 141 Z" fill="#a9c6e3"/>
-    <path d="M100 176 L92 150 L100 146 L108 150 Z" fill="#8fb1d4"/>
-    <!-- lapels -->
-    <path d="M76 142 L100 182 L86 200 L64 200 L60 156 Z" fill="#2c3748"/>
-    <path d="M124 142 L100 182 L114 200 L136 200 L140 156 Z" fill="#2c3748"/>
-    <!-- neck fur -->
-    <path d="M80 132 Q100 148 120 132 L118 146 Q100 154 82 146 Z" fill="#7a4a22"/>
+  <!-- shoulders (board) -->
+  <g clip-path="url(#clipC)">
+    <path d="M16 200 C20 160 48 140 100 138 C152 140 180 160 184 200 Z" fill="url(#pcb)" stroke="#c98a4a" stroke-width="2.5"/>
   </g>
 
   <!-- ears -->
-  <circle cx="58" cy="44" r="20" fill="#7a4a22"/>
-  <circle cx="58" cy="44" r="10" fill="#c99868"/>
-  <circle cx="142" cy="44" r="20" fill="#7a4a22"/>
-  <circle cx="142" cy="44" r="10" fill="#c99868"/>
+  <g stroke="#c98a4a" stroke-width="2.5">
+    <circle cx="58" cy="46" r="19" fill="url(#pcb)"/>
+    <circle cx="142" cy="46" r="19" fill="url(#pcb)"/>
+  </g>
+  <g fill="none" stroke="#e0a868" stroke-width="2">
+    <circle cx="58" cy="46" r="8"/><circle cx="142" cy="46" r="8"/>
+  </g>
+  <circle cx="58" cy="46" r="3" fill="#e0a868"/><circle cx="142" cy="46" r="3" fill="#e0a868"/>
 
   <!-- head -->
-  <ellipse cx="100" cy="88" rx="56" ry="54" fill="url(#fur)"/>
-  <!-- cheek tufts -->
-  <path d="M46 98 l-8 6 l10 2 Z M154 98 l8 6 l-10 2 Z" fill="#7a4a22"/>
+  <ellipse cx="100" cy="88" rx="56" ry="52" fill="url(#pcb)" stroke="#c98a4a" stroke-width="2.5"/>
 
-  <!-- muzzle -->
-  <ellipse cx="100" cy="110" rx="27" ry="21" fill="#d6a978"/>
-  <ellipse cx="100" cy="100" rx="10" ry="7" fill="#2a1a10"/>
-  <ellipse cx="97" cy="98" rx="3" ry="1.6" fill="#ffffff" opacity=".5"/>
-  <path d="M100 107 L100 113 M100 113 Q92 121 86 115 M100 113 Q108 121 114 115" fill="none" stroke="#2a1a10" stroke-width="3" stroke-linecap="round"/>
-
-  <!-- eyes -->
-  <circle cx="80" cy="80" r="5" fill="#1a110a"/>
-  <circle cx="120" cy="80" r="5" fill="#1a110a"/>
-  <circle cx="81.6" cy="78.4" r="1.6" fill="#fff"/>
-  <circle cx="121.6" cy="78.4" r="1.6" fill="#fff"/>
-  <!-- brows -->
-  <path d="M70 64 Q80 60 89 64 M111 64 Q120 60 130 64" fill="none" stroke="#5a3418" stroke-width="3" stroke-linecap="round"/>
-
-  <!-- glasses -->
-  <g fill="none" stroke="#151a20" stroke-width="3.2">
-    <rect x="64" y="69" width="31" height="23" rx="8" fill="#ffffff" fill-opacity=".12"/>
-    <rect x="105" y="69" width="31" height="23" rx="8" fill="#ffffff" fill-opacity=".12"/>
-    <path d="M95 78 Q100 74 105 78"/>
-    <path d="M64 76 L48 72 M136 76 L152 72"/>
+  <!-- copper traces on the head -->
+  <g fill="none" stroke="#d99a55" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M100 38 V54 L92 62"/>
+    <path d="M62 66 H72 L78 60"/>
+    <path d="M138 66 H128 L122 60"/>
+    <path d="M52 92 H62 L70 100 V110"/>
+    <path d="M148 92 H138 L130 100 V110"/>
+    <path d="M84 126 L92 132 H108 L116 126"/>
   </g>
-  <path d="M70 74 l6 -2" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".6"/>
-  <path d="M111 74 l6 -2" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".6"/>
+  <g fill="#e8b273">
+    <circle cx="100" cy="38" r="3"/><circle cx="92" cy="62" r="2.6"/>
+    <circle cx="62" cy="66" r="2.6"/><circle cx="138" cy="66" r="2.6"/>
+    <circle cx="52" cy="92" r="2.6"/><circle cx="148" cy="92" r="2.6"/>
+    <circle cx="70" cy="110" r="2.6"/><circle cx="130" cy="110" r="2.6"/>
+  </g>
 
-  <!-- shield with lock, held by a paw -->
-  <g transform="translate(132 138)">
-    <path d="M24 0 L46 8 V26 C46 42 36 52 24 58 C12 52 2 42 2 26 V8 Z" fill="#f2c14e" stroke="#8a6414" stroke-width="2.5"/>
-    <path d="M24 6 L40 12 V26 C40 38 33 46 24 51 Z" fill="#ffffff" opacity=".18"/>
-    <rect x="15" y="25" width="18" height="15" rx="3" fill="#2a3446"/>
-    <path d="M18 25 V20 a6 6 0 0 1 12 0 V25" fill="none" stroke="#2a3446" stroke-width="3"/>
-    <circle cx="24" cy="31" r="2.4" fill="#f2c14e"/>
-    <rect x="23" y="32" width="2" height="5" fill="#f2c14e"/>
+  <!-- muzzle: lighter board area with a chip nose -->
+  <ellipse cx="100" cy="108" rx="26" ry="19" fill="#1d6a5f" stroke="#c98a4a" stroke-width="2"/>
+  <g fill="#c98a4a">
+    <rect x="88" y="94" width="2" height="4"/><rect x="93" y="94" width="2" height="4"/><rect x="98" y="94" width="2" height="4"/><rect x="103" y="94" width="2" height="4"/><rect x="108" y="94" width="2" height="4"/>
   </g>
-  <!-- paw over the shield's edge -->
-  <g transform="translate(120 160)">
-    <ellipse cx="16" cy="14" rx="17" ry="14" fill="#7a4a22"/>
-    <ellipse cx="16" cy="17" rx="8" ry="6" fill="#c99868"/>
-    <circle cx="6" cy="7" r="3.2" fill="#c99868"/>
-    <circle cx="14" cy="4" r="3.2" fill="#c99868"/>
-    <circle cx="23" cy="6" r="3.2" fill="#c99868"/>
+  <rect x="86" y="97" width="28" height="13" rx="3" fill="#121a1c"/>
+  <circle cx="90" cy="101" r="1.3" fill="#5c6b70"/>
+  <path d="M100 111 V115 M100 115 Q93 122 88 117 M100 115 Q107 122 112 117" fill="none" stroke="#e8b273" stroke-width="2.4" stroke-linecap="round"/>
+
+  <!-- LED eyes -->
+  <g filter="url(#glow)">
+    <circle cx="80" cy="80" r="6" fill="#7cf0a8"/>
+    <circle cx="120" cy="80" r="6" fill="#7cf0a8"/>
   </g>
+  <circle cx="80" cy="80" r="2.6" fill="#eafff2"/><circle cx="120" cy="80" r="2.6" fill="#eafff2"/>
+  <g fill="none" stroke="#c98a4a" stroke-width="1.6"><circle cx="80" cy="80" r="8.5"/><circle cx="120" cy="80" r="8.5"/></g>
+
+  <!-- vines: traces turning into living plants -->
+  <g fill="none" stroke="#5fae4a" stroke-width="2.4" stroke-linecap="round">
+    <path d="M58 27 C54 18 60 12 66 16"/>
+    <path d="M142 27 C150 18 144 10 136 14"/>
+    <path d="M100 38 C104 30 98 24 104 18"/>
+    <path d="M30 196 C34 176 22 168 30 154"/>
+    <path d="M170 196 C166 178 180 170 172 156"/>
+  </g>
+  <use href="#leaf" x="62" y="6" width="10" height="16" transform="rotate(25 67 14)"/>
+  <use href="#leaf" x="130" y="4" width="10" height="16" transform="rotate(-25 135 12)"/>
+  <use href="#leaf" x="102" y="8" width="10" height="16" transform="rotate(20 107 16)"/>
+  <use href="#leaf" x="24" y="144" width="12" height="18" transform="rotate(-20 30 153)"/>
+  <use href="#leaf" x="166" y="146" width="12" height="18" transform="rotate(20 172 155)"/>
+  <use href="#leaf" x="18" y="170" width="10" height="16" transform="rotate(-60 23 178)"/>
+
+  <!-- chest chip with a crescent moon -->
+  <g transform="translate(100 168)">
+    <g fill="#c98a4a">
+      <rect x="-20" y="-17" width="3" height="5"/><rect x="-11" y="-17" width="3" height="5"/><rect x="-2" y="-17" width="3" height="5"/><rect x="7" y="-17" width="3" height="5"/><rect x="16" y="-17" width="3" height="5"/>
+      <rect x="-27" y="-8" width="5" height="3"/><rect x="-27" y="1" width="5" height="3"/><rect x="22" y="-8" width="5" height="3"/><rect x="22" y="1" width="5" height="3"/>
+    </g>
+    <rect x="-23" y="-13" width="46" height="26" rx="3" fill="#121a1c"/>
+    <path d="M4 -6 A8 8 0 1 0 4 6 A6.2 6.2 0 1 1 4 -6 Z" fill="#f1e6c8"/>
+    <circle cx="-18" cy="-8" r="1.4" fill="#5c6b70"/>
+  </g>
+  <!-- traces from chip into the board -->
+  <g fill="none" stroke="#d99a55" stroke-width="2.2" stroke-linecap="round">
+    <path d="M77 168 H60 L50 178"/>
+    <path d="M123 168 H140 L150 178"/>
+  </g>
+  <circle cx="50" cy="178" r="2.6" fill="#e8b273"/><circle cx="150" cy="178" r="2.6" fill="#e8b273"/>
 </svg>
