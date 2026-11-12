@@ -392,10 +392,10 @@
      ========================================================= */
   const CATS = [
     { id: "analytics", name: "Post-detection security analytics", hue: 188, glyph: "scope" },
+    { id: "malware",   name: "Threat detection: malware, traffic and logs", hue: 138, glyph: "shield" },
     { id: "access",    name: "Access control and authorization", hue: 28,  glyph: "key" },
     { id: "privacy",   name: "Data privacy and secure data sharing", hue: 262, glyph: "chain" },
-    { id: "vuln",      name: "Vulnerability discovery and software assurance", hue: 350, glyph: "bug" },
-    { id: "malware",   name: "Malware analysis", hue: 138, glyph: "shield" }
+    { id: "vuln",      name: "Vulnerability discovery and software assurance", hue: 350, glyph: "bug" }
   ];
   const RANK = {
     "CCS": "CCF A · CORE A*", "NDSS": "CCF A · CORE A*", "OOPSLA": "CCF A · CORE A", "FSE": "CCF A · CORE A*", "ASE": "CCF A · CORE A*",
@@ -415,12 +415,12 @@
       au:"Yao Zhang, Guangquan Xu, Ruitao Feng, Xiaohong Li, Sen Chen, Zhenchang Xing, Yude Bai, Yongqiang Lyu, Wei Gong, Xibin Zhao",
       venue:"IEEE Transactions on Mobile Computing", doi:"10.1109/tmc.2026.3673942",
       d:"Finding malware is only the first step. Analysts also need to know what a sample is related to and where it came from. This work builds a knowledge graph of mobile malware and uses it to trace a new sample to known threats after detection." },
-    { c:"analytics", k:"TARL", y:2026, v:"ComNet", type:"journal",
+    { c:"malware", k:"TARL", y:2026, v:"ComNet", type:"journal",
       t:"TARL: Multi-task adaptive representation learning for secure encrypted traffic analysis",
       au:"Mengmeng Ge, Likun Liu, Zhaowei Zhang, Hongyu Wang, Xiangzhan Yu, Yijia Xu, Ruitao Feng, Zhichao Hu",
       venue:"Computer Networks", doi:"10.1016/j.comnet.2026.112646",
       d:"Most network traffic is now encrypted, so payload-based detection no longer works. TARL learns traffic representations that are shared across several analysis tasks and adapted to each one. This supports accurate traffic analysis without decryption." },
-    { c:"analytics", k:"Enmob", y:2025, v:"Cyber", type:"journal",
+    { c:"malware", k:"Enmob", y:2025, v:"Cyber", type:"journal",
       t:"Enmob: Unveil the Behavior with Multi-flow Analysis of Encrypted App Traffic",
       au:"Mengmeng Ge, Ruitao Feng, Likun Liu, Xiangzhan Yu, Vinay Sachidananda, Xiaofei Xie, Yang Liu",
       venue:"Cybersecurity (Springer)", doi:"10.1186/s42400-024-00301-0",
@@ -430,7 +430,7 @@
       au:"Chunlian Wu, Sen Chen, Jiaming Li, Renchao Chai, Lingling Fan, Xiaofei Xie, Ruitao Feng",
       venue:"ACM Transactions on Software Engineering and Methodology", doi:"10.1145/3715909",
       d:"Malware detectors usually stop at a yes-or-no verdict, which tells analysts little. This work profiles the trajectory of malicious behaviours in an Android app and generates a description of what the app does. The description helps analysts understand and respond to a threat." },
-    { c:"analytics", k:"CAShift", y:2025, v:"FSE", type:"journal",
+    { c:"malware", k:"CAShift", y:2025, v:"FSE", type:"journal",
       t:"CAShift: Benchmarking Log-Based Cloud Attack Detection under Normality Shift",
       au:"Jiongchi Yu, Xiaofei Xie, Qiang Hu, Bowen Zhang, Ziming Zhao, Yun Lin, Lei Ma, Ruitao Feng, Frank Liauw",
       venue:"Proceedings of the ACM on Software Engineering (FSE)", doi:"10.1145/3729346",
@@ -502,7 +502,7 @@
       au:"Wenbu Feng, Xiaohong Li, Ruitao Feng, Yao Zhang, Yuekang Li, Zhiping Zhou, Yunqian Wang, Yuqing Li",
       venue:"Proceedings of the ACM on Programming Languages (OOPSLA)", doi:"10.1145/3798255",
       d:"Dependency scanners flag every vulnerable library, even when the vulnerable code can never run. ConVReach combines reachability analysis with constraint solving to decide whether a vulnerability is truly reachable from the application. This removes many false alarms so developers can focus on real risks." },
-    { c:"vuln", k:"FidelityGPT", y:2026, v:"NDSS", type:"conf", hl:true,
+    { c:"analytics", k:"FidelityGPT", y:2026, v:"NDSS", type:"conf", hl:true,
       t:"FidelityGPT: Correcting Decompilation Distortions with Retrieval Augmented Generation",
       au:"Zhiping Zhou, Xiaohong Li, Ruitao Feng, Yao Zhang, Yuekang Li, Wenbu Feng, Yunqian Wang, Yuqing Li",
       venue:"Network and Distributed System Security Symposium (NDSS)", doi:"10.14722/ndss.2026.230989",
@@ -532,7 +532,7 @@
       au:"Ziyang Wang, Xiaohong Li, Lili Quan, Zhiping Zhou, Yao Zhang, Ruitao Feng",
       venue:"Asia-Pacific Software Engineering Conference (APSEC)", doi:"10.1109/apsec66846.2025.00068",
       d:"SMT solvers sit under many program analysis tools, so a slowdown in a new solver version hurts everything built on it. SMTPRT tests solvers for performance regressions across multiple logics. It also localises the change that caused each regression." },
-    { c:"vuln", k:"BeyondFid", y:2024, v:"TOSEM", type:"journal",
+    { c:"analytics", k:"BeyondFid", y:2024, v:"TOSEM", type:"journal",
       t:"Beyond Fidelity: Explaining Vulnerability Localization of Learning-Based Detectors",
       au:"Baijun Cheng, Shengming Zhao, Kailong Wang, Meizhen Wang, Guangdong Bai, Ruitao Feng, Yao Guo, Lei Ma, Haoyu Wang",
       venue:"ACM Transactions on Software Engineering and Methodology", doi:"10.1145/3641543",
@@ -573,7 +573,7 @@
       venue:"IEEE/ACM International Conference on Automated Software Engineering (ASE)", doi:"10.1145/3551349.3560422",
       d:"Compilation errors slow developers down, and fixing them often needs context beyond the failing line. TransRepair learns from the surrounding code context to repair compilation errors automatically." },
     // ---- malware
-    { c:"malware", k:"Behavior", y:2024, v:"TrustCom", type:"conf",
+    { c:"analytics", k:"Behavior", y:2024, v:"TrustCom", type:"conf",
       t:"Behavior Speaks Louder: Rethinking Malware Analysis Beyond Family Classification",
       au:"Fei Zhang, Xiaohong Li, Sen Chen, Ruitao Feng",
       venue:"IEEE International Conference on Trust, Security and Privacy in Computing and Communications (TrustCom)", doi:"10.1109/trustcom63139.2024.00048",
@@ -906,7 +906,7 @@
     svcPc: { label: "Program committees", href: "#svc-pc" }, svcEd: { label: "Editorial roles", href: "#svc-ed" },
     svcRev: { label: "Journal reviewing", href: "#svc-rev" }, svcUni: { label: "University service", href: "#svc-uni" },
     pubsAcc: { label: "Papers on access control", href: "#pubs-access" }, pubsVuln: { label: "Papers on vulnerability discovery", href: "#pubs-vuln" },
-    pubsMal: { label: "Papers on malware analysis", href: "#pubs-malware" }, portal: { label: "SCU Research Portal", href: "https://researchportal.scu.edu.au/esploro/profile/ruitao_feng" }
+    pubsMal: { label: "Papers on threat detection", href: "#pubs-malware" }, portal: { label: "SCU Research Portal", href: "https://researchportal.scu.edu.au/esploro/profile/ruitao_feng" }
   });
   INTENTS.agents.dest.push("pubsAcc");
   delete INTENTS.events;
@@ -915,7 +915,7 @@
     vuln: { ans: "I work on finding and confirming software vulnerabilities: reachability analysis, decompilation, fuzzing, static analysis tools and learning-based detectors.",
       dest: ["pubsVuln", "analytics"], kw: ["vulnerab", "fuzz", "afl", "static analysis", "sast", "program analysis", "taint", "decompil", "binary", "cve", "bug", "漏洞", "模糊测试", "静态分析", "程序分析", "反编译"],
       ex: ["do you work on vulnerability detection", "fuzzing research", "static analysis tools", "binary analysis and decompilation"] },
-    malware: { ans: "I have long worked on malware analysis: on-device Android malware detection, IoT malware behaviours, robustness of detectors and malware traceability.",
+    malware: { ans: "I have long worked on threat detection: on-device Android malware detection, IoT malware behaviours, robustness of detectors, encrypted traffic analysis and log-based cloud attack detection.",
       dest: ["pubsMal"], kw: ["malware", "android", "virus", "trojan", "ransomware", "mobile security", "iot malware", "恶意软件", "病毒", "安卓"],
       ex: ["do you study malware", "android malware detection", "IoT malware research"] },
     chairs: { ans: "I am PC Chair of APSEC 2027 and have co-chaired Internetware 2026, IWQoS 2025, PRDC 2023 and NSS 2022. I was PC Chair of the CSCRC Symposium 2023, and I chair the ML4Cyber workshop at ICDM and the HMI-SA workshop at IEEE S&P.",
