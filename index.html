@@ -145,7 +145,6 @@
   body.bear{--accent:#7a4a1f;--accent-2:#f4e8d9;--bg:#fbf6ef;--line:#eadbc8;
     cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cg fill='%237a4a1f'%3E%3Cellipse cx='14' cy='18' rx='7' ry='6'/%3E%3Ccircle cx='6' cy='10' r='3'/%3E%3Ccircle cx='11' cy='6' r='3'/%3E%3Ccircle cx='17' cy='6' r='3'/%3E%3Ccircle cx='22' cy='10' r='3'/%3E%3C/g%3E%3C/svg%3E") 14 14, auto}
   body.bear nav.top{background:rgba(251,246,239,.94)}
-  body.bear .avatar{filter:sepia(.35)}
   .quests{margin-top:20px;border-top:1px solid #2c4152;padding-top:16px}
   .quests h3{color:#fff;margin:0 0 4px;font-family:Inter,sans-serif;font-size:1rem}
   .quests .count{color:#f5d38a;font-family:"Press Start 2P",monospace;font-size:.7rem;margin-bottom:12px}
@@ -1194,8 +1193,10 @@
 
   /* Bear form */
   const navContact = document.querySelector('#sidenav a[href="#contact"]');
+  const avImg = document.querySelector(".avatar img"), avSrc = avImg && avImg.src, avAlt = avImg && avImg.alt;
   function setBear(on) {
     document.body.classList.toggle("bear", on);
+    if (avImg) { avImg.src = on ? "assets/bear.svg" : avSrc; avImg.alt = on ? "Bear form: a cartoon bear in glasses and a blazer, holding a shield" : avAlt; }
     if (navContact) navContact.textContent = on ? "Taunt" : "Contact";
   }
 
