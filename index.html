@@ -1196,7 +1196,7 @@
   const avImg = document.querySelector(".avatar img"), avSrc = avImg && avImg.src, avAlt = avImg && avImg.alt;
   function setBear(on) {
     document.body.classList.toggle("bear", on);
-    if (avImg) { avImg.src = on ? "assets/bear.svg" : avSrc; avImg.alt = on ? "Bear form: a circuit-board bear whose copper traces grow into vines" : avAlt; }
+    if (avImg) { avImg.src = on ? "assets/bear.svg" : avSrc; avImg.alt = on ? "Bear form: an armoured circuit-board bear with glowing eyes, bared fangs and a crescent-moon shield" : avAlt; }
     if (navContact) navContact.textContent = on ? "Taunt" : "Contact";
   }
 
