@@ -32,6 +32,14 @@ for href in set(re.findall(r'href: "#([a-z0-9-]+)"', page)):
     if href not in p.ids and not href.startswith("paper-") and not href.startswith("pubs-"):
         errors.append(f"guide link to missing anchor #{href}")
 
+# 5. Side-quest files exist and the CTF flag matches
+for f in ["404.html", "robots.txt", ".well-known/security.txt"]:
+    if not (root / f).exists(): errors.append(f"missing {f}")
+fm = re.search(r'const FLAG = "([^"]+)"', page)
+sec = root / ".well-known" / "security.txt"
+if not fm or not sec.exists() or fm.group(1) not in sec.read_text(encoding="utf-8"):
+    errors.append("CTF flag in index.html does not match .well-known/security.txt")
+
 print(f"checked {len(keys)} papers, {len(p.ids)} ids")
 if errors:
     print("\n".join("ERROR: " + e for e in errors)); sys.exit(1)

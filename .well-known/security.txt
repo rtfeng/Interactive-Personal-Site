@@ -1,0 +1,9 @@
+Contact: mailto:ruitao.feng@scu.edu.au
+Expires: 2027-11-12T00:00:00.000Z
+Preferred-Languages: en, zh
+
+# If you found a real issue on this site, thank you. Please email me.
+#
+# If you are here for the side quest, here is your flag:
+#   flag{least_privilege_is_a_lifestyle}
+# Paste it into "Ask the guide" on the homepage.

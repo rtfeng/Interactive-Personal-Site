@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<title>Missed the shot · 404</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Ccircle cx=%2732%27 cy=%2732%27 r=%2728%27 fill=%27%23e07a2e%27/%3E%3C/svg%3E">
+<style>
+  :root{--ink:#17212b;--ink-2:#3a4754;--bg:#fbfbf9;--accent:#0f5e63}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;display:flex;align-items:center;justify-content:center}
+  main{width:min(760px,100%);padding:32px 20px;text-align:center}
+  h1{font-family:Georgia,"Times New Roman",serif;font-size:2.2rem;margin:0 0 6px}
+  p{margin:0 0 14px;color:var(--ink-2)}
+  canvas{width:100%;height:auto;max-height:62vh;touch-action:none;background:#fff;border:1px solid #e3e7eb;border-radius:14px;cursor:grab}
+  canvas:active{cursor:grabbing}
+  .msg{min-height:1.6em;font-weight:600;color:var(--accent);margin-top:12px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<main>
+  <h1>404: this page missed the shot</h1>
+  <p>The page you wanted is not here. Sink a free throw to go home, or just <a href="/">take the stairs</a>.</p>
+  <canvas id="c" width="720" height="420" aria-label="Basketball mini-game: drag back from the ball and release to shoot"></canvas>
+  <div class="msg" id="msg" aria-live="polite">Drag back from the ball, then let go.</div>
+</main>
+<script>
+(function () {
+  "use strict";
+  const cv = document.getElementById("c"), cx = cv.getContext("2d"), msg = document.getElementById("msg");
+  const W = cv.width, H = cv.height, G = 900, R = 16;
+  const START = { x: 120, y: H - 90 };
+  const RIM = { x1: 560, x2: 630, y: 170 };          // rim front/back points
+  const BOARD = { x: 646, y1: 90, y2: 200 };
+  let ball, aiming = false, aim = null, shots = 0, done = false, last = 0;
+  const reset = () => { ball = { x: START.x, y: START.y, vx: 0, vy: 0, live: false, scored: false, t: 0 }; };
+  reset();
+
+  function pos(e) {
+    const r = cv.getBoundingClientRect();
+    return { x: (e.clientX - r.left) * W / r.width, y: (e.clientY - r.top) * H / r.height };
+  }
+  cv.addEventListener("pointerdown", e => {
+    if (done || ball.live) return;
+    const p = pos(e);
+    if (Math.hypot(p.x - ball.x, p.y - ball.y) < 70) { aiming = true; aim = p; cv.setPointerCapture(e.pointerId); }
+  });
+  cv.addEventListener("pointermove", e => { if (aiming) aim = pos(e); });
+  cv.addEventListener("pointerup", () => {
+    if (!aiming) return; aiming = false;
+    const dx = ball.x - aim.x, dy = ball.y - aim.y, k = 6.2, max = 1150;
+    let vx = dx * k, vy = dy * k; const sp = Math.hypot(vx, vy);
+    if (sp < 120) { aim = null; return; }
+    if (sp > max) { vx *= max / sp; vy *= max / sp; }
+    ball.vx = vx; ball.vy = vy; ball.live = true; shots++; aim = null; msg.textContent = "";
+  });
+
+  function bounce(px, py, rr) {
+    const dx = ball.x - px, dy = ball.y - py, d = Math.hypot(dx, dy);
+    if (d < R + rr && d > 0) {
+      const nx = dx / d, ny = dy / d, dot = ball.vx * nx + ball.vy * ny;
+      if (dot < 0) { ball.vx -= 1.6 * dot * nx; ball.vy -= 1.6 * dot * ny; }
+      ball.x = px + nx * (R + rr); ball.y = py + ny * (R + rr);
+    }
+  }
+
+  function step(dt) {
+    if (!ball.live) return;
+    const prevY = ball.y;
+    ball.vy += G * dt; ball.x += ball.vx * dt; ball.y += ball.vy * dt; ball.t += dt;
+    bounce(RIM.x1, RIM.y, 3); bounce(RIM.x2, RIM.y, 3);
+    if (ball.x + R > BOARD.x && ball.y > BOARD.y1 && ball.y < BOARD.y2 && ball.vx > 0) { ball.vx *= -0.6; ball.x = BOARD.x - R; }
+    if (!ball.scored && prevY < RIM.y && ball.y >= RIM.y && ball.vy > 0 && ball.x > RIM.x1 + 4 && ball.x < RIM.x2 - 4) {
+      ball.scored = true; done = true;
+      msg.textContent = shots === 1 ? "Swish! First shot. Taking you home…" : `Swish! Shot ${shots}. Taking you home…`;
+      try { localStorage.setItem("swish", "1"); } catch (e) {}
+      setTimeout(() => { location.href = "/"; }, 1800);
+    }
+    if (ball.y > H + 60 || ball.x > W + 60 || ball.x < -60 || ball.t > 5) {
+      if (!ball.scored) msg.textContent = ["Brick. Again?", "Off the rim. One more.", "Airball. It happens.", "So close. Shoot again."][shots % 4];
+      if (!done) reset();
+    }
+  }
+
+  function draw() {
+    cx.clearRect(0, 0, W, H);
+    cx.fillStyle = "#f3efe6"; cx.fillRect(0, H - 60, W, 60);                 // floor
+    cx.strokeStyle = "#e3d9c6"; cx.lineWidth = 2; cx.beginPath(); cx.moveTo(0, H - 60); cx.lineTo(W, H - 60); cx.stroke();
+    cx.fillStyle = "#c9cfd4"; cx.fillRect(BOARD.x + 8, BOARD.y2, 8, H - 60 - BOARD.y2); // pole
+    cx.fillStyle = "#ffffff"; cx.strokeStyle = "#17212b"; cx.lineWidth = 3;
+    cx.fillRect(BOARD.x, BOARD.y1, 8, BOARD.y2 - BOARD.y1); cx.strokeRect(BOARD.x, BOARD.y1, 8, BOARD.y2 - BOARD.y1);
+    // net
+    cx.strokeStyle = "#9aa6b1"; cx.lineWidth = 1.5;
+    for (let i = 0; i <= 4; i++) { const t = i / 4; cx.beginPath(); cx.moveTo(RIM.x1 + (RIM.x2 - RIM.x1) * t, RIM.y); cx.lineTo(RIM.x1 + 12 + (RIM.x2 - RIM.x1 - 24) * t, RIM.y + 46); cx.stroke(); }
+    // rim
+    cx.strokeStyle = "#e0552e"; cx.lineWidth = 5; cx.beginPath(); cx.moveTo(RIM.x1, RIM.y); cx.lineTo(BOARD.x, RIM.y); cx.stroke();
+    // aim guide
+    if (aiming && aim) {
+      const vx = (ball.x - aim.x) * 6.2, vy = (ball.y - aim.y) * 6.2;
+      cx.fillStyle = "rgba(15,94,99,.45)";
+      for (let i = 1; i <= 14; i++) { const t = i * 0.045; cx.beginPath(); cx.arc(ball.x + vx * t, ball.y + vy * t + 0.5 * G * t * t, 3, 0, 7); cx.fill(); }
+      cx.strokeStyle = "rgba(23,33,43,.35)"; cx.lineWidth = 2; cx.beginPath(); cx.moveTo(ball.x, ball.y); cx.lineTo(aim.x, aim.y); cx.stroke();
+    }
+    // ball
+    cx.fillStyle = "#e07a2e"; cx.beginPath(); cx.arc(ball.x, ball.y, R, 0, 7); cx.fill();
+    cx.strokeStyle = "#7a3a12"; cx.lineWidth = 1.5;
+    cx.beginPath(); cx.arc(ball.x, ball.y, R, 0, 7); cx.stroke();
+    cx.beginPath(); cx.moveTo(ball.x - R, ball.y); cx.lineTo(ball.x + R, ball.y); cx.stroke();
+    cx.beginPath(); cx.moveTo(ball.x, ball.y - R); cx.lineTo(ball.x, ball.y + R); cx.stroke();
+  }
+
+  function loop(t) {
+    const dt = Math.min(0.033, last ? (t - last) / 1000 : 0); last = t;
+    for (let i = 0; i < 4; i++) step(dt / 4);
+    draw(); requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Side quest 3/3: security people read security.txt.
+# You know where it lives.

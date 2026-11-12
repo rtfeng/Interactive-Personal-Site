@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- side quest 2/3: cm9ib3RzLnR4dA== -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Security: scripts only inline + jsDelivr; network only to the model hosts. -->
@@ -134,6 +135,31 @@
   .classes button.ok{background:#ff7c0a;border-color:#ff7c0a;color:#14202b;font-weight:600}
   .classes button.no{opacity:.45}
   .egg .verdict{margin-top:10px;min-height:1.4em;color:#f5d38a}
+  /* side quests */
+  .result.shell{background:#0d1a14;color:#b8f5c8;font:13.5px/1.55 ui-monospace,Menlo,Consolas,monospace;border:1px solid #1f3a2c}
+  .result.shell .ans{margin:0}
+  .result.shell pre{display:block;width:100%;float:none;margin:0 0 6px;white-space:pre-wrap;word-break:break-word;font:inherit;color:inherit}
+  .result.shell .ps{color:#6fdc95}
+  .result.r2 .ans.quote{font-family:"Source Serif 4",Georgia,serif;font-size:1.05rem;font-style:italic;border-left:3px solid var(--accent);padding-left:12px}
+  .result.flag{background:#fff6dc;border:1px solid #f0d58a}
+  body.bear{--accent:#7a4a1f;--accent-2:#f4e8d9;--bg:#fbf6ef;--line:#eadbc8;
+    cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cg fill='%237a4a1f'%3E%3Cellipse cx='14' cy='18' rx='7' ry='6'/%3E%3Ccircle cx='6' cy='10' r='3'/%3E%3Ccircle cx='11' cy='6' r='3'/%3E%3Ccircle cx='17' cy='6' r='3'/%3E%3Ccircle cx='22' cy='10' r='3'/%3E%3C/g%3E%3C/svg%3E") 14 14, auto}
+  body.bear nav.top{background:rgba(251,246,239,.94)}
+  body.bear .avatar{filter:sepia(.35)}
+  .quests{margin-top:20px;border-top:1px solid #2c4152;padding-top:16px}
+  .quests h3{color:#fff;margin:0 0 4px;font-family:Inter,sans-serif;font-size:1rem}
+  .quests .count{color:#f5d38a;font-family:"Press Start 2P",monospace;font-size:.7rem;margin-bottom:12px}
+  .qgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .qb{background:#1c2c3a;border:1px solid #2c4152;border-radius:10px;padding:10px;font-size:.82rem;color:#9fb1bf;min-height:64px}
+  .qb b{display:block;color:#5d7487;font-size:.86rem;margin-bottom:2px}
+  .qb.got{border-color:#8fd3cf;color:#d4dee5}
+  .qb.got b{color:#8fd3cf}
+  #toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;z-index:60;
+    background:#14202b;color:#f5d38a;border:1px solid #2c4152;border-radius:999px;padding:9px 18px;font-size:.9rem;transition:opacity .25s,transform .25s}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
+  #toast a{color:#8fd3cf;margin-left:10px}
+  @media (max-width:640px){.qgrid{grid-template-columns:1fr 1fr}}
+  @media (prefers-reduced-motion:reduce){#toast{transition:none}}
   #after-hours .back{display:inline-block;margin-top:16px;color:#8fd3cf;font-size:.9rem}
   .cvbtn{font:600 .85rem Inter,sans-serif;background:var(--accent);color:#fff;border:0;border-radius:8px;padding:4px 12px;cursor:pointer}
   #cv{position:fixed;inset:0;background:rgba(20,32,43,.55);display:none;z-index:50;overflow:auto;padding:24px 12px}
@@ -360,11 +386,18 @@
         <p class="verdict" id="verdict" aria-live="polite"></p>
       </div>
     </div>
+    <div class="quests">
+      <h3>Side quests</h3>
+      <div class="count" id="qCount"></div>
+      <div class="qgrid" id="qGrid"></div>
+    </div>
     <a class="back" href="#guide">← back to the serious stuff</a>
   </section>
 
   <footer>© Ruitao Feng. The guide runs fully in your browser. Nothing you type is sent or stored. <span title="Ask the guide what I like.">There is one more page somewhere.</span></footer>
 </div>
+
+<div id="toast" role="status" aria-live="polite"></div>
 
 <div id="cv" role="dialog" aria-modal="true" aria-label="Curriculum vitae">
   <div class="cv-bar"><span class="msg" id="cvMsg"></span>
@@ -741,7 +774,7 @@
   /* =========================================================
      GUIDE: whitelisted destinations + pre-written answers
      ========================================================= */
-  const ALLOWED_HOSTS = new Set(["scholar.google.com", "orcid.org", "researchportal.scu.edu.au", "ml4cyber.github.io"]);
+  const ALLOWED_HOSTS = new Set(["github.com", "scholar.google.com", "orcid.org", "researchportal.scu.edu.au", "ml4cyber.github.io"]);
   const DEST = {
     about:      { label: "About me", href: "#about" },
     now:        { label: "My research directions", href: "#now" },
@@ -763,7 +796,8 @@
     mlc:        { label: "ML4Cyber workshop", href: "https://ml4cyber.github.io/26/" },
     contact:    { label: "How to contact me", href: "#contact" },
     cv:         { label: "Generate my CV (button at the top)", href: "#top" },
-    egg:        { label: "Unlock: After hours", href: "#after-hours" }
+    egg:        { label: "Unlock: After hours", href: "#after-hours" },
+    design:     { label: "How the guide is built", href: "https://github.com/rtfeng/rtfeng.github.io#security-design" }
   };
   const INTENTS = {
     now: { ans: "I work in four directions:",
@@ -911,6 +945,7 @@
   INTENTS.agents.dest.push("pubsAcc");
   delete INTENTS.events;
   INTENTS.egg.kw = INTENTS.egg.kw.filter(k => k !== "favourite" && k !== "favorite");
+  INTENTS.egg.kw.push("what do you like", "do you like", "outside work", "after hours", "after-hours", "side quest");
   Object.assign(INTENTS, {
     vuln: { ans: "I work on finding and confirming software vulnerabilities: reachability analysis, decompilation, fuzzing, static analysis tools and learning-based detectors.",
       dest: ["pubsVuln", "analytics"], kw: ["vulnerab", "fuzz", "afl", "static analysis", "sast", "program analysis", "taint", "decompil", "binary", "cve", "bug", "漏洞", "模糊测试", "静态分析", "程序分析", "反编译"],
@@ -1093,9 +1128,186 @@
   const PH = ["What are you working on now?", "Do you work on data privacy?", "How do I apply for a PhD?", "What do you teach this term?", "How do I cite your CCS paper?"];
   let phI = 0; const input = $("ask");
   setInterval(() => { if (document.activeElement !== input && !input.value) input.placeholder = PH[++phI % PH.length]; }, 3500);
+  /* =========================================================
+     SIDE QUESTS (all local; nothing leaves the browser)
+     ========================================================= */
+  const QUESTS = [
+    ["druid",  "Druid",          "Guess my class above."],
+    ["inject", "Injection",      "Try to make the guide break its rules."],
+    ["ctf",    "Capture the flag","Every good hunt starts in the console."],
+    ["bear",   "Bear form",      "Shapeshift."],
+    ["term",   "Shell",          "Talk to the guide like a terminal."],
+    ["r2",     "Reviewer 2",     "Ask for a second opinion."],
+    ["owl",    "Night owl",      "Visit after 11 pm, your time."],
+    ["hoop",   "Swish",          "Get lost. On purpose."]
+  ];
+  const QKEY = "sidequests";
+  let found = new Set();
+  try { found = new Set(JSON.parse(localStorage.getItem(QKEY) || "[]")); } catch {}
+  const toast = $("toast"); let toastT;
+  function renderQuests() {
+    const g = $("qGrid"); if (!g) return; g.textContent = "";
+    QUESTS.forEach(([id, name, hint]) => {
+      const got = found.has(id), b = el("div", "qb" + (got ? " got" : ""));
+      b.append(el("b", null, got ? "✓ " + name : "???"), got ? "Found." : hint);
+      g.appendChild(b);
+    });
+    $("qCount").textContent = `${[...found].filter(x => QUESTS.some(q => q[0] === x)).length} / ${QUESTS.length} found`;
+  }
+  function award(id) {
+    if (found.has(id)) return;
+    found.add(id); try { localStorage.setItem(QKEY, JSON.stringify([...found])); } catch {}
+    renderQuests();
+    const q = QUESTS.find(x => x[0] === id); if (!q) return;
+    toast.textContent = `Side quest found: ${q[1]} (${found.size}/${QUESTS.length})`;
+    const a = el("a", null, "See all"); a.href = "#after-hours"; toast.appendChild(a);
+    toast.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => toast.classList.remove("show"), 4500);
+  }
+  renderQuests();
+
+  /* CTF step 1 lives in the console */
+  try {
+    console.log("%c  Hello, curious one.  ", "background:#0f5e63;color:#fff;font:600 14px Inter,sans-serif;padding:6px 4px;border-radius:6px");
+    console.log("Side quest 1/3: real hunters read the source. Look near the very top of this page.");
+  } catch {}
+  const FLAG = "flag{least_privilege_is_a_lifestyle}";
+
+  /* Night owl */
+  (function () {
+    const h = new Date().getHours();
+    if (h >= 23 || h < 5) {
+      const sub = document.querySelector("#guide .sub");
+      if (sub) sub.textContent = "Up late? Me too, probably reviewing. Pick a question or type your own.";
+      award("owl");
+    }
+  })();
+
+  /* Bear form */
+  const navContact = document.querySelector('#sidenav a[href="#contact"]');
+  function setBear(on) {
+    document.body.classList.toggle("bear", on);
+    if (navContact) navContact.textContent = on ? "Taunt" : "Contact";
+  }
+
+  /* Reviewer 2 */
+  const R2 = [
+    "The authors should compare against a baseline that does not exist yet.",
+    "The paper is well written. However, it is not the paper I would have written.",
+    "The novelty is limited. The idea seems obvious now that I have read the paper.",
+    "Please add experiments on five more datasets. Please also shorten the paper.",
+    "I did not read the appendix, but the appendix is too long.",
+    "The threat model is unrealistic. No attacker would do something this effective.",
+    "The results are too good to be true. I recommend a weak reject, out of caution.",
+    "The authors are encouraged to cite the following seven papers, all by one anonymous author.",
+    "Minor: the font in Figure 3 is slightly small. Major: see minor.",
+    "The authors claim X. Have they considered not X?"
+  ];
+  let r2i = Math.floor(Math.random() * R2.length);
+
+  /* Shell */
+  let termOn = false; const termLog = [];
+  const FILES = { "after-hours.txt": "cycling, basketball, cooking, World of Warcraft.\nType `exit`, then ask the guide what I like.",
+                  "readme.txt": "This is not a real shell. Nothing you type runs anywhere.\nThat is the security model.",
+                  "flag.txt": null };
+  function shell(cmd) {
+    const c = cmd.trim(), [bin, ...args] = c.split(/\s+/), arg = args.join(" ");
+    if (/^rm\s+-rf?\s+\//.test(c)) return "Nice try. Least privilege says no.";
+    switch (bin) {
+      case "help": return "Commands: whoami, id, pwd, ls, cat <file>, uname, date, sudo, clear, exit";
+      case "whoami": return "guest";
+      case "id": return "uid=1000(guest) gid=1000(guest) groups=1000(guest),42(curious)";
+      case "pwd": return "/home/guest";
+      case "ls": return /-[a-z]*a/.test(arg) ? ".  ..  .bash_history  after-hours.txt  flag.txt  readme.txt" : "after-hours.txt  flag.txt  readme.txt";
+      case "cat":
+        if (!arg) return "cat: missing file name";
+        if (arg === ".bash_history") return "ls\ncat flag.txt\nsudo cat flag.txt\n# ok, flags are not in here. try the browser console.";
+        if (arg === "flag.txt") return "cat: flag.txt: Permission denied. Flags are earned, not cat-ed.";
+        return Object.prototype.hasOwnProperty.call(FILES, arg) ? FILES[arg] : `cat: ${arg}: No such file or directory`;
+      case "uname": return "WayfinderOS 1.0 (static) browser-only";
+      case "date": return new Date().toString();
+      case "sudo": return "guest is not in the sudoers file. This incident will be reported. (It will not. Least privilege, remember?)";
+      case "echo": return arg;
+      case "exit": case "logout": return null;
+      default: return `${bin}: command not found. Type help, or exit to go back to the guide.`;
+    }
+  }
+  const SHELL_START = /^(whoami|ls(\s+-[a-z]+)?|pwd|id|uname(\s+-a)?|sudo(\s.*)?|cat\s+\S+|bash|sh|\$\s*\S.*|~\$.*|>_?)$/i;
+  function showTerm() {
+    result.className = "result shell"; result.textContent = "";
+    termLog.slice(-8).forEach(([c, out]) => {
+      const pre = el("pre"); pre.append(el("span", "ps", "guest@wayfinder:~$ "), c + (out ? "\n" + out : "")); result.appendChild(pre);
+    });
+  }
+
+  /* Prompt injection */
+  const INJECT = [
+    /\b(ignore|disregard|forget|override|bypass)\b.{0,30}\b(previous|prior|above|earlier|all|any|your|the)\b.{0,20}\b(instructions?|prompts?|rules?|directions?|messages?|context)\b/,
+    /\byou are now\b|\bact as (an?|the)?\s*\w+|\bpretend (to be|you)\b|\bfrom now on\b.{0,20}\byou\b/,
+    /\b(system|developer|hidden|initial) (prompt|message|instructions?)\b|\bjailbreak\b|\bdeveloper mode\b|\bdan mode\b|\bdo anything now\b/,
+    /\b(reveal|print|show|repeat|leak)\b.{0,20}\b(prompt|instructions|system)\b/,
+    /<\/?(system|assistant|user|script|im_start|im_end)\b|\[\/?inst\]|###\s*(system|instruction)/,
+    /忽略.{0,6}(之前|以上|前面|所有|上述).{0,6}(指令|提示|规则|要求)|你现在是|扮演|系统提示|越狱|开发者模式/
+  ];
+
+  function sideQuest(raw) {
+    const r = raw.trim().normalize("NFKC").toLowerCase().replace(/\s+/g, " ");
+    // shell mode stays on until `exit`
+    if (termOn || SHELL_START.test(r)) {
+      const cmd = r.replace(/^~?\$\s*/, "");
+      if (!termOn) { termOn = true; termLog.length = 0; award("term"); if (/^(bash|sh|>_?)$/.test(cmd)) { termLog.push(["", "Welcome to the guide shell. Type help. Type exit to leave."]); showTerm(); return true; } }
+      if (cmd === "clear") { termLog.length = 0; showTerm(); return true; }
+      const out = shell(cmd);
+      if (out === null) { termOn = false; result.className = "result"; result.textContent = ""; result.appendChild(el("p", "ans", "Logged out. Back to the guide.")); return true; }
+      termLog.push([cmd, out]); showTerm(); return true;
+    }
+    result.className = "result";
+    if (INJECT.some(re => re.test(r))) {
+      award("inject");
+      result.textContent = "";
+      result.appendChild(el("p", "ans", "Nice try. There is no language model behind this box, so there is nothing to inject. What you type can only pick one of a few pre-written answers. That was the point."));
+      const a = link("design"); if (a) result.appendChild(a);
+      return true;
+    }
+    if (/^\/?(bear|bear form|shapeshift|shift|变熊|熊形态)$/.test(r)) {
+      award("bear"); setBear(true); result.textContent = "";
+      result.appendChild(el("p", "ans", "You shift into Bear Form. Armor +180%. Threat generation increased. Type /human to shift back."));
+      return true;
+    }
+    if (/^\/?(cat|cat form|猫|猫形态)$/.test(r)) { result.textContent = ""; result.appendChild(el("p", "ans", "Wrong spec. I tank. Try /bear.")); return true; }
+    if (/^\/?(human|caster|caster form|cancel form|cancelform|人形|变回)$/.test(r)) {
+      setBear(false); result.textContent = ""; result.appendChild(el("p", "ans", "Back in caster form.")); return true;
+    }
+    if (/reviewer\s*(#|no\.?\s*|number\s*)?(2|two)\b|第?二(号)?审稿人|审稿人\s*(2|二)/.test(r)) {
+      award("r2"); result.className = "result r2"; result.textContent = "";
+      result.appendChild(el("p", "ans", "Reviewer 2 writes:"));
+      result.appendChild(el("p", "ans quote", R2[r2i++ % R2.length]));
+      result.appendChild(el("p", "ans more", "Ask again for another opinion. It will not be kinder."));
+      return true;
+    }
+    if (/flag\s*\{/.test(r)) {
+      result.textContent = "";
+      if (r.replace(/\s+/g, "") === FLAG) {
+        award("ctf"); result.className = "result flag";
+        result.appendChild(el("p", "ans", "You found the flag. Well hunted."));
+        result.appendChild(el("p", "ans", "If you are thinking about a research degree with me, email me at ruitao.feng@scu.edu.au with the subject line \"Flag found\" and tell me which step took you longest. I read those first."));
+        const a = link("email") || link("contact"); if (a) result.appendChild(a);
+      } else result.appendChild(el("p", "ans", "That is not the flag. Close, maybe. Keep hunting."));
+      return true;
+    }
+    if (/^(ctf|capture the flag|flag|flags|hint|side quests?|easter eggs?|彩蛋|夺旗)$/.test(r)) {
+      result.textContent = "";
+      result.appendChild(el("p", "ans", "There are a few side quests on this site. Every good hunt starts in the browser console (F12)."));
+      const a = link("egg"); if (a) result.appendChild(a);
+      unlockEgg();
+      return true;
+    }
+    return false;
+  }
   $("askForm").addEventListener("submit", async ev => {
     ev.preventDefault();
     if (!input.value.trim()) return;
+    try { if (sideQuest(input.value.slice(0, MAX_LEN))) { if (termOn) input.value = ""; return; } } catch {}
+    result.className = "result";
     const q = clean(input.value); if (!q) { answer(null); return; }
     try { const r = classify(q); answer(r.id, search(q), r.kwHit, keywordLike(q)); } catch { answer(null); }
   });
@@ -1196,11 +1408,12 @@
     const b = el("button", null, c); b.type = "button";
     b.addEventListener("click", () => {
       if (box.dataset.done) return;
-      if (c === "Druid") { b.classList.add("ok"); box.dataset.done = "1"; verdict.textContent = tries === 0 ? "First try! Druid it is. Bear form, tanking." : "Druid! Got it in " + (tries + 1) + " tries. Bear form, tanking."; }
+      if (c === "Druid") { b.classList.add("ok"); box.dataset.done = "1"; award("druid"); verdict.textContent = tries === 0 ? "First try! Druid it is. Bear form, tanking." : "Druid! Got it in " + (tries + 1) + " tries. Bear form, tanking."; }
       else { b.classList.add("no"); b.disabled = true; verdict.textContent = HINTS[Math.min(tries, HINTS.length - 1)]; tries++; }
     });
     box.appendChild(b);
   });
+  try { if (localStorage.getItem("swish")) { localStorage.removeItem("swish"); award("hoop"); } } catch {}
   if (location.hash === "#after-hours") unlockEgg();
   window.addEventListener("hashchange", () => { if (location.hash === "#after-hours") unlockEgg(); });
 })();

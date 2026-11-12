@@ -44,7 +44,7 @@ You are welcome to fork it and build your own site. Everything in `index.html` a
 | **One-click CV** | Builds a printable CV from the same data as the page, so the two never drift apart. |
 | **Floating section nav** | A side rail on wide screens. Below 1240 px it turns into a single-line strip that scrolls sideways. The current section is highlighted. |
 | **Teaching and service** | Ready-made sections for units taught, organising roles, program committees, editorial work and reviewing. |
-| **Easter egg** | A hidden "after hours" section with a small game. Change it or delete it. |
+| **Side quests** | A hidden "after hours" section plus eight small easter eggs with a progress tracker: a reply to prompt-injection attempts, a three-step mini CTF (console → page source → `robots.txt` → `security.txt`), a theme switch, a fake shell, a Reviewer 2 generator, a late-night greeting and a basketball 404 page. Progress is kept in the visitor's own browser. Rewrite or delete any of them in `sideQuest()` and `QUESTS`. |
 | **Responsive and accessible** | Tested on 10 desktop, tablet and phone profiles. Supports keyboard focus and respects `prefers-reduced-motion`. |
 | **Zero runtime dependencies** | Everything is inlined, including the search library. |
 
@@ -82,6 +82,9 @@ The box accepts free text from anyone, so it is locked down:
 ```
 .
 ├── index.html                 # the whole site: content data, styles, guide, search, CV generator
+├── 404.html                   # "missed the shot" page with a basketball mini-game
+├── robots.txt                 # also part of the CTF trail
+├── .well-known/security.txt   # security contact (RFC 9116) and the CTF flag
 ├── papers/                    # local PDFs, one per paper (<KEY>.pdf)
 ├── assets/
 │   ├── avatar.webp            # portrait (also inlined in index.html)
@@ -123,7 +126,7 @@ All content lives as plain JavaScript data near the top of the `<script>` block 
 5. **Service.** Edit the lists under `#service`.
 6. **Guide answers.** Edit `INTENTS`. Each intent has keywords (`kw`), example questions (`ex`), an answer, and destination links taken from `DEST`. Add the host of every external link to `ALLOWED_HOSTS`, and change the fallback email.
 7. **CV.** Edit the `CV` object. The generator reads it together with the paper list.
-8. **Easter egg.** Rewrite or delete the `#after-hours` section.
+8. **Side quests.** Rewrite or delete the `#after-hours` section, `QUESTS` and `sideQuest()`. If you keep the CTF, change `FLAG` in `index.html` and in `.well-known/security.txt`, and update the contact line in `security.txt`.
 
 Run `python3 tools/check_site.py` after each round of edits.
 
@@ -152,7 +155,8 @@ The workflow in `.github/workflows/deploy.yml` deploys on every push to `main`. 
 - a required section id (`guide`, `about`, `publications`, `teaching`, `service`, `contact`, `cv`, …) is missing;
 - a PDF listed in `LOCAL_PDF` is missing or suspiciously small;
 - two papers share a key;
-- a guide link points to an anchor that does not exist.
+- a guide link points to an anchor that does not exist;
+- `404.html`, `robots.txt` or `.well-known/security.txt` is missing, or the CTF flag in `index.html` does not match `security.txt`.
 
 ## License
 
