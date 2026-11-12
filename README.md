@@ -9,7 +9,7 @@
   <img alt="Hosting" src="https://img.shields.io/badge/hosting-GitHub%20Pages-3a9a92.svg">
 </p>
 
-**Wayfinder** is a template for an academic homepage in one static HTML file, laid out in the classic Jon Barron style. There is no framework, no build step and no server. The page makes no network requests at runtime.
+**Wayfinder** is a template for an academic homepage in one static HTML file, laid out in the classic Jon Barron style. There is no framework, no build step and no server. Apart from web fonts and an optional, cookie-free visit counter, the page makes no network requests.
 
 Its main feature is the **Ask the guide** box. Visitors type a question or a few keywords, and the guide points them to the right section or to an approved external link. It does this without a language model, so there is nothing to prompt-inject.
 
@@ -28,6 +28,7 @@ You are welcome to fork it and build your own site. Everything in `index.html` a
 - [Make it yours](#make-it-yours)
 - [Deploy to GitHub Pages](#deploy-to-github-pages)
 - [Custom domain](#custom-domain)
+- [Analytics (optional)](#analytics-optional)
 - [Checks and CI](#checks-and-ci)
 - [License](#license)
 
@@ -47,6 +48,7 @@ You are welcome to fork it and build your own site. Everything in `index.html` a
 | **Side quests** | A hidden "after hours" section plus eight small easter eggs with a progress tracker: a reply to prompt-injection attempts, a three-step mini CTF (console → page source → `robots.txt` → `security.txt`), a theme switch, a fake shell, a Reviewer 2 generator, a late-night greeting and a basketball 404 page. Progress is kept in the visitor's own browser. Rewrite or delete any of them in `sideQuest()` and `QUESTS`. |
 | **Responsive and accessible** | Tested on 10 desktop, tablet and phone profiles. Supports keyboard focus and respects `prefers-reduced-motion`. |
 | **Zero runtime dependencies** | Everything is inlined, including the search library. |
+| **Private analytics (optional)** | Cookie-free visit counts through [GoatCounter](https://www.goatcounter.com): sources, time, country and device, plus a few anonymous events. Only the site owner can see the dashboard. |
 
 ## How Ask the guide works
 
@@ -71,11 +73,11 @@ Answers are fixed text. Nothing is generated.
 The box accepts free text from anyone, so it is locked down:
 
 - **No model, no server.** Input can only *select* a pre-written answer. It is never executed, sent anywhere or echoed back as HTML.
-- **Strict CSP** in a `<meta>` tag: `connect-src 'none'` and `worker-src 'none'`, and scripts can only come from the page itself.
+- **Strict CSP** in a `<meta>` tag. Scripts can only come from the page itself and the GoatCounter script host, and network requests can only go to your GoatCounter endpoint. `worker-src` is `'none'`.
 - **`textContent` rendering.** Nothing a visitor types is written with `innerHTML`.
 - **Link allow-list.** Answers can only link to in-page anchors (`#section-id`) or HTTPS hosts in `ALLOWED_HOSTS`. `safeHref` drops anything else.
 - **Input hygiene.** Queries are capped at 160 characters, and tags and bidi control characters are removed.
-- **No analytics, no cookies, no third-party fonts.**
+- **No cookies, and the visitor's text is never sent.** The optional analytics send only page views and category events such as `guide/phd` or `pdf/<KEY>`.
 
 ## Project structure
 
@@ -146,6 +148,26 @@ The workflow in `.github/workflows/deploy.yml` deploys on every push to `main`. 
    - **Subdomain** (such as `www.`): add a `CNAME` record pointing to `<you>.github.io`.
    - **Apex domain** (`example.com`): add `A` records for `185.199.108.153`, `185.199.109.153`, `185.199.110.153` and `185.199.111.153`. Optionally add `AAAA` records for IPv6.
 3. In Settings → Pages → Custom domain, enter the same domain. Tick **Enforce HTTPS** once the certificate is ready.
+
+## Analytics (optional)
+
+The site can count visits with [GoatCounter](https://www.goatcounter.com), which is cookie-free and free for personal sites. The dashboard is private to the account owner.
+
+**To use your own counter:**
+
+1. Sign up at goatcounter.com and pick a site code, for example `yourname`.
+2. Replace every `https://rtfeng.goatcounter.com` in `index.html` and `404.html` with `https://yourname.goatcounter.com`. This covers the script tag and the CSP.
+
+**Events.** Besides page views, `track()` in `index.html` sends a few anonymous events:
+
+- `guide/<intent>`: which kind of answer the guide gave, or `guide/search` or `guide/none`;
+- `pdf/<KEY>` and `bibtex/<KEY>`;
+- `cv/open`;
+- `quest/<id>`.
+
+The text a visitor types is never sent.
+
+**To turn analytics off,** delete the GoatCounter `<script>` tags. Then remove `https://gc.zgo.at` and your GoatCounter host from the CSP, and set `connect-src 'none'`. `track()` does nothing without the script.
 
 ## Checks and CI
 

@@ -4,8 +4,8 @@
 <!-- side quest 2/3: cm9ib3RzLnR4dA== -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Security: scripts only inline + jsDelivr; network only to the model hosts. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<!-- Security: inline scripts plus the GoatCounter counter; the only network request is the anonymous visit count. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://gc.zgo.at; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://rtfeng.goatcounter.com; connect-src https://rtfeng.goatcounter.com; worker-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Ruitao Feng · Cybersecurity, Southern Cross University</title>
 <meta name="description" content="Ruitao Feng, Lecturer in Cybersecurity at Southern Cross University. Post-detection security analytics, AI agent security, data privacy and vulnerability discovery.">
@@ -394,7 +394,7 @@
     <a class="back" href="#guide">← back to the serious stuff</a>
   </section>
 
-  <footer>© Ruitao Feng. The guide runs fully in your browser. Nothing you type is sent or stored. <span title="Ask the guide what I like.">There is one more page somewhere.</span></footer>
+  <footer>© Ruitao Feng. The guide runs fully in your browser. Nothing you type is sent or stored. Visits are counted anonymously, without cookies. <span title="Ask the guide what I like.">There is one more page somewhere.</span></footer>
 </div>
 
 <div id="toast" role="status" aria-live="polite"></div>
@@ -417,6 +417,14 @@
   "use strict";
   const $ = id => document.getElementById(id);
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  /* Anonymous event counts (GoatCounter). Only a category path is sent, never what a visitor types. */
+  const GCQ = [];
+  function track(path) {
+    path = String(path).toLowerCase().replace(/[^a-z0-9/_-]+/g, "-").slice(0, 80);
+    try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path, title: path, event: true }); else if (GCQ.length < 30) GCQ.push(path); } catch {}
+  }
+  const flushGC = () => { while (GCQ.length && window.goatcounter && window.goatcounter.count) track(GCQ.shift()); };
+  window.addEventListener("load", () => { const g = document.getElementById("gc"); if (g) g.addEventListener("load", flushGC); setTimeout(flushGC, 1500); });
   const ME = "Ruitao Feng";
 
   /* =========================================================
@@ -715,13 +723,13 @@
         body.appendChild(el("p", "d", p.d));
         const acts = el("div", "acts");
         const L = linkOf(p);
-        if (L) { const l = el("a", null, L.label); l.href = L.href; l.rel = "noopener noreferrer"; l.target = "_blank"; acts.appendChild(l); }
+        if (L) { const l = el("a", null, L.label); l.href = L.href; l.rel = "noopener noreferrer"; l.target = "_blank"; l.addEventListener("click", () => track("pdf/" + p.k)); acts.appendChild(l); }
         if (p.doi) { const dl = el("a", null, "DOI"); dl.href = "https://doi.org/" + p.doi; dl.rel = "noopener noreferrer"; dl.target = "_blank"; acts.appendChild(dl); }
         let pre = null;
         if (!p.pending) {
           pre = el("pre", "bib", bibOf(p));
           const tog = el("button", null, "BibTeX"); tog.type = "button";
-          tog.addEventListener("click", () => pre.classList.toggle("open"));
+          tog.addEventListener("click", () => { pre.classList.toggle("open"); track("bibtex/" + p.k); });
           const cp = el("button", null, "Copy BibTeX"); cp.type = "button";
           const ok = el("span", "ok", "");
           cp.addEventListener("click", async () => {
@@ -1084,6 +1092,7 @@
     result.textContent = "";
     const useIntent = id && INTENTS[id] && (kwHit || !hits.length) && (!GENERIC_IDS.has(id) || !kwLike || !hits.length);
     const specific = useIntent;
+    track("guide/" + (specific ? id : hits.length ? "search" : "none"));
     if (!specific && hits.length) {
       result.appendChild(el("p", "ans", hits.length === 1 ? "Here is what I found on this page:" : `Here are ${hits.length} matches on this page:`));
       hits.forEach(h => { const a = hitLink(h); if (a) result.appendChild(a); });
@@ -1156,6 +1165,7 @@
   }
   function award(id) {
     if (found.has(id)) return;
+    track("quest/" + id);
     found.add(id); try { localStorage.setItem(QKEY, JSON.stringify([...found])); } catch {}
     renderQuests();
     const q = QUESTS.find(x => x[0] === id); if (!q) return;
@@ -1374,7 +1384,7 @@
   }
   const cvBox = $("cv"), cvMsg = $("cvMsg");
   const flash = t => { cvMsg.textContent = t; setTimeout(() => cvMsg.textContent = "", 3000); };
-  $("cvBtn").addEventListener("click", () => { buildCV(); cvBox.classList.add("open"); });
+  $("cvBtn").addEventListener("click", () => { buildCV(); cvBox.classList.add("open"); track("cv/open"); });
   $("cvClose").addEventListener("click", () => cvBox.classList.remove("open"));
   cvBox.addEventListener("click", e => { if (e.target === cvBox) cvBox.classList.remove("open"); });
   document.addEventListener("keydown", e => { if (e.key === "Escape") cvBox.classList.remove("open"); });
@@ -1418,5 +1428,7 @@
   window.addEventListener("hashchange", () => { if (location.hash === "#after-hours") unlockEgg(); });
 })();
 </script>
+<!-- Anonymous, cookie-free visit counts. Only the owner can see the dashboard. -->
+<script id="gc" data-goatcounter="https://rtfeng.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
