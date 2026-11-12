@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-label="Interactive Personal Site: Ruitao Feng, Cybersecurity, Southern Cross University">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0c4f53"/>
+      <stop offset="1" stop-color="#13767c"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1280" height="360" rx="18" fill="url(#bg)"/>
+  <rect width="1280" height="360" rx="18" fill="url(#grid)"/>
+
+  <!-- node graph motif, right side -->
+  <g stroke="#9fd6d2" stroke-opacity="0.55" stroke-width="1.6" fill="none">
+    <path d="M900 90 L1010 140 L1120 95 L1190 170 L1080 230 L960 205 Z"/>
+    <path d="M1010 140 L1080 230 M960 205 L900 90 M1120 95 L1080 230"/>
+  </g>
+  <g fill="#d9f1ef">
+    <circle cx="900" cy="90" r="6"/><circle cx="1010" cy="140" r="7"/><circle cx="1120" cy="95" r="6"/>
+    <circle cx="1190" cy="170" r="6"/><circle cx="1080" cy="230" r="8"/><circle cx="960" cy="205" r="6"/>
+  </g>
+  <!-- search glass over the graph -->
+  <g transform="translate(1040 170)" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round">
+    <circle cx="0" cy="0" r="34"/>
+    <line x1="25" y1="25" x2="58" y2="58"/>
+  </g>
+
+  <!-- text -->
+  <text x="72" y="118" font-family="Georgia, 'Times New Roman', serif" font-size="58" font-weight="700" fill="#ffffff">Ruitao Feng</text>
+  <text x="74" y="162" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" fill="#d9f1ef">Lecturer in Cybersecurity · Southern Cross University</text>
+
+  <g font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" fill="#ffffff">
+    <rect x="72" y="200" width="252" height="40" rx="20" fill="#ffffff" fill-opacity="0.14"/>
+    <text x="96" y="226">Post-detection analytics</text>
+    <rect x="336" y="200" width="174" height="40" rx="20" fill="#ffffff" fill-opacity="0.14"/>
+    <text x="360" y="226">AI agent security</text>
+    <rect x="522" y="200" width="138" height="40" rx="20" fill="#ffffff" fill-opacity="0.14"/>
+    <text x="546" y="226">Data privacy</text>
+  </g>
+
+  <text x="74" y="300" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="18" fill="#9fd6d2">An interactive academic homepage · ask it anything about my work</text>
+</svg>
