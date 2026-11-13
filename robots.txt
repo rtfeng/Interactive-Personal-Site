@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 
+Sitemap: https://rtfeng.github.io/sitemap.xml
+
 # Side quest 3/3: security people read security.txt.
 # You know where it lives.
