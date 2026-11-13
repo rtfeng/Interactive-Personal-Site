@@ -39,7 +39,7 @@ jobs:
       - name: Build site folder
         run: |
           mkdir -p _site
-          cp index.html 404.html robots.txt sitemap.xml BingSiteAuth.xml google*.html .nojekyll _site/
+          cp index.html 404.html robots.txt sitemap.xml BingSiteAuth.xml google*.html f2dcfe6dc6da0d267895aa789e8d497c.txt .nojekyll _site/
           sed -i "s/__LASTMOD__/$(git log -1 --format=%cs)/" _site/sitemap.xml
           cp -r papers assets .well-known _site/
           if [ -f CNAME ]; then cp CNAME _site/; fi
@@ -49,3 +49,17 @@ jobs:
           path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
+      # Tell IndexNow engines (Bing, Yandex, Naver, Seznam, ...) that the site changed.
+      - name: Ping IndexNow
+        if: github.event_name == 'push'
+        continue-on-error: true
+        env:
+          SITE: https://rtfeng.github.io
+          KEY: f2dcfe6dc6da0d267895aa789e8d497c
+        run: |
+          host="${SITE#https://}"
+          body=$(printf '{"host":"%s","key":"%s","keyLocation":"%s/%s.txt","urlList":["%s/"]}' "$host" "$KEY" "$SITE" "$KEY" "$SITE")
+          for ep in https://api.indexnow.org/indexnow https://yandex.com/indexnow https://searchadvisor.naver.com/indexnow; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -X POST "$ep" -H 'Content-Type: application/json; charset=utf-8' -d "$body" || echo fail)
+            echo "$ep -> $code"
+          done
